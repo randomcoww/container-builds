@@ -1,0 +1,23 @@
+ARG KUBECTL_VERSION
+FROM golang:alpine as BUILD
+
+ARG VERSION
+
+WORKDIR /go/src/github.com/kubernetes-sigs
+RUN set -x \
+  \
+  && apk add --no-cache \
+    git \
+    make \
+  \
+  && git clone -b $VERSION \
+    https://github.com/kubernetes-sigs/cluster-addons.git cluster-addons \
+  && cd cluster-addons/bootstrap \
+  && make -j "$(getconf _NPROCESSORS_ONLN)"
+
+FROM ghcr.io/randomcoww/kubernetes:base-$KUBECTL_VERSION AS BASE
+
+FROM scratch
+
+COPY --from=BASE /usr/local/bin/kubectl /usr/bin/
+COPY --from=BUILD /go/src/github.com/kubernetes-sigs/cluster-addons/bootstrap/cluster-addons-bootstrap /usr/bin/

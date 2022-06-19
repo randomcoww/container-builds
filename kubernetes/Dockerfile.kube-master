@@ -1,0 +1,8 @@
+ARG VERSION
+FROM ghcr.io/randomcoww/kubernetes:base-$VERSION AS BASE
+
+FROM scratch
+
+COPY --from=BASE /usr/local/bin/kube-apiserver /usr/local/bin/
+COPY --from=BASE /usr/local/bin/kube-controller-manager /usr/local/bin/
+COPY --from=BASE /usr/local/bin/kube-scheduler /usr/local/bin/
