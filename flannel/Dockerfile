@@ -19,7 +19,7 @@ RUN set -x \
     go build -v -ldflags '-s -w' -o bin/flanneld
 
 # There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
-FROM alpine:edge
+FROM alpine:latest
 
 COPY --from=BUILD /go/src/github.com/coreos/flannel/bin/ /opt/bin/
 RUN set -x \

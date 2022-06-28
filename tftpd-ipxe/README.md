@@ -26,13 +26,10 @@ VERSION=master
 TAG=ghcr.io/randomcoww/tftpd-ipxe:$VERSION
 
 buildah build \
+  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   -f Dockerfile \
-  -t localtemp
-
-container=$(buildah from localtemp)
-buildah run --net=none $container -- rm /etc/hosts
-buildah commit $container $TAG
+  -t $TAG && \
 
 buildah push $TAG
 ```

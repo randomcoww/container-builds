@@ -23,19 +23,16 @@ podman run -it --rm \
 ### Image build
 
 ```
-mkdir -p build
-export TMPDIR=$(pwd)/build
-
 VERSION=0.23
-PATCH=5
+PATCH=7
+TAG=ghcr.io/randomcoww/mpd:$VERSION.$PATCH
 
-podman build \
+buildah build \
+  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   --build-arg PATCH=$PATCH \
   -f Dockerfile \
-  -t ghcr.io/randomcoww/mpd:$VERSION.$PATCH
-```
+  -t $TAG && \
 
-```
-podman push ghcr.io/randomcoww/mpd:$VERSION.$PATCH
+buildah push $TAG
 ```

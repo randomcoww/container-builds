@@ -7,7 +7,7 @@ GO_VERSION=1.18
 VERSION=v1.24.1
 
 buildah build \
-  --net=container \
+  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   --build-arg GO_VERSION=$GO_VERSION \
   -f Dockerfile.base \
@@ -20,13 +20,13 @@ buildah build \
 VERSION=v1.24.1
 
 buildah build \
-  --net=container \
+  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   --target kube-master \
   -t ghcr.io/randomcoww/kubernetes:kube-master-$VERSION
 
 buildah build \
-  --net=container \
+  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   --target kube-proxy \
   -t kube-proxy-temp
@@ -36,7 +36,7 @@ buildah run --net=none $container -- rm -f /etc/hosts
 buildah commit $container ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION
 
 buildah build \
-  --net=container \
+  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   --target kubelet \
   -t kubelet-temp
@@ -56,7 +56,7 @@ buildah push ghcr.io/randomcoww/kubernetes:kubelet-$VERSION
 ADDONS_VERSION=master
 
 buildah build \
-  --net=container \
+  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   --build-arg ADDONS_VERSION=$ADDONS_VERSION \
   --target addon-manager \

@@ -1,16 +1,13 @@
 ### Image build
 
 ```
-mkdir -p build
-export TMPDIR=$(pwd)/build
-
 VERSION=latest
+TAG=ghcr.io/randomcoww/wireguard:$VERSION
 
-podman build \
+buildah build \
+  --dns 9.9.9.9 \
   -f Dockerfile \
-  -t ghcr.io/randomcoww/wireguard:$VERSION
-```
+  -t $TAG && \
 
-```
-podman push ghcr.io/randomcoww/wireguard:$VERSION
+buildah push $TAG
 ```

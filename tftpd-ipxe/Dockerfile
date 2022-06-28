@@ -1,4 +1,4 @@
-FROM alpine:edge as BUILD
+FROM alpine:latest as BUILD
 
 ARG VERSION
 
@@ -25,7 +25,7 @@ RUN set -x \
     bin-x86_64-efi/ipxe.efi \
     bin/undionly.kpxe
 
-FROM alpine:edge
+FROM alpine:latest
 
 WORKDIR /var/tftpboot
 COPY --from=BUILD --chown=nobody:nogroup \

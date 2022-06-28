@@ -2,12 +2,12 @@
 
 ```
 VERSION=latest
+TAG=ghcr.io/randomcoww/ympd:$VERSION
 
-podman build \
+buildah build \
+  --dns 9.9.9.9 \
   -f Dockerfile \
-  -t ghcr.io/randomcoww/ympd:$VERSION
-```
+  -t $TAG && \
 
-```
-podman push ghcr.io/randomcoww/ympd:$VERSION
+buildah push $TAG
 ```

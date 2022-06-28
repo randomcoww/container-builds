@@ -1,17 +1,14 @@
 ### Image build
 
 ```
-VERSION=2.0.0
+VERSION=2.0.2
 TAG=ghcr.io/randomcoww/kea:$VERSION
 
 buildah build \
+  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   -f Dockerfile \
-  -t localtemp
-
-container=$(buildah from localtemp)
-buildah run --net=none $container -- rm /etc/hosts
-buildah commit $container $TAG
+  -t $TAG && \
 
 buildah push $TAG
 ```

@@ -5,16 +5,13 @@ Sample usage with openvpn
 ### Image build
 
 ```
-mkdir -p build
-export TMPDIR=$(pwd)/build
-
 VERSION=latest
+TAG=ghcr.io/randomcoww/transmission:$VERSION
 
-podman build \
+buildah build \
+  --dns 9.9.9.9 \
   -f Dockerfile \
-  -t ghcr.io/randomcoww/transmission:$VERSION
-```
+  -t $TAG && \
 
-```
-podman push ghcr.io/randomcoww/transmission:$VERSION
+buildah push $TAG
 ```
