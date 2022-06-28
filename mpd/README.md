@@ -31,7 +31,6 @@ buildah build \
   --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   --build-arg PATCH=$PATCH \
-  -f Dockerfile \
   -t $TAG && \
 
 buildah push $TAG
