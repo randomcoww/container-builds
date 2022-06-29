@@ -69,24 +69,3 @@ RUN set -x \
   # kubelet expects some binaries at /usr/sbin
   && ln -s /sbin/* /usr/sbin/ || true \
   && ln -s /bin/* /usr/bin/ || true
-
-## addon-manager
-FROM golang:alpine as addon-manager-build
-ARG ADDONS_VERSION
-
-WORKDIR /go/src/github.com/kubernetes-sigs
-RUN set -x \
-  \
-  && apk add --no-cache \
-    git \
-    make \
-  \
-  && git clone -b $ADDONS_VERSION \
-    https://github.com/kubernetes-sigs/cluster-addons.git cluster-addons \
-  && cd cluster-addons/bootstrap \
-  && make -j "$(getconf _NPROCESSORS_ONLN)"
-
-FROM scratch as addon-manager
-
-COPY --from=BASE /usr/local/bin/kubectl /usr/bin/
-COPY --from=addon-manager-build /go/src/github.com/kubernetes-sigs/cluster-addons/bootstrap/cluster-addons-bootstrap /usr/bin/

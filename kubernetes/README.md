@@ -39,18 +39,3 @@ buildah push ghcr.io/randomcoww/kubernetes:kube-master-$VERSION && \
 buildah push ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION && \
 buildah push ghcr.io/randomcoww/kubernetes:kubelet-$VERSION
 ```
-
-#### Kubernetes addon-manager
-
-```
-ADDONS_VERSION=master
-
-buildah build \
-  --dns 9.9.9.9 \
-  --build-arg VERSION=$VERSION \
-  --build-arg ADDONS_VERSION=$ADDONS_VERSION \
-  --target addon-manager \
-  -t ghcr.io/randomcoww/kubernetes-addon-manager:$ADDONS_VERSION && \
-
-buildah push ghcr.io/randomcoww/kubernetes-addon-manager:$ADDONS_VERSION
-```
