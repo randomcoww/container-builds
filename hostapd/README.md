@@ -1,8 +1,8 @@
 ### Image build
 
 ```
-VERSION=v0.18.1
-TAG=ghcr.io/randomcoww/flannel:$VERSION
+VERSION=latest
+TAG=ghcr.io/randomcoww/hostapd:$VERSION
 
 buildah build \
   --dns 9.9.9.9 \
