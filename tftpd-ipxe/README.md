@@ -26,7 +26,6 @@ VERSION=master
 TAG=ghcr.io/randomcoww/tftpd-ipxe:$VERSION
 
 buildah build \
-  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   -f Dockerfile \
   -t $TAG && \

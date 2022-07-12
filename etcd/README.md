@@ -6,7 +6,6 @@ VERSION=v3.5.4
 TAG=ghcr.io/randomcoww/etcd:$VERSION
 
 buildah build \
-  --dns 9.9.9.9 \
   --build-arg VERSION=$VERSION \
   --build-arg GO_VERSION=$GO_VERSION \
   -t $TAG && \

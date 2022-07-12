@@ -6,6 +6,5 @@ RUN set -x \
 	  transmission-daemon \
 	  transmission-cli
 
-COPY docker-entrypoint.sh /
 COPY remove-completed.sh /
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["transmission-daemon", "--foreground"]
