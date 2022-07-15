@@ -2,7 +2,7 @@
 
 ```
 VERSION=0.23
-PATCH=7
+PATCH=8
 TAG=ghcr.io/randomcoww/mpd:$VERSION.$PATCH
 
 buildah build \

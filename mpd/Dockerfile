@@ -12,34 +12,34 @@ RUN set -x \
     lame-dev \
     glib-dev \
     curl-dev \
-    libao-dev \
+    # libao-dev \
     libmad-dev \
     flac-dev \
     libogg-dev \
-    faad2-dev \
+    # faad2-dev \
     libid3tag-dev \
     libvorbis-dev \
-    alsa-lib-dev \
-    libsamplerate-dev \
+    # alsa-lib-dev \
+    # libsamplerate-dev \
     libshout-dev \
-    libmodplug-dev \
+    # libmodplug-dev \
     boost-dev \
-    icu-dev \
-    libnfs-dev \
+    # icu-dev \
+    # libnfs-dev \
     # samba-dev \
     opus-dev \
-    ffmpeg-dev \
+    # ffmpeg-dev \
     libmpdclient-dev \
     # libcdio-paranoia-dev \
-    libcap \
+    # libcap \
     # gtest-dev \
     # gtest \
-    libsndfile-dev \
+    # libsndfile-dev \
     sqlite-dev \
     soxr-dev \
     bzip2-dev \
-    libcdio-dev \
-    zlib-dev \
+    # libcdio-dev \
+    # zlib-dev \
     mpg123-dev \
     wavpack-dev \
     ca-certificates \
@@ -68,6 +68,7 @@ RUN set -x \
       | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
   )" \
   && apk add --virtual .mpd-rundeps $runDeps \
-  && apk del .build-deps
+  && apk del .build-deps \
+  && mpd -V
 
 ENTRYPOINT ["mpd", "--no-daemon"]
