@@ -1,10 +1,10 @@
-FROM alpine:edge
+FROM alpine:latest
 
 RUN set -x \
   \
   && apk add --no-cache \
 	  transmission-daemon \
-	  transmission-cli
+	  transmission-cli \
+    curl
 
-COPY remove-completed.sh /
 ENTRYPOINT ["transmission-daemon", "--foreground"]
