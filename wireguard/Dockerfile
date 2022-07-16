@@ -6,4 +6,4 @@ RUN set -x \
     wireguard-tools \
     nftables
 
-ENTRYPOINT ["/usr/bin/wg-quick"]
+ENTRYPOINT ["wg-quick"]
