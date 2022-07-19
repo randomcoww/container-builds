@@ -8,17 +8,17 @@ RUN set -x \
   && apk add --no-cache --virtual .build-deps \
     g++ \
     meson \
-    py3-sphinx \
+    # py3-sphinx \
     lame-dev \
     glib-dev \
     curl-dev \
     # libao-dev \
-    libmad-dev \
+    # libmad-dev \
     flac-dev \
-    libogg-dev \
+    # libogg-dev \
     # faad2-dev \
-    libid3tag-dev \
-    libvorbis-dev \
+    # libid3tag-dev \
+    # libvorbis-dev \
     # alsa-lib-dev \
     # libsamplerate-dev \
     libshout-dev \
@@ -27,9 +27,9 @@ RUN set -x \
     # icu-dev \
     # libnfs-dev \
     # samba-dev \
-    opus-dev \
-    # ffmpeg-dev \
-    libmpdclient-dev \
+    # opus-dev \
+    ffmpeg-dev \
+    # libmpdclient-dev \
     # libcdio-paranoia-dev \
     # libcap \
     # gtest-dev \
@@ -40,8 +40,8 @@ RUN set -x \
     bzip2-dev \
     # libcdio-dev \
     # zlib-dev \
-    mpg123-dev \
-    wavpack-dev \
+    # mpg123-dev \
+    # wavpack-dev \
     ca-certificates \
   \
 ## build
