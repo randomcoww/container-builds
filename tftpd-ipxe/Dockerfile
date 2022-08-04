@@ -12,7 +12,8 @@ RUN set -x \
     bash \
     cdrkit \
     git \
-    ca-certificates \
+    openssl \
+    coreutils \
   \
   && git clone -b $VERSION https://github.com/ipxe/ipxe /ipxe
 
@@ -21,7 +22,8 @@ COPY config/ config/local/
 
 RUN set -x \
   \
-  && make -j "$(getconf _NPROCESSORS_ONLN)" \
+  && wget -O ca.crt https://ipxe.org/_media/certs/ca.crt \
+  && CERT=ca.crt TRUST=ca.crt make -j "$(getconf _NPROCESSORS_ONLN)" \
     bin-x86_64-efi/ipxe.efi \
     bin/undionly.kpxe
 

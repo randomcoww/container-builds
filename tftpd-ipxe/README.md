@@ -23,7 +23,7 @@ Menu
 
 ```
 VERSION=master
-TAG=ghcr.io/randomcoww/tftpd-ipxe:$VERSION
+TAG=ghcr.io/randomcoww/tftpd-ipxe:$(date -u +'%Y%m%d')
 
 buildah build \
   --build-arg VERSION=$VERSION \

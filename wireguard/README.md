@@ -2,7 +2,7 @@
 
 ```
 VERSION=latest
-TAG=ghcr.io/randomcoww/wireguard:$VERSION
+TAG=ghcr.io/randomcoww/wireguard:$(date -u +'%Y%m%d')
 
 buildah build \
   -t $TAG && \
