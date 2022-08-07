@@ -2,9 +2,10 @@
 
 ```
 VERSION=latest
-TAG=ghcr.io/randomcoww/transmission:$VERSION
+TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d')
 
 buildah build \
+  --build-arg VERSION=$VERSION \
   -t $TAG && \
 
 buildah push $TAG
