@@ -9,7 +9,6 @@ import (
 	"net/url"
 	"os"
 	"sync"
-	// "time"
 )
 
 type uploader struct {
@@ -36,10 +35,6 @@ func main() {
 	flag.Parse()
 
 	uploader := newUploader(url)
-	// go func() {
-	// 	time.Sleep(1000 * time.Millisecond)
-	// 	uploader.cancel()
-	// }()
 
 	if err := uploader.uploadFiles(path); err != nil {
 		os.Exit(1)
@@ -152,6 +147,5 @@ func (v *uploader) putFile(status *uploadStatus) {
 		status.addStatus(nil)
 		return
 	}
-	// log.Printf("%s", resp.Status)
 	status.addStatus(fmt.Errorf(resp.Status))
 }
