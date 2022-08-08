@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -8,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"sync"
+	// "time"
 )
 
 type uploader struct {
@@ -16,12 +18,15 @@ type uploader struct {
 	httpClient   *http.Client
 	uploadStatus []*uploadStatus
 	mu           sync.Mutex
+	ctx          context.Context
+	cancel       func()
 }
 
 type uploadStatus struct {
 	path      string
 	errorCh   chan error
 	successCh chan struct{}
+	cancel    func()
 }
 
 func main() {
@@ -31,6 +36,11 @@ func main() {
 	flag.Parse()
 
 	uploader := newUploader(url)
+	// go func() {
+	// 	time.Sleep(1000 * time.Millisecond)
+	// 	uploader.cancel()
+	// }()
+
 	if err := uploader.uploadFiles(path); err != nil {
 		os.Exit(1)
 	}
@@ -38,15 +48,19 @@ func main() {
 }
 
 func newUploader(url string) *uploader {
+	ctx, cancel := context.WithCancel(context.Background())
 	return &uploader{
 		url:        url,
 		httpClient: &http.Client{},
+		ctx:        ctx,
+		cancel:     cancel,
 	}
 }
 
 func (v *uploader) newUploadStatus(path string) *uploadStatus {
 	u := &uploadStatus{
 		path:      path,
+		cancel:    v.cancel,
 		errorCh:   make(chan error, 1),
 		successCh: make(chan struct{}, 1),
 	}
@@ -60,6 +74,7 @@ func (v *uploadStatus) addStatus(err error) {
 	if err != nil {
 		v.errorCh <- err
 		log.Fatalf("failed '%s' %+v", v.path, err)
+		v.cancel()
 		return
 	}
 	log.Printf("success %s", v.path)
@@ -116,8 +131,9 @@ func (v *uploader) putFile(status *uploadStatus) {
 		status.addStatus(err)
 		return
 	}
+
 	url := fmt.Sprintf("%s/%s", v.url, url.PathEscape(status.path))
-	req, err := http.NewRequest(http.MethodPut, url, data)
+	req, err := http.NewRequestWithContext(v.ctx, http.MethodPut, url, data)
 	if err != nil {
 		status.addStatus(err)
 		return
@@ -134,6 +150,8 @@ func (v *uploader) putFile(status *uploadStatus) {
 	case 200:
 		log.Printf("%s", resp.Status)
 		status.addStatus(nil)
+		return
 	}
+	// log.Printf("%s", resp.Status)
 	status.addStatus(fmt.Errorf(resp.Status))
 }
