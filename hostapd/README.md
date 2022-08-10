@@ -1,8 +1,8 @@
 ### Image build
 
 ```
-VERSION=latest
-TAG=ghcr.io/randomcoww/hostapd:$(date -u +'%Y%m%d')
+VERSION=2.10
+TAG=ghcr.io/randomcoww/hostapd:$VERSION
 
 buildah build \
   --build-arg VERSION=$VERSION \
