@@ -2,8 +2,8 @@
 
 ```
 VERSION=0.23
-PATCH=8
-TAG=ghcr.io/randomcoww/mpd:$VERSION.$PATCH-2
+PATCH=10
+TAG=ghcr.io/randomcoww/mpd:$VERSION.$PATCH
 
 buildah build \
   --build-arg VERSION=$VERSION \

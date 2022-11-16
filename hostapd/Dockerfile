@@ -55,6 +55,8 @@ RUN set -x \
       | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
   )" \
   && apk add --virtual .hostapd-rundeps $runDeps \
-  && apk del .build-deps
+  && apk del .build-deps \
+  && apk add --no-cache \
+    util-linux-misc
 
-ENTRYPOINT ["/usr/local/bin/hostapd"]
+ENTRYPOINT ["hostapd"]
