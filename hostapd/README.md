@@ -4,7 +4,7 @@ https://github.com/dvdesolve/pkgbuilds/blob/master/packages/hostapd-noscan/nosca
 
 ### Image build
 
-```
+```bash
 VERSION=2.10
 TAG=ghcr.io/randomcoww/hostapd:$VERSION
 

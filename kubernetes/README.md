@@ -2,7 +2,7 @@
 
 #### Build binaries
 
-```
+```bash
 GO_VERSION=1.18
 VERSION=v1.24.1
 
@@ -15,7 +15,7 @@ buildah build \
 
 #### Kubernetes components
 
-```
+```bash
 buildah build \
   --build-arg VERSION=$VERSION \
   --target kube-master \
@@ -26,12 +26,6 @@ buildah build \
   --target kube-proxy \
   -t ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION && \
 
-buildah build \
-  --build-arg VERSION=$VERSION \
-  --target kubelet \
-  -t ghcr.io/randomcoww/kubernetes:kubelet-$VERSION && \
-
 buildah push ghcr.io/randomcoww/kubernetes:kube-master-$VERSION && \
 buildah push ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION && \
-buildah push ghcr.io/randomcoww/kubernetes:kubelet-$VERSION
 ```

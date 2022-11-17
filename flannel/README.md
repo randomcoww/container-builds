@@ -1,6 +1,6 @@
 ### Image build
 
-```
+```bash
 VERSION=v0.18.1
 TAG=ghcr.io/randomcoww/flannel:$VERSION
 

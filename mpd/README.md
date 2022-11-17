@@ -1,6 +1,6 @@
 ### Image build
 
-```
+```bash
 VERSION=0.23
 PATCH=10
 TAG=ghcr.io/randomcoww/mpd:$VERSION.$PATCH

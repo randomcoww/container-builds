@@ -1,6 +1,6 @@
 ### Upload tool
 
-```
+```bash
 WORKDIR=/go/src/
 podman run --name minio-client --net host -it --rm \
     -v $(pwd):$WORKDIR \
@@ -15,7 +15,7 @@ CGO_ENABLED=0 GO111MODULE=on GOOS=linux \
 
 ### Image build
 
-```
+```bash
 VERSION=latest
 TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d')
 

@@ -1,6 +1,6 @@
 ### Image build
 
-```
+```bash
 VERSION=2.0.2
 TAG=ghcr.io/randomcoww/kea:$VERSION
 

@@ -1,6 +1,6 @@
 ### Image build
 
-```
+```bash
 GO_VERSION=1.18
 VERSION=v3.5.4
 TAG=ghcr.io/randomcoww/etcd:$VERSION
