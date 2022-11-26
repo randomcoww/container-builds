@@ -127,6 +127,6 @@ func (v *uploader) uploadFilesFromPath(path string) error {
 }
 
 func (v *uploader) putFile(status *uploadStatus) {
-	_, err := v.minioClient.FPutObject(v.ctx, v.bucket, status.path, status.path, minio.PutObjectOptions{})
+	_, err := v.minioClient.FPutObject(v.ctx, v.bucket, status.path, status.path, minio.PutObjectOptions{DisableMultipart: true})
 	status.addStatus(err)
 }

@@ -29,16 +29,17 @@ RUN set -x \
 	&& echo "CFLAGS += -I/usr/include/libnl3" >> .config \
 	&& echo "LIBS += -L/usr/local/lib" >> .config \
   \
-	&& echo "CONFIG_DRIVER_NL80211=y" >> .config \
 	&& echo "CONFIG_RADIUS_SERVER=y" >> .config \
 	&& echo "CONFIG_DRIVER_WIRED=y" >> .config \
 	&& echo "CONFIG_DRIVER_NONE=y" >> .config \
+	&& echo "CONFIG_DRIVER_NL80211=y" >> .config \
+	&& echo "CONFIG_DRIVER_NL80211_QCA=y" >> .config \
+	&& echo "CONFIG_LIBNL32=y" >> .config \
 	&& echo "CONFIG_IEEE80211N=y" >> .config \
-	&& echo "CONFIG_IEEE80211R=y" >> .config \
 	&& echo "CONFIG_IEEE80211AC=y" >> .config \
 	&& echo "CONFIG_IEEE80211AX=y" >> .config \
+	&& echo "CONFIG_IEEE80211R=y" >> .config \
 	&& echo "CONFIG_FULL_DYNAMIC_VLAN=y" >> .config \
-	&& echo "CONFIG_LIBNL32=y" >> .config \
 	&& echo "CONFIG_ACS=y" >> .config \
 	&& echo "CONFIG_SAE=y" >> .config \
   \

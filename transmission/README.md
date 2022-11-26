@@ -1,4 +1,4 @@
-### Upload tool
+### Tool to move completed to minio
 
 ```bash
 WORKDIR=/go/src/
