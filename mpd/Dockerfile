@@ -42,6 +42,7 @@ RUN set -x \
     # zlib-dev \
     # mpg123-dev \
     # wavpack-dev \
+    expat-dev \
     ca-certificates \
   \
 ## build
