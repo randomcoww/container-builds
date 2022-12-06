@@ -1,8 +1,8 @@
 ### Image build
 
 ```bash
-GO_VERSION=1.18
-VERSION=v3.5.4
+GO_VERSION=1.19
+VERSION=v3.5.6
 TAG=ghcr.io/randomcoww/etcd:$VERSION
 
 buildah build \
