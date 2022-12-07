@@ -1,8 +1,8 @@
 ### Image build
 
 ```bash
-VERSION=latest
-TAG=ghcr.io/randomcoww/ympd:$(date -u +'%Y%m%d')
+VERSION=v10.1.5
+TAG=ghcr.io/randomcoww/mympd:$VERSION
 
 buildah build \
   --build-arg VERSION=$VERSION \
