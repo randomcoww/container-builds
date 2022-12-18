@@ -24,16 +24,13 @@ RUN set -x \
   \
   && wget -O ca.crt https://ipxe.org/_media/certs/ca.crt \
   && CERT=ca.crt TRUST=ca.crt make -j "$(getconf _NPROCESSORS_ONLN)" \
-    bin-x86_64-efi/ipxe.efi \
-    bin/undionly.kpxe
+    bin-x86_64-efi/ipxe.efi
 
 FROM alpine:latest
 
 WORKDIR /var/tftpboot
 COPY --from=BUILD --chown=nobody:nogroup \
   /ipxe/src/bin-x86_64-efi/ipxe.efi .
-COPY --from=BUILD --chown=nobody:nogroup \
-  /ipxe/src/bin/undionly.kpxe .
 
 RUN set -x \
   \
