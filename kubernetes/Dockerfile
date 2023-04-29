@@ -11,7 +11,7 @@ COPY --from=BASE /usr/local/bin/kube-scheduler /usr/local/bin/
 ## kube-proxy
 ## https://github.com/kubernetes/kubernetes/blob/master/build/debian-iptables/Dockerfile
 # There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
-FROM alpine:edge AS kube-proxy
+FROM docker.io/alpine:edge AS kube-proxy
 
 COPY --from=BASE /usr/local/bin/kube-proxy /usr/local/bin/
 RUN set -x \

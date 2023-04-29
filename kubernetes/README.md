@@ -3,8 +3,8 @@
 #### Build binaries
 
 ```bash
-GO_VERSION=1.19
-VERSION=v1.25.4
+GO_VERSION=1.20
+VERSION=v1.27.1
 
 buildah build \
   --build-arg VERSION=$VERSION \

@@ -1,5 +1,5 @@
 ARG GO_VERSION
-FROM golang:$GO_VERSION-alpine as BUILD
+FROM docker.io/golang:$GO_VERSION-alpine as BUILD
 ARG VERSION
 
 WORKDIR /go/src/github.com/kubernetes
@@ -10,13 +10,11 @@ RUN set -x \
     make \
     bash \
     rsync \
-    g++ \
-    linux-headers \
   \
   && git clone -b $VERSION \
     https://github.com/kubernetes/kubernetes.git \
   && cd kubernetes \
-  && make -j "$(getconf _NPROCESSORS_ONLN)" \
+  && make \
     kube-apiserver \
     kube-controller-manager \
     kube-scheduler \
