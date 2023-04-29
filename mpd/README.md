@@ -2,7 +2,7 @@
 
 ```bash
 VERSION=0.23
-PATCH=11
+PATCH=12
 TAG=ghcr.io/randomcoww/mpd:$VERSION.$PATCH
 
 buildah build \
