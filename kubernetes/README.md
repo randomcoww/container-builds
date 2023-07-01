@@ -9,7 +9,7 @@ VERSION=v1.27.1
 buildah build \
   --build-arg VERSION=$VERSION \
   --build-arg GO_VERSION=$GO_VERSION \
-  -f Dockerfile.base \
+  -f base.Containerfile \
   -t ghcr.io/randomcoww/kubernetes:base-$VERSION
 ```
 
