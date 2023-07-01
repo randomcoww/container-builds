@@ -27,7 +27,6 @@ TAG=ghcr.io/randomcoww/tftpd-ipxe:$(date -u +'%Y%m%d')
 
 buildah build \
   --build-arg VERSION=$VERSION \
-  -f Dockerfile \
   -t $TAG && \
 
 buildah push $TAG
