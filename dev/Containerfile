@@ -1,6 +1,8 @@
 FROM quay.io/podman/stable:latest
 ARG CODE_VERSION=4.14.1
 
+COPY containers.conf /etc/containers/containers.conf
+
 RUN set -x \
   \
   && dnf install --setopt=install_weak_deps=False -y \
@@ -13,7 +15,7 @@ RUN set -x \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-amd64.rpm \
   \
   && dnf clean all \
-  && rm -rf /var/cache/yum
+  && rm -rf /var/cache /var/log/dnf* /var/log/yum.*
 
 USER podman
 
