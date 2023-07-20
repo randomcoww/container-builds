@@ -1,11 +1,14 @@
 ### Image build
 
 ```bash
-VERSION=4.14.1
-TAG=ghcr.io/randomcoww/dev:$(date -u +'%Y%m%d')
+FEDORA_VERSION=latest
+CODE_VERSION=4.14.1
+USER=podman
+TAG=ghcr.io/randomcoww/dev:$(date -u +'%Y%m%d').1
 
 buildah build \
-  --build-arg VERSION=$VERSION \
+  --build-arg CODE_VERSION=$CODE_VERSION \
+  --build-arg USER=$USER \
   -t $TAG && \
 
 buildah push $TAG
