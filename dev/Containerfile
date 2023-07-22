@@ -37,8 +37,8 @@ RUN set -x \
     /usr/share/containers/storage.conf > /etc/containers/storage.conf \
   \
   && useradd $USER -u 1000 \
-  && echo -e "$USER:1:999\n$USER:1001:64535" > /etc/subuid \
-  && echo -e "$USER:1:999\n$USER:1001:64535" > /etc/subgid \
+  && echo -e "$USER:100000:64535" > /etc/subuid \
+  && echo -e "$USER:100000:64535" > /etc/subgid \
   && mkdir -p /home/$USER \
   && chown $USER:$USER -R /home/$USER \
   && mkdir -p \
