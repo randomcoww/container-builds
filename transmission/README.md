@@ -19,9 +19,9 @@ CGO_ENABLED=0 GO111MODULE=on GOOS=linux \
 VERSION=latest
 TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d')
 
-buildah build \
+podman build \
   --build-arg VERSION=$VERSION \
   -t $TAG && \
 
-buildah push $TAG
+podman push $TAG
 ```

@@ -4,9 +4,9 @@
 VERSION=latest
 TAG=ghcr.io/randomcoww/wireguard:$(date -u +'%Y%m%d')
 
-buildah build \
+podman build \
   --build-arg VERSION=$VERSION \
   -t $TAG && \
 
-buildah push $TAG
+podman push $TAG
 ```

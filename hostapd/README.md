@@ -8,9 +8,9 @@ https://github.com/dvdesolve/pkgbuilds/blob/master/packages/hostapd-noscan/nosca
 VERSION=2.10
 TAG=ghcr.io/randomcoww/hostapd:$VERSION
 
-buildah build \
+podman build \
   --build-arg VERSION=$VERSION \
   -t $TAG && \
 
-buildah push $TAG
+podman push $TAG
 ```

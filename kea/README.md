@@ -4,9 +4,9 @@
 VERSION=2.2.0
 TAG=ghcr.io/randomcoww/kea:$VERSION
 
-buildah build \
+podman build \
   --build-arg VERSION=$VERSION \
   -t $TAG && \
 
-buildah push $TAG
+podman push $TAG
 ```

@@ -7,10 +7,10 @@ GO_VERSION=1.20
 VERSION=1.44.0
 TAG=ghcr.io/randomcoww/tailscale:$VERSION
 
-buildah build \
+podman build \
   --build-arg GO_VERSION=$GO_VERSION \
   --build-arg VERSION=$VERSION \
   -t $TAG && \
 
-buildah push $TAG
+podman push $TAG
 ```

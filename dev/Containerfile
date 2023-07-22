@@ -11,19 +11,25 @@ COPY containers.conf /etc/containers/containers.conf
 RUN set -x \
   \
   && rpm --setcaps shadow-utils 2>/dev/null \
-  && dnf install --setopt=install_weak_deps=False -y \
-    podman fuse-overlayfs \
+  && dnf install -y --setopt=install_weak_deps=False --best \
+    ca-certificates \
+    podman \
+    fuse-overlayfs \
     git-core \
-    iproute-tc iptables-nft \
-    tar xz \
+    iproute-tc \
+    iptables-nft \
+    tar \
+    xz \
     jq \
     procps-ng \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-amd64.rpm \
   --exclude \
     container-selinux \
   \
+  && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+  # configure for podman in container #
   && sed \
     -e 's|^#mount_program|mount_program|g' \
     -e '/additionalimage.*/a "/var/lib/shared",' \
@@ -35,7 +41,6 @@ RUN set -x \
   && echo -e "$USER:1:999\n$USER:1001:64535" > /etc/subgid \
   && mkdir -p /home/$USER \
   && chown $USER:$USER -R /home/$USER \
-  \
   && mkdir -p \
     /var/lib/shared/overlay-images \
     /var/lib/shared/overlay-layers \

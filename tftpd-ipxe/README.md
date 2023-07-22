@@ -25,9 +25,9 @@ Menu
 VERSION=master
 TAG=ghcr.io/randomcoww/tftpd-ipxe:$(date -u +'%Y%m%d')
 
-buildah build \
+podman build \
   --build-arg VERSION=$VERSION \
   -t $TAG && \
 
-buildah push $TAG
+podman push $TAG
 ```
