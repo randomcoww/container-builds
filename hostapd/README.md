@@ -10,7 +10,7 @@ TAG=ghcr.io/randomcoww/hostapd:$VERSION
 
 podman build \
   --build-arg VERSION=$VERSION \
-  -t $TAG && \
+  -t $TAG . && \
 
 podman push $TAG
 ```

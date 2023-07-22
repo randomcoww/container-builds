@@ -6,7 +6,7 @@ TAG=ghcr.io/randomcoww/kea:$VERSION
 
 podman build \
   --build-arg VERSION=$VERSION \
-  -t $TAG && \
+  -t $TAG . && \
 
 podman push $TAG
 ```

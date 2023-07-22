@@ -8,7 +8,7 @@ TAG=ghcr.io/randomcoww/mpd:$VERSION.$PATCH
 podman build \
   --build-arg VERSION=$VERSION \
   --build-arg PATCH=$PATCH \
-  -t $TAG && \
+  -t $TAG . && \
 
 podman push $TAG
 ```

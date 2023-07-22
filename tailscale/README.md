@@ -10,7 +10,7 @@ TAG=ghcr.io/randomcoww/tailscale:$VERSION
 podman build \
   --build-arg GO_VERSION=$GO_VERSION \
   --build-arg VERSION=$VERSION \
-  -t $TAG && \
+  -t $TAG . && \
 
 podman push $TAG
 ```

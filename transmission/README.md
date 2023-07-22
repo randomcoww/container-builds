@@ -21,7 +21,7 @@ TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d')
 
 podman build \
   --build-arg VERSION=$VERSION \
-  -t $TAG && \
+  -t $TAG . && \
 
 podman push $TAG
 ```
