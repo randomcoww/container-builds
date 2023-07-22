@@ -7,6 +7,7 @@ USER=podman
 TAG=ghcr.io/randomcoww/dev:$(date -u +'%Y%m%d').1
 
 podman build \
+  --build-arg FEDORA_VERSION=$FEDORA_VERSION \
   --build-arg CODE_VERSION=$CODE_VERSION \
   --build-arg USER=$USER \
   -t $TAG && \
