@@ -41,6 +41,8 @@ RUN set -x \
   && echo -e "$USER:100000:64535" > /etc/subgid \
   && mkdir -p /home/$USER \
   && chown $USER:$USER -R /home/$USER \
+  && usermod -G wheel $USER \
+  && echo '%wheel ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel \
   && mkdir -p \
     /var/lib/shared/overlay-images \
     /var/lib/shared/overlay-layers \
