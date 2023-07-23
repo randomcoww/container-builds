@@ -22,6 +22,7 @@ RUN set -x \
     xz \
     jq \
     procps-ng \
+    iputils \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-amd64.rpm \
   --exclude \
     container-selinux \
