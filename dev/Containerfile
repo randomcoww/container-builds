@@ -23,7 +23,6 @@ RUN set -x \
     xz \
     jq \
     procps-ng \
-    iputils \
     which \
     lsof \
     ldns-utils \
@@ -57,8 +56,7 @@ RUN set -x \
     /var/lib/shared/overlay-images/images.lock \
     /var/lib/shared/overlay-layers/layers.lock \
     /var/lib/shared/vfs-images/images.lock \
-    /var/lib/shared/vfs-layers/layers.lock \
-  && setcap cap_net_raw+p /usr/sbin/ping
+    /var/lib/shared/vfs-layers/layers.lock
 
 USER $USER
 ENV _CONTAINERS_USERNS_CONFIGURED=""

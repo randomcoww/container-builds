@@ -4,7 +4,7 @@
 FEDORA_VERSION=latest
 CODE_VERSION=4.14.1
 USER=podman
-TAG=ghcr.io/randomcoww/dev:$(date -u +'%Y%m%d').1
+TAG=ghcr.io/randomcoww/dev:$(date -u +'%Y%m%d').4
 
 podman build \
   --build-arg FEDORA_VERSION=$FEDORA_VERSION \
