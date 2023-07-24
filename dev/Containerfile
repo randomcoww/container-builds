@@ -18,11 +18,15 @@ RUN set -x \
     git-core \
     iproute-tc \
     iptables-nft \
+    gzip \
     tar \
     xz \
     jq \
     procps-ng \
     iputils \
+    which \
+    lsof \
+    ldns-utils \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-amd64.rpm \
   --exclude \
     container-selinux \
@@ -53,7 +57,8 @@ RUN set -x \
     /var/lib/shared/overlay-images/images.lock \
     /var/lib/shared/overlay-layers/layers.lock \
     /var/lib/shared/vfs-images/images.lock \
-    /var/lib/shared/vfs-layers/layers.lock
+    /var/lib/shared/vfs-layers/layers.lock \
+  && setcap cap_net_raw+p /usr/sbin/ping
 
 USER $USER
 ENV _CONTAINERS_USERNS_CONFIGURED=""
