@@ -40,11 +40,9 @@ RUN set -x \
     -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' \
     /usr/share/containers/storage.conf > /etc/containers/storage.conf \
   \
-  && useradd $USER -u 1000 \
+  && useradd $USER -m -u 1000 \
   && echo -e "$USER:100000:64535" > /etc/subuid \
   && echo -e "$USER:100000:64535" > /etc/subgid \
-  && mkdir -p /home/$USER \
-  && chown $USER:$USER -R /home/$USER \
   && usermod -G wheel $USER \
   && echo '%wheel ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel \
   && mkdir -p \
