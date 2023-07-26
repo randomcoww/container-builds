@@ -12,6 +12,7 @@ RUN set -x \
     bash \
     sudo \
     git \
+    openssh-client \
     iptables \
     gzip \
     tar \
