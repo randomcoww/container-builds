@@ -6,8 +6,6 @@ FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
 ARG CODE_VERSION=4.14.1
 ARG USER=podman
 
-COPY containers.conf /etc/containers/containers.conf
-
 RUN set -x \
   \
   && rpm --setcaps shadow-utils 2>/dev/null \
@@ -29,20 +27,15 @@ RUN set -x \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-amd64.rpm \
   --exclude \
     container-selinux \
-  \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
-  # configure for podman in container #
-  && sed \
-    -e 's|^#mount_program|mount_program|g' \
-    -e '/additionalimage.*/a "/var/lib/shared",' \
-    -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' \
-    /usr/share/containers/storage.conf > /etc/containers/storage.conf \
   \
   && useradd $USER -m -u 1000 \
-  && echo -e "$USER:100000:64535" > /etc/subuid \
-  && echo -e "$USER:100000:64535" > /etc/subgid \
+  && echo -e "$USER:1:999" > /etc/subuid \
+	&& echo -e "$USER:1001:64535" >> /etc/subuid \
+  && echo -e "$USER:1:999" > /etc/subgid \
+	&& echo -e "$USER:1001:64535" >> /etc/subgid \
   && usermod -G wheel $USER \
   && echo '%wheel ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel \
   && mkdir -p \
@@ -55,6 +48,9 @@ RUN set -x \
     /var/lib/shared/overlay-layers/layers.lock \
     /var/lib/shared/vfs-images/images.lock \
     /var/lib/shared/vfs-layers/layers.lock
+
+COPY containers.conf /etc/containers/containers.conf.d/10-override.conf
+COPY storage.conf /etc/containers/storage.conf.d/10-override.conf
 
 USER $USER
 ENV _CONTAINERS_USERNS_CONFIGURED=""
