@@ -31,17 +31,6 @@ RUN set -x \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
   \
-  && mkdir -p \
-    /var/lib/shared/overlay-images \
-    /var/lib/shared/overlay-layers \
-    /var/lib/shared/vfs-images \
-    /var/lib/shared/vfs-layers \
-  && touch \
-    /var/lib/shared/overlay-images/images.lock \
-    /var/lib/shared/overlay-layers/layers.lock \
-    /var/lib/shared/vfs-images/images.lock \
-    /var/lib/shared/vfs-layers/layers.lock \
-  \
   && useradd $USER -m -u 1000 \
   && echo -e "$USER:1:999" > /etc/subuid \
 	&& echo -e "$USER:1001:64535" >> /etc/subuid \
@@ -54,6 +43,4 @@ COPY containers.conf /etc/containers/containers.conf.d/10-override.conf
 COPY storage.conf /etc/containers/storage.conf.d/10-override.conf
 
 USER $USER
-ENV _CONTAINERS_USERNS_CONFIGURED=""
-
 ENTRYPOINT [ "code-server" ]
