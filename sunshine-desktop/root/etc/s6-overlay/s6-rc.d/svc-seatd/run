@@ -1,1 +1,3 @@
-exec /usr/bin/seatd -u $USER -g $USER
+#!/usr/bin/with-contenv bash
+
+exec /usr/bin/seatd -u abc -g abc

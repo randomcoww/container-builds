@@ -47,7 +47,6 @@ RUN set -x \
     vulkan-tools \
     libva-vdpau-driver \
     vdpauinfo \
-    openssh-clients \
     pulseaudio \
     pulseaudio-utils \
     util-linux \
@@ -75,7 +74,7 @@ RUN set -x \
     $PULSE_RUNTIME_PATH \
     $HOME \
   && usermod -G wheel,input $USER \
-  && echo '%wheel ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 # Don't allow changing UID/GID
 RUN find /etc/s6-overlay -type f -name init-adduser -exec rm {} \;
@@ -83,13 +82,13 @@ RUN find /etc/s6-overlay -type f -name init-adduser -exec rm {} \;
 COPY /root /
 RUN find /etc/s6-overlay -type f -exec sed -i -e "s/abc/$USER/g" {} \;
 
+COPY /sway /home/$USER/.config/sway
+
 ENV \
-TERM=foot \
 DESKTOP_SESSION=sway \
 XDG_SESSION_TYPE=wayland \
 XDG_CURRENT_DESKTOP=sway \
 XDG_SESSION_DESKTOP=sway \
 WAYLAND_DISPLAY=wayland-1 \
 WLR_BACKENDS=headless,libinput \
-WLR_NO_HARDWARE_CURSORS=1 \
-_CONTAINERS_USERNS_CONFIGURED=""
+WLR_NO_HARDWARE_CURSORS=1
