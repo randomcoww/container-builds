@@ -1,22 +1,20 @@
 ARG FEDORA_VERSION=38
 
-FROM fedora:latest
-ARG KEEPALIVED_VERSION=2.2.8
-ARG FEDORA_VERSION=38
+FROM fedora:${FEDORA_VERSION}
 
 RUN set -x \
   \
-  && dnf install -y \
-    rpm-build \
+  && dnf install -y --setopt=install_weak_deps=False \
+    rpmdevtools \
     dnf-plugins-core \
     git \
     libnftnl-devel \
   \
-  && mkdir -p $HOME/rpmbuild/SOURCES/ \
+  && mkdir -p $HOME/rpmbuild/ \
   && cd $HOME/rpmbuild \
-  && git clone -b f$FEDORA_VERSION https://src.fedoraproject.org/rpms/keepalived.git SOURCES/ \
+  && git clone -b f$(rpm -E %fedora) https://src.fedoraproject.org/rpms/keepalived.git SOURCES/ \
   && cd SOURCES \
-  && curl https://keepalived.org/software/keepalived-$KEEPALIVED_VERSION.tar.gz -o keepalived-$KEEPALIVED_VERSION.tar.gz \
+  && spectool -gR keepalived.spec \
   && dnf builddep -y keepalived.spec \
   && rpmbuild -bb keepalived.spec \
     --without snmp \
