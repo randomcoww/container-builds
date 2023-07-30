@@ -2,6 +2,7 @@ ARG ALPINE_VERSION=edge
 FROM alpine:$ALPINE_VERSION
 
 ARG CODE_VERSION=4.14.1
+ARG ARCH=amd64
 ARG USER=podman
 
 RUN set -x \
@@ -34,7 +35,7 @@ RUN set -x \
   \
   && mkdir -p /opt/code-server \
   && wget -O code-server.tar.gz \
-    https://github.com/cdr/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-linux-amd64.tar.gz \
+    https://github.com/cdr/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-linux-$ARCH.tar.gz \
   && tar xzf code-server.tar.gz --strip-components=1 -C /opt/code-server \
   && rm code-server.tar.gz
 

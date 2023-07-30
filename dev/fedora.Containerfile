@@ -5,6 +5,7 @@ ARG FEDORA_VERSION=latest
 FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
 ARG CODE_VERSION=4.14.1
 ARG USER=podman
+ARG ARCH=amd64
 
 RUN set -x \
   \
@@ -24,7 +25,7 @@ RUN set -x \
     which \
     lsof \
     ldns-utils \
-    https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-amd64.rpm \
+    https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
