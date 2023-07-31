@@ -26,4 +26,6 @@ COPY --from=BUILD /kmod /opt/lib/modules/$KERNEL_VERSION/nvidia/
 
 RUN set -x \
   \
+  && apk add --no-cache \
+    kmod \
   && depmod -b /opt $KERNEL_VERSION
