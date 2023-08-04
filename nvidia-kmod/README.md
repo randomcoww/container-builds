@@ -1,7 +1,7 @@
 ### Prebuilt nvidia kernel modules
 
-# Driver releases
-# https://developer.download.nvidia.com/compute/cuda/repos/fedora37/x86_64/
+#### Driver releases
+https://developer.download.nvidia.com/compute/cuda/repos/fedora37/x86_64/
 
 ```bash
 KERNEL_VERSION=6.4.7-200.fc38.x86_64
