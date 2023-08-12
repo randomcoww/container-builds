@@ -1,23 +1,24 @@
 FROM fedora:latest AS BUILD
-ARG NVIDIA_VERSION=535.54.03
 ARG KERNEL_VERSION
 
-COPY nvidia.repo /etc/yum.repos.d/
+COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \
   \
   && dnf install -y --setopt=install_weak_deps=False \
     kernel-devel-$KERNEL_VERSION \
-    kmod-nvidia-latest-dkms-$NVIDIA_VERSION \
+    kmod-nvidia-latest-dkms
+
+RUN set -x \
   \
-  && dkms build -m nvidia/$NVIDIA_VERSION \
+  && dkms build -m nvidia/$(rpm -q --queryformat "%{VERSION}" kmod-nvidia-latest-dkms) \
     -k $KERNEL_VERSION \
     -a ${KERNEL_VERSION##*.} \
     --no-depmod \
     --kernelsourcedir /usr/src/kernels/$KERNEL_VERSION \
     -j "$(getconf _NPROCESSORS_ONLN)" \
   && mkdir -p /kmod \
-  && cp /var/lib/dkms/nvidia/$NVIDIA_VERSION/$KERNEL_VERSION/${KERNEL_VERSION##*.}/module/* /kmod
+  && cp /var/lib/dkms/nvidia/$(rpm -q --queryformat "%{VERSION}" kmod-nvidia-latest-dkms)/$KERNEL_VERSION/${KERNEL_VERSION##*.}/module/* /kmod
 
 FROM alpine:latest
 ARG KERNEL_VERSION

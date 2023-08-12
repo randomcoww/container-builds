@@ -1,6 +1,0 @@
-[nvidia]
-name=nvidia
-type=rpm-md
-baseurl=https://developer.download.nvidia.com/compute/cuda/repos/fedora37/$basearch
-enabled=1
-gpgcheck=0
