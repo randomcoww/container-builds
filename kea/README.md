@@ -1,7 +1,7 @@
 ### Image build
 
 ```bash
-VERSION=2.2.0
+VERSION=2.4.0
 TAG=ghcr.io/randomcoww/kea:$VERSION
 
 podman build \
