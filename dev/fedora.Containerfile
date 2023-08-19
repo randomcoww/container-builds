@@ -5,6 +5,7 @@ ARG FEDORA_VERSION=latest
 FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
 ARG CODE_VERSION=4.14.1
 ARG USER=podman
+ARG UID=1000
 ARG ARCH=amd64
 
 RUN set -x \
@@ -32,11 +33,11 @@ RUN set -x \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
   \
-  && useradd $USER -m -u 1000 \
-  && echo -e "$USER:1:999" > /etc/subuid \
-	&& echo -e "$USER:1001:64535" >> /etc/subuid \
-  && echo -e "$USER:1:999" > /etc/subgid \
-	&& echo -e "$USER:1001:64535" >> /etc/subgid \
+  && useradd $USER -m -u $UID \
+  && echo -e "$USER:1:$(( $UID - 1 ))" > /etc/subuid \
+	&& echo -e "$USER:$(( $UID + 1 )):64535" >> /etc/subuid \
+  && echo -e "$USER:1:$(( $UID - 1 ))" > /etc/subgid \
+	&& echo -e "$USER:$(( $UID + 1 )):64535" >> /etc/subgid \
   && usermod -G wheel $USER \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 

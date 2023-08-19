@@ -2,6 +2,7 @@
 # https://github.com/linuxserver/docker-baseimage-kasmvnc/blob/fedora38/Dockerfile
 # https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
 # https://github.com/linuxserver/docker-webtop/blob/fedora-xfce/Dockerfile
+# https://github.com/kasmtech/workspaces-core-images/blob/develop/dockerfile-kasm-core-fedora
 
 FROM localhost/buildstage:latest AS buildstage
 FROM localhost/rootfs-stage:latest AS rootfs-stage
@@ -16,7 +17,8 @@ COPY custom.repo /etc/yum.repos.d/
 ENV \
   S6_CMD_WAIT_FOR_SERVICES_MAXTIME="0" \
   S6_VERBOSITY=1 \
-  DISPLAY=:0
+  DISPLAY=:0 \
+  XDG_RUNTIME_DIR=/tmp/.X11-unix
 
 RUN set -x \
   \
@@ -29,12 +31,10 @@ RUN set -x \
     curl \
     findutils \
     hostname \
-    jq \
     netcat \
     procps-ng \
     pciutils \
     shadow \
-    which \
     git-core \
     iproute-tc \
     iptables-nft \
@@ -101,6 +101,7 @@ RUN set -x \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+  \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
   && rm -f \
     /etc/xdg/autostart/xfce-polkit.desktop
