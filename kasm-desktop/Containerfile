@@ -1,0 +1,108 @@
+# References
+# https://github.com/linuxserver/docker-baseimage-kasmvnc/blob/fedora38/Dockerfile
+# https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
+# https://github.com/linuxserver/docker-webtop/blob/fedora-xfce/Dockerfile
+
+FROM localhost/buildstage:latest AS buildstage
+FROM localhost/rootfs-stage:latest AS rootfs-stage
+
+FROM scratch AS BASE
+ARG SUNSHINE_VERSION=0.20.0
+
+COPY --from=rootfs-stage /root-out/ /
+COPY --from=buildstage /build-out/ /
+COPY custom.repo /etc/yum.repos.d/
+
+ENV \
+  S6_CMD_WAIT_FOR_SERVICES_MAXTIME="0" \
+  S6_VERBOSITY=1 \
+  DISPLAY=:0
+
+RUN set -x \
+  \
+  && dnf install -y \
+    https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
+  && dnf install -y --setopt=install_weak_deps=False --best \
+    ca-certificates \
+    coreutils \
+    curl \
+    findutils \
+    hostname \
+    jq \
+    netcat \
+    procps-ng \
+    shadow \
+    which \
+    git-core \
+    iproute-tc \
+    iptables-nft \
+    gzip \
+    tar \
+    xz \
+    jq \
+    which \
+    lsof \
+    ldns-utils \
+    sudo \
+    vim-minimal \
+    less \
+    mesa-dri-drivers \
+    mesa-libgbm \
+    mesa-libGL \
+    mesa-libOpenCL \
+    mesa-va-drivers-freeworld \
+    mesa-vdpau-drivers-freeworld \
+    libva-utils \
+    vulkan \
+    vulkan-tools \
+    libva-vdpau-driver \
+    vdpauinfo \
+    pulseaudio \
+    pulseaudio-utils \
+    setxkbmap \
+    util-linux \
+    dbus-x11 \
+    xauth \
+    xkbcomp \
+    xkeyboard-config \
+    xorg-x11-drv-amdgpu \
+    xorg-x11-drv-intel \
+    xorg-x11-drv-nvidia \
+    ffmpeg \
+    libjpeg-turbo \
+    libwebp \
+    libXfont2 \
+    libxshmfence \
+    \
+    # XFCE
+    gtk-xfce-engine \
+    Thunar \
+    xfce4-appfinder \
+    xfce4-datetime-plugin \
+    xfce4-panel \
+    xfce4-places-plugin \
+    xfce4-pulseaudio-plugin \
+    xfce4-session \
+    xfce4-settings \
+    xfce4-terminal \
+    xfconf \
+    xfdesktop \
+    xfwm4 \
+    \
+    # custom
+    https://github.com/LizardByte/Sunshine/releases/download/v$SUNSHINE_VERSION/sunshine-fedora-$(rpm -E %fedora)-amd64.rpm \
+    brave-browser \
+    steam \
+    lutris \
+  \
+  && dnf autoremove -y \
+  && dnf clean all \
+  && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
+  && rm -f \
+    /etc/xdg/autostart/xfce-polkit.desktop
+
+COPY /root /
+
+ENTRYPOINT ["/init"]

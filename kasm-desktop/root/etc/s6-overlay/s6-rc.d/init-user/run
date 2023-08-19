@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+
+set -xe
+
+mkdir -p $HOME
+chown $UID:$UID $HOME
+useradd $USER -d $HOME -m -u $UID
+usermod -G wheel,root $USER
+
+exec s6-setuidgid $USER \
+  cp -r /etc/skel/. $HOME

@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bash
+
+setterm blank 0
+setterm powerdown 0
+
+cd $HOME
+exec s6-setuidgid $USER \
+  /usr/bin/xfce4-session

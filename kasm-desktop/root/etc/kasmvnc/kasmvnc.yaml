@@ -1,0 +1,22 @@
+desktop:
+  resolution:
+    width: 1920
+    height: 1080
+  allow_resize: true
+  pixel_depth: 24
+
+network:
+  protocol: http
+  interface: 0.0.0.0
+  websocket_port: 6901
+  use_ipv4: true
+  use_ipv6: true
+  udp:
+    public_ip: auto
+    port: auto
+    stun_server: auto
+  ssl:
+    require_ssl: false
+
+command_line:
+  prompt: false

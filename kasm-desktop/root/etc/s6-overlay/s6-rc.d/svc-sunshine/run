@@ -1,14 +1,10 @@
 #!/usr/bin/with-contenv bash
 
-if [ ! -S "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" ] || [ ! -S "$PULSE_RUNTIME_PATH/native" ]; then
-  exit 1
-fi
-
-exec s6-setuidgid abc \
+exec s6-setuidgid $USER \
   /usr/bin/sunshine \
     key_rightalt_to_key_win=enabled \
     min_threads=1 \
     origin_pin_allowed=wan \
     origin_web_ui_allowed=pc \
-    output_name=$WAYLAND_DISPLAY \
+    output_name=0 \
     upnp=off
