@@ -6,6 +6,7 @@
 FEDORA_VERSION=38
 SUNSHINE_VERSION=0.20.0
 TAG=ghcr.io/randomcoww/kasm-desktop:$(date -u +'%Y%m%d').1
+USER=kasm_user
 
 git clone -b fedora$FEDORA_VERSION https://github.com/linuxserver/docker-baseimage-kasmvnc.git
 
@@ -40,10 +41,10 @@ mkdir -p kasm-home
 sudo podman run -it --name kasm --rm --security-opt label=disable \
   --name kasm-desktop \
   --cap-add CAP_SYS_ADMIN \
-  -e USER=kasm_user \
-  -e HOME=/home/kasm_user \
+  -e USER=$USER \
+  -e HOME=/home/$USER \
   -e UID=10000 \
-  -v $(pwd)/kasm-home:/home/kasm-user \
+  -v $(pwd)/kasm-home:/home/$USER \
   --shm-size=1g \
   --device /dev/dri \
   --device /dev/kfd \
