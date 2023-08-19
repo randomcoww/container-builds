@@ -32,6 +32,7 @@ RUN set -x \
     jq \
     netcat \
     procps-ng \
+    pciutils \
     shadow \
     which \
     git-core \
@@ -95,6 +96,7 @@ RUN set -x \
     brave-browser \
     steam \
     lutris \
+    xdg-user-dirs \
   \
   && dnf autoremove -y \
   && dnf clean all \

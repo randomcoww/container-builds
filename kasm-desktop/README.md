@@ -1,3 +1,5 @@
+## Kasm desktop with Sunshine for alternate stream
+
 ### Image build
 
 ```bash
@@ -26,6 +28,8 @@ podman build \
 
 podman push $TAG
 ```
+
+### Run
 
 ```bash
 podman run -it --name kasm --rm \
