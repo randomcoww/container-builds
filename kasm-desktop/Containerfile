@@ -14,12 +14,6 @@ COPY --from=rootfs-stage /root-out/ /
 COPY --from=buildstage /build-out/ /
 COPY custom.repo /etc/yum.repos.d/
 
-ENV \
-  S6_CMD_WAIT_FOR_SERVICES_MAXTIME="0" \
-  S6_VERBOSITY=1 \
-  DISPLAY=:0 \
-  XDG_RUNTIME_DIR=/tmp/.X11-unix
-
 RUN set -x \
   \
   && dnf install -y \
@@ -123,5 +117,17 @@ RUN set -x \
     /opt/nvidia
 
 COPY /root /
+
+ENV \
+  S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+  S6_VERBOSITY=1 \
+  USER=kasm-user \
+  UID=1000 \
+  HOME=/home/kasm-user \
+  XDG_RUNTIME_DIR=/tmp/.X11-unix \
+  DISPLAY=:1 \
+  DEVICE=/dev/dri/renderD128
+
+VOLUME $HOME
 
 ENTRYPOINT ["/init"]

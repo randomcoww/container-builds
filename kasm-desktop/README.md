@@ -35,8 +35,11 @@ podman push $TAG
 - `CAP_SYS_ADMIN` is for Sunshine error with `cap_sys_admin+p sunshine`
 
 ```bash
+mkdir -p tmp
+TMPDIR=$(pwd)/tmp podman pull $TAG
+
 mkdir -p kasm-home
-USER=kasm_user
+USER=kasm-user
 
 podman run -it --rm --security-opt label=disable \
   --name kasm-desktop \
@@ -44,6 +47,8 @@ podman run -it --rm --security-opt label=disable \
   -e USER=$USER \
   -e HOME=/home/$USER \
   -e UID=10000 \
+  -e DISPLAY=:1 \
+  -e DEVICE=/dev/dri/renderD128 \
   -v $(pwd)/kasm-home:/home/$USER \
   --shm-size=1g \
   --device /dev/dri \

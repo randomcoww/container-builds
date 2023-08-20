@@ -3,8 +3,7 @@
 exec s6-setuidgid $USER \
   /usr/bin/sunshine \
     key_rightalt_to_key_win=enabled \
-    min_threads=1 \
     origin_pin_allowed=wan \
     origin_web_ui_allowed=pc \
-    output_name=0 \
+    adapter_name=$DEVICE \
     upnp=off
