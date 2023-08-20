@@ -54,6 +54,9 @@ RUN set -x \
     mesa-libOpenCL \
     mesa-va-drivers-freeworld \
     mesa-vdpau-drivers-freeworld \
+    # https://koji.rpmfusion.org/koji/packageinfo?packageID=650
+    # https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-va-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
+    # https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-vdpau-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
     libva-utils \
     vulkan \
     vulkan-tools \

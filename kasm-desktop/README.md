@@ -38,7 +38,7 @@ podman push $TAG
 mkdir -p kasm-home
 USER=kasm_user
 
-sudo podman run -it --name kasm --rm --security-opt label=disable \
+podman run -it --rm --security-opt label=disable \
   --name kasm-desktop \
   --cap-add CAP_SYS_ADMIN \
   -e USER=$USER \
@@ -55,10 +55,10 @@ sudo podman run -it --name kasm --rm --security-opt label=disable \
   -p 47998-48000:47998-48000/udp \
   $TAG
 
-sudo podman stop kasm-desktop
+podman stop kasm-desktop
 ```
 
-### Register sunshine client
+### Register Sunshine client
 
 ```bash
 curl http://localhost:47989/pin/<PIN>
