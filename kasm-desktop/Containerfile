@@ -128,6 +128,4 @@ ENV \
   DISPLAY=:1 \
   DEVICE=/dev/dri/renderD128
 
-VOLUME $HOME
-
 ENTRYPOINT ["/init"]
