@@ -33,7 +33,7 @@ RUN set -x \
     hostname \
     netcat \
     procps-ng \
-    pciutils \
+    pciutils-libs \
     shadow \
     git-core \
     iproute-tc \
@@ -61,20 +61,19 @@ RUN set -x \
     vdpauinfo \
     pulseaudio \
     pulseaudio-utils \
-    setxkbmap \
     util-linux \
     dbus-x11 \
     xauth \
     xkbcomp \
     xkeyboard-config \
-    xorg-x11-drv-amdgpu \
-    xorg-x11-drv-intel \
-    xorg-x11-drv-nvidia \
+    xorg-x11-drv-nvidia-libs \
+    xorg-x11-drv-nvidia-cuda-libs \
     ffmpeg \
     libjpeg-turbo \
     libwebp \
     libXfont2 \
     libxshmfence \
+    pixman \
     \
     # XFCE
     gtk-xfce-engine \
@@ -105,6 +104,20 @@ RUN set -x \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
   && rm -f \
     /etc/xdg/autostart/xfce-polkit.desktop
+
+# Patch nvidia driver for sunshine
+RUN set -x \
+  \
+  && git clone https://github.com/keylase/nvidia-patch.git nvidia-patch \
+  # patch script forces check on nvidia-smi even if we are specifying a driver version
+  # this is a hack to bypass it
+  && touch /usr/bin/nvidia-smi \
+  && ./nvidia-patch/patch.sh -d $(rpm -q --queryformat "%{VERSION}" xorg-x11-drv-nvidia-cuda-libs) \
+  && ./nvidia-patch/patch-fbc.sh -d $(rpm -q --queryformat "%{VERSION}" xorg-x11-drv-nvidia-cuda-libs) \
+  && rm -r \
+    /usr/bin/nvidia-smi\
+    nvidia-patch \
+    /opt/nvidia
 
 COPY /root /
 

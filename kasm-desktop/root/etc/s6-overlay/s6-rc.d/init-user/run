@@ -5,7 +5,7 @@ set -xe
 mkdir -p $HOME
 chown $UID:$UID $HOME
 useradd $USER -d $HOME -m -u $UID
-usermod -G wheel,video $USER
+usermod -G wheel,video,input $USER
 
 exec s6-setuidgid $USER \
   cp -r /etc/skel/. $HOME
