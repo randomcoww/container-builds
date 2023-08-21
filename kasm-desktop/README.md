@@ -1,10 +1,7 @@
-## Kasm desktop with Sunshine for alternate stream
-
 ### Image build
 
 ```bash
 FEDORA_VERSION=38
-SUNSHINE_VERSION=0.20.0
 TAG=ghcr.io/randomcoww/kasm-desktop:$(date -u +'%Y%m%d').1
 
 git clone -b fedora$FEDORA_VERSION https://github.com/linuxserver/docker-baseimage-kasmvnc.git
@@ -23,7 +20,6 @@ podman build \
   -t rootfs-stage
 
 podman build \
-  --build-arg SUNSHINE_VERSION=$SUNSHINE_VERSION \
   -t $TAG . && \
 
 podman push $TAG
@@ -31,22 +27,21 @@ podman push $TAG
 
 ### Run
 
-- Device passthrough is not working in rootless for me
-- `CAP_SYS_ADMIN` is for Sunshine error with `cap_sys_admin+p sunshine`
-
 ```bash
 mkdir -p tmp
 TMPDIR=$(pwd)/tmp podman pull $TAG
 
 mkdir -p kasm-home
 USER=kasm-user
+UID=10000
 
 podman run -it --rm --security-opt label=disable \
   --name kasm-desktop \
-  --cap-add CAP_SYS_ADMIN \
+  --cap-add CAP_AUDIT_WRITE \
   -e USER=$USER \
   -e HOME=/home/$USER \
-  -e UID=10000 \
+  -e UID=$UID \
+  -e XDG_RUNTIME_DIR=/run/user/$UID \
   -e DISPLAY=:1 \
   -e DEVICE=/dev/dri/renderD128 \
   -v $(pwd)/kasm-home:/home/$USER \
@@ -54,17 +49,7 @@ podman run -it --rm --security-opt label=disable \
   --device /dev/dri \
   --device /dev/kfd \
   -p 6901:6901/tcp \
-  -p 47984-47990:47984-47990/tcp \
-  -p 48010:48010/tcp \
-  -p 48010:48010/udp \
-  -p 47998-48000:47998-48000/udp \
   $TAG
 
 podman stop kasm-desktop
-```
-
-### Register Sunshine client
-
-```bash
-curl http://localhost:47989/pin/<PIN>
 ```

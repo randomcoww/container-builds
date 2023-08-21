@@ -8,7 +8,6 @@ FROM localhost/buildstage:latest AS buildstage
 FROM localhost/rootfs-stage:latest AS rootfs-stage
 
 FROM scratch AS BASE
-ARG SUNSHINE_VERSION=0.20.0
 
 COPY --from=rootfs-stage /root-out/ /
 COPY --from=buildstage /build-out/ /
@@ -46,16 +45,12 @@ RUN set -x \
     mesa-libgbm \
     mesa-libGL \
     mesa-libOpenCL \
-    mesa-va-drivers-freeworld \
-    mesa-vdpau-drivers-freeworld \
+    # mesa-va-drivers-freeworld \
+    # mesa-vdpau-drivers-freeworld \
     # https://koji.rpmfusion.org/koji/packageinfo?packageID=650
-    # https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-va-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
-    # https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-vdpau-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
+    https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-va-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
+    https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-vdpau-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
     libva-utils \
-    vulkan \
-    vulkan-tools \
-    libva-vdpau-driver \
-    vdpauinfo \
     pulseaudio \
     pulseaudio-utils \
     util-linux \
@@ -63,11 +58,10 @@ RUN set -x \
     xauth \
     xkbcomp \
     xkeyboard-config \
-    xorg-x11-drv-nvidia-libs \
-    xorg-x11-drv-nvidia-cuda-libs \
     ffmpeg \
     libjpeg-turbo \
     libwebp \
+    libXdmcp \
     libXfont2 \
     libxshmfence \
     pixman \
@@ -86,13 +80,7 @@ RUN set -x \
     xfconf \
     xfdesktop \
     xfwm4 \
-    \
-    # custom
-    https://github.com/LizardByte/Sunshine/releases/download/v$SUNSHINE_VERSION/sunshine-fedora-$(rpm -E %fedora)-amd64.rpm \
-    brave-browser \
-    steam \
-    lutris \
-    xdg-user-dirs \
+    flatpak \
   \
   && dnf autoremove -y \
   && dnf clean all \
@@ -102,20 +90,6 @@ RUN set -x \
   && rm -f \
     /etc/xdg/autostart/xfce-polkit.desktop
 
-# Patch nvidia driver for sunshine
-RUN set -x \
-  \
-  && git clone https://github.com/keylase/nvidia-patch.git nvidia-patch \
-  # patch script forces check on nvidia-smi even if we are specifying a driver version
-  # this is a hack to bypass it
-  && touch /usr/bin/nvidia-smi \
-  && ./nvidia-patch/patch.sh -d $(rpm -q --queryformat "%{VERSION}" xorg-x11-drv-nvidia-cuda-libs) \
-  && ./nvidia-patch/patch-fbc.sh -d $(rpm -q --queryformat "%{VERSION}" xorg-x11-drv-nvidia-cuda-libs) \
-  && rm -r \
-    /usr/bin/nvidia-smi\
-    nvidia-patch \
-    /opt/nvidia
-
 COPY /root /
 
 ENV \
@@ -124,8 +98,8 @@ ENV \
   USER=kasm-user \
   UID=1000 \
   HOME=/home/kasm-user \
-  XDG_RUNTIME_DIR=/tmp/.X11-unix \
   DISPLAY=:1 \
-  DEVICE=/dev/dri/renderD128
+  DEVICE=/dev/dri/renderD128 \
+  XDG_RUNTIME_DIR=/run/user/1000
 
 ENTRYPOINT ["/init"]
