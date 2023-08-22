@@ -10,6 +10,12 @@ RUN set -x \
     https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
   && dnf install -y --setopt=install_weak_deps=False --best \
     git-core \
+    mesa-dri-drivers \
+    # mesa-va-drivers-freeworld \
+    # mesa-vdpau-drivers-freeworld \
+    # https://koji.rpmfusion.org/koji/packageinfo?packageID=650
+    https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-va-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
+    https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-vdpau-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
     xorg-x11-drv-nvidia-libs \
     xorg-x11-drv-nvidia-cuda-libs \
     https://github.com/LizardByte/Sunshine/releases/download/v$SUNSHINE_VERSION/sunshine-fedora-$(rpm -E %fedora)-amd64.rpm \

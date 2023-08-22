@@ -35,7 +35,7 @@ podman run -it --rm --security-opt label=disable \
     key_rightalt_to_key_win=enabled \
     origin_pin_allowed=wan \
     origin_web_ui_allowed=pc \
-    adapter_name=$/dev/dri/renderD128 \
+    adapter_name=/dev/dri/renderD128 \
     upnp=off
 
 podman stop sunshine
