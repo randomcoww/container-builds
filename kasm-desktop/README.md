@@ -33,7 +33,7 @@ TMPDIR=$(pwd)/tmp podman pull $TAG
 
 mkdir -p kasm-home
 USER=kasm-user
-UID=10000
+UID="10000"
 
 podman run -it --rm --security-opt label=disable \
   --name kasm-desktop \
