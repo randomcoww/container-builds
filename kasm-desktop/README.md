@@ -27,6 +27,12 @@ podman push $TAG
 
 ### Run
 
+Flatpak issues:
+- https://discussion.fedoraproject.org/t/cannot-run-flatpaks-in-a-fedora-container/73867
+- https://github.com/flatpak/flatpak/issues/5076
+
+Use custom flatpak build without malcontent [here](../flatpak)
+
 ```bash
 mkdir -p tmp
 TMPDIR=$(pwd)/tmp podman pull $TAG

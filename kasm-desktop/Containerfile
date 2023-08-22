@@ -81,6 +81,8 @@ RUN set -x \
     xfdesktop \
     xfwm4 \
     flatpak \
+    brave-browser \
+    strace \
   \
   && dnf autoremove -y \
   && dnf clean all \
