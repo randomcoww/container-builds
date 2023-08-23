@@ -8,6 +8,8 @@ ARG USER=podman
 ARG UID=1000
 ARG ARCH=amd64
 
+COPY custom.repo /etc/yum.repos.d/
+
 RUN set -x \
   \
   && rpm --setcaps shadow-utils 2>/dev/null \
@@ -27,17 +29,19 @@ RUN set -x \
     lsof \
     ldns-utils \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
+    kubectl \
+    helm \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
   \
+  && curl -L https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc \
+  && chmod +x /usr/local/bin/mc \
+  \
   && useradd $USER -m -u $UID \
-  && echo -e "$USER:1:$(( $UID - 1 ))" > /etc/subuid \
-	&& echo -e "$USER:$(( $UID + 1 )):64535" >> /etc/subuid \
-  && echo -e "$USER:1:$(( $UID - 1 ))" > /etc/subgid \
-	&& echo -e "$USER:$(( $UID + 1 )):64535" >> /etc/subgid \
+  && echo -e "$USER:100000:65536" | tee /etc/subuid /etc/subgid \
   && usermod -G wheel $USER \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 

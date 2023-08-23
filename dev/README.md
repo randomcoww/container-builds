@@ -3,9 +3,9 @@
 ```bash
 ALPINE_VERSION=latest
 FEDORA_VERSION=latest
-CODE_VERSION=4.14.1
+CODE_VERSION=4.16.1
 USER=podman
-TAG=ghcr.io/randomcoww/dev:$(date -u +'%Y%m%d').5
+TAG=ghcr.io/randomcoww/dev:$(date -u +'%Y%m%d').1
 
 podman build \
   --build-arg FEDORA_VERSION=$FEDORA_VERSION \
