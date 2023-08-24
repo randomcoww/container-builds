@@ -11,6 +11,7 @@ RUN set -x \
     g++ \
     git-core \
   \
+  # build everything under /opt
   && curl -o nvidia.run \
     -LO https://download.nvidia.com/XFree86/Linux-${KERNEL_VERSION##*.}/$DRIVER_VERSION/NVIDIA-Linux-${KERNEL_VERSION##*.}-$DRIVER_VERSION.run \
   && chmod +x nvidia.run \
@@ -47,6 +48,7 @@ RUN set -x \
     --no-systemd \
     -j "$(getconf _NPROCESSORS_ONLN)" \
   \
+  # finish moving things where fedora expects them relative to /opt
   && mv /opt/usr/lib/gbm /opt/usr/lib64 \
   && mkdir -p \
     /opt/usr/lib/firmware \
@@ -56,13 +58,22 @@ RUN set -x \
   && cp -r /usr/lib/nvidia/. /opt/usr/lib64/nvidia \
   && cp -r /usr/lib/firmware/nvidia/. /opt/usr/lib/firmware/nvidia \
   && cp -r /usr/share/nvidia/. /opt/usr/share/nvidia \
-  && cp -r /etc/vulkan /etc/OpenCL /opt/etc
-
-RUN set -x \
+  && cp -r /etc/vulkan /etc/OpenCL /opt/etc \
+  # delete non nvidia specific libraries
+  && rm -f \
+    /opt/usr/lib64/libEGL.* \
+    /opt/usr/lib64/libGL.* \
+    /opt/usr/lib64/libGLdispatch.* \
+    /opt/usr/lib64/libGLESv1_CM.* \
+    /opt/usr/lib64/libGLESv2.* \
+    /opt/usr/lib64/libGLX.* \
+    /opt/usr/lib64/libGLdispatch.* \
+    /opt/usr/lib64/libOpenCL.* \
+    /opt/usr/lib64/libOpenGL.* \
   \
+  # patch libnvidia-encode and libnvidia-fbc libraries
   && ln -s /opt/usr/lib64/* /usr/lib64/ \
   && ln -s /opt/usr/bin/* /usr/bin \
-  # patch nvidia driver
   && git clone https://github.com/keylase/nvidia-patch.git nvidia-patch \
   && ./nvidia-patch/patch.sh -d $DRIVER_VERSION \
   && ./nvidia-patch/patch-fbc.sh -d $DRIVER_VERSION \
