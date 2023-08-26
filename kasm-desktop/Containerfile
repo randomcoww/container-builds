@@ -67,6 +67,7 @@ RUN set -x \
     libxshmfence \
     pixman \
     strace \
+    unzip \
     \
     # XFCE
     gtk-xfce-engine \
