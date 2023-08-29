@@ -296,13 +296,13 @@ RUN set -x \
     -a ${KERNEL_VERSION##*.} \
     --no-depmod \
     --kernelsourcedir /usr/src/kernels/$KERNEL_VERSION \
-  && mkdir -p /opt/modules \
-  && cp /var/lib/dkms/nvidia/$(rpm -q --queryformat "%{VERSION}" kmod-nvidia-latest-dkms)/$KERNEL_VERSION/${KERNEL_VERSION##*.}/module/* /opt/modules
+  && mkdir -p /build \
+  && cp /var/lib/dkms/nvidia/$(rpm -q --queryformat "%{VERSION}" kmod-nvidia-latest-dkms)/$KERNEL_VERSION/${KERNEL_VERSION##*.}/module/* /build
 
 FROM alpine:latest
 ARG KERNEL_VERSION
 
-COPY --from=BUILD /opt/modules /opt/lib/modules/$KERNEL_VERSION/kernel/drivers/video
+COPY --from=BUILD /build /opt/lib/modules/$KERNEL_VERSION/kernel/drivers/video
 
 RUN set -x \
   \
