@@ -1,6 +1,6 @@
 FROM fedora:latest AS BUILD
 
-ARG KERNEL_VERSION=6.4.11-200.fc38.x86_64
+ARG KERNEL_VERSION=6.4.12-200.fc38.x86_64
 ARG DRIVER_VERSION=535.98
 
 RUN set -x \
@@ -33,7 +33,6 @@ RUN set -x \
     --application-profile-path=/opt/usr/share/nvidia \
     --kernel-source-path=/usr/src/kernels/$KERNEL_VERSION \
     --kernel-install-path=/opt/usr/lib/modules/$KERNEL_VERSION/kernel/drivers/video \
-    --no-nvidia-modprobe \
     --no-rpms \
     --no-backup \
     --no-recursion \

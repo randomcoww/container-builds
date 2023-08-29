@@ -1,25 +1,23 @@
 ### Nvidia driver overlay
 
 ```bash
-KERNEL_VERSION=6.4.11-200.fc38.x86_64
+KERNEL_VERSION=6.4.12-200.fc38.x86_64
 DRIVER_VERSION=535.98
-TAG=ghcr.io/randomcoww/nvidia-overlay:$KERNEL_VERSION
+TAG=ghcr.io/randomcoww/nvidia-kmod:$KERNEL_VERSION
 
 mkdir -p tmp
-
 TMPDIR=$(pwd)/tmp podman build \
-  --build-arg DRIVER_VERSION=$DRIVER_VERSION \
   --build-arg KERNEL_VERSION=$KERNEL_VERSION \
-  -f dkms.Containerfile \
+  -f kmod.Containerfile \
   -t $TAG
 ```
 
 Deploy to COSA image
 
 ```bash
-mkdir -p 02nvidia
+mkdir -p 02nvidia/usr
 
 podman run --rm \
-  -v $(pwd)/02nvidia:/mnt \
-  $TAG cp -r /opt/. /mnt/
+  -v $(pwd)/02nvidia/usr:/mnt \
+  $TAG cp -r /opt/. /mnt
 ```
