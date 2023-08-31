@@ -1,9 +1,8 @@
-# based on https://github.com/containers/podman/blob/main/contrib/podmanimage/stable/Containerfile
-# replace iptables-legacy with iptables-nft
-ARG FEDORA_VERSION=latest
+ARG CUDA_VERSION=12.1.0-cudnn8-runtime-ubi9
 
-FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
+FROM docker.io/nvidia/cuda:$CUDA_VERSION
 ARG CODE_VERSION=4.16.1
+ARG HELM_VERSION=3.12.3
 ARG USER=podman
 ARG UID=1000
 ARG ARCH=amd64
@@ -14,11 +13,11 @@ RUN set -x \
   \
   && rpm --setcaps shadow-utils 2>/dev/null \
   && dnf install -y --setopt=install_weak_deps=False --best \
-    ca-certificates \
     podman \
+    sudo \
     fuse-overlayfs \
     git-core \
-    iproute-tc \
+    iproute \
     iptables-nft \
     gzip \
     tar \
@@ -27,17 +26,19 @@ RUN set -x \
     procps-ng \
     which \
     lsof \
-    ldns-utils \
     strace \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
     # kube client
     kubectl \
-    helm \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+  \
+  && curl -L -o helm.tar.gz https://get.helm.sh/helm-v$HELM_VERSION-linux-$ARCH.tar.gz \
+  && tar xzf helm.tar.gz -C /usr/bin --strip-components=1 linux-$ARCH/helm \
+  && rm helm.tar.gz \
   \
   && curl -L https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc \
   && chmod +x /usr/local/bin/mc \
