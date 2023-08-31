@@ -3,7 +3,7 @@
 ARG FEDORA_VERSION=latest
 
 FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
-ARG CODE_VERSION=4.14.1
+ARG CODE_VERSION=4.16.1
 ARG USER=podman
 ARG UID=1000
 ARG ARCH=amd64
@@ -29,6 +29,7 @@ RUN set -x \
     lsof \
     ldns-utils \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
+    # kube client
     kubectl \
     helm \
   --exclude \
@@ -45,8 +46,7 @@ RUN set -x \
   && usermod -G wheel $USER \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
-COPY containers.conf /etc/containers/containers.conf.d/10-override.conf
-COPY storage.conf /etc/containers/storage.conf.d/10-override.conf
+COPY /root /
 
 USER $USER
 ENTRYPOINT [ "code-server" ]
