@@ -43,6 +43,7 @@ podman push $TAG
 Setup tensorflow in environment https://www.tensorflow.org/install/pip
 
 ```bash
+!python3 --version
 !conda install -y -c conda-forge cudatoolkit=11.8.0
 !pip install nvidia-cudnn-cu11==8.6.0.163
 !pip install tensorflow==2.13.*
@@ -51,6 +52,7 @@ Setup tensorflow in environment https://www.tensorflow.org/install/pip
 Verify GPU
 
 ```bash
+!nvidia-smi
 import tensorflow as tf
 print(tf.config.list_physical_devices('GPU'))
 ```
