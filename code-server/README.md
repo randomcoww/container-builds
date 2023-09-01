@@ -22,12 +22,12 @@ podman push $TAG
 ```
 
 ```bash
-CUDA_VERSION=12.1.0-cudnn8-runtime-ubi9
+CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
 HELM_VERSION=3.12.3
 TAG=ghcr.io/randomcoww/code-server:cuda-$(date -u +'%Y%m%d').1
 
 TMPDIR=$(pwd)/tmp podman build \
-  --build-arg FEDORA_VERSION=$FEDORA_VERSION \
+  --build-arg CUDA_VERSION=$CUDA_VERSION \
   --build-arg CODE_VERSION=$CODE_VERSION \
   --build-arg USER=$USER \
   -f cuda.Containerfile \

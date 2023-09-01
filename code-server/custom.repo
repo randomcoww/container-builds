@@ -4,3 +4,10 @@ baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-$basearch
 enabled=1
 gpgcheck=0
 repo_gpgcheck=0
+
+[conda]
+name=Conda
+baseurl=https://repo.anaconda.com/pkgs/misc/rpmrepo/conda
+enabled=1
+gpgcheck=1
+gpgkey=https://repo.anaconda.com/pkgs/misc/gpgkeys/anaconda.asc

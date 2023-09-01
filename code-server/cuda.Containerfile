@@ -1,4 +1,4 @@
-ARG CUDA_VERSION=12.1.0-cudnn8-runtime-ubi9
+ARG CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
 
 FROM docker.io/nvidia/cuda:$CUDA_VERSION
 ARG CODE_VERSION=4.16.1
@@ -18,7 +18,6 @@ RUN set -x \
     fuse-overlayfs \
     git-core \
     iproute \
-    iptables-nft \
     gzip \
     tar \
     xz \
@@ -30,6 +29,9 @@ RUN set -x \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
     # kube client
     kubectl \
+    # python
+    python3-pip \
+    conda \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
@@ -46,7 +48,8 @@ RUN set -x \
   && useradd $USER -m -u $UID \
   && echo -e "$USER:100000:65536" | tee /etc/subuid /etc/subgid \
   && usermod -G wheel $USER \
-  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
+  && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d
 
 COPY /root /
 
