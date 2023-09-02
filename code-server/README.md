@@ -37,7 +37,7 @@ TMPDIR=$(pwd)/tmp podman build \
   -f tensorflow.Containerfile \
   -t $TAG . && \
 
-podman push $TAG
+TMPDIR=$(pwd)/tmp podman push $TAG
 ```
 
 Setup tensorflow in environment https://www.tensorflow.org/install/pip

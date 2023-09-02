@@ -14,6 +14,7 @@ RUN set -x \
   && rpm --setcaps shadow-utils 2>/dev/null \
   && dnf install -y --setopt=install_weak_deps=False --best \
     podman \
+    crun \
     sudo \
     fuse-overlayfs \
     git-core \
