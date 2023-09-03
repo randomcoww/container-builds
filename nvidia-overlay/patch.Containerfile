@@ -11,7 +11,7 @@ RUN set -x \
     git-core
 
 RUN set -x \
-  # patch nvidia driver
+  # patch nvidia driver #
   && git clone https://github.com/keylase/nvidia-patch.git nvidia-patch \
   # script forces check on nvidia-smi even when passing in a driver version. hack around it
   && touch /usr/bin/nvidia-smi \
@@ -22,7 +22,14 @@ RUN set -x \
     /opt/nvidia \
   && mkdir -p /build \
   && mv /usr/lib64/libnvidia-fbc.* /build \
-  && mv /usr/lib64/libnvidia-encode.* /build
+  && mv /usr/lib64/libnvidia-encode.* /build \
+  \
+  # missing symlinks #
+  && cd /usr/lib64 \
+  && ln -s \
+    libnvidia-vulkan-producer.so.$(rpm -q --queryformat "%{VERSION}" nvidia-driver-cuda-libs) \
+    libnvidia-vulkan-producer.so \
+  && mv libnvidia-vulkan-producer.so /build
 
 FROM alpine:latest
 
