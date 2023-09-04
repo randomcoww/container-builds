@@ -52,8 +52,8 @@ podman run -it --rm --security-opt label=disable \
   -e DEVICE=/dev/dri/renderD128 \
   -v $(pwd)/kasm-home:/home/$USER \
   --shm-size=1g \
-  --device /dev/dri \
-  --device /dev/kfd \
+  --device /dev/dri/renderD128 \
+  --device /dev/dri/card0 \
   -p 6901:6901/tcp \
   $TAG
 
