@@ -282,9 +282,6 @@ COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \
   \
-  && dnf install -y \
-    https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-    https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
   && dnf install -y --setopt=install_weak_deps=False \
     kernel-devel-$KERNEL_VERSION \
     kmod-nvidia-latest-dkms
