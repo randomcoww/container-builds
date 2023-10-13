@@ -14,6 +14,9 @@ RUN set -x \
   && rpm --setcaps shadow-utils 2>/dev/null \
   && dnf install -y --setopt=install_weak_deps=False --best \
     podman \
+    podman-plugins \
+    netavark \
+    aardvark-dns \
     crun \
     sudo \
     fuse-overlayfs \
@@ -28,9 +31,7 @@ RUN set -x \
     lsof \
     strace \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
-    # kube client
     kubectl \
-    # python
     conda \
   --exclude \
     container-selinux \

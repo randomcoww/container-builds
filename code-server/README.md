@@ -1,7 +1,7 @@
 ### Image build
 
 ```bash
-CODE_VERSION=4.16.1
+CODE_VERSION=4.17.1
 USER=podman
 
 mkdir -p tmp
@@ -27,7 +27,7 @@ UBI8 With CUDA and cuDNN support for tensorflow
 
 ```bash
 CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
-HELM_VERSION=3.12.3
+HELM_VERSION=3.13.1
 TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').1-tensorflow
 
 TMPDIR=$(pwd)/tmp podman build \
