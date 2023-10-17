@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bash
+
+set -xe
+
+mkdir -p $HOME
+chown $UID:$UID $HOME
+
+useradd $USER -d $HOME -m -u $UID
+usermod -G wheel $USER
+echo -e "$USER:100000:65536" | tee /etc/subuid /etc/subgid
+
+s6-setuidgid $USER \
+  cp -r /etc/skel/. $HOME

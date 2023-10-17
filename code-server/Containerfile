@@ -1,6 +1,9 @@
+# s6 from https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
 # based on https://github.com/containers/podman/blob/main/contrib/podmanimage/stable/Containerfile
 # replace iptables-legacy with iptables-nft
 ARG FEDORA_VERSION=latest
+
+FROM localhost/rootfs-stage:latest AS rootfs-stage
 
 FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
 ARG CODE_VERSION=4.16.1
@@ -8,6 +11,7 @@ ARG USER=podman
 ARG UID=1000
 ARG ARCH=amd64
 
+COPY --from=rootfs-stage /root-out/ /
 COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \
@@ -16,6 +20,8 @@ RUN set -x \
   && dnf install -y --setopt=install_weak_deps=False --best \
     ca-certificates \
     podman \
+    podman-plugins \
+    containernetworking-plugins \
     fuse-overlayfs \
     git-core \
     iproute-tc \
@@ -42,12 +48,17 @@ RUN set -x \
   && curl -L https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc \
   && chmod +x /usr/local/bin/mc \
   \
-  && useradd $USER -m -u $UID \
-  && echo -e "$USER:100000:65536" | tee /etc/subuid /etc/subgid \
-  && usermod -G wheel $USER \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 COPY /root /
 
-USER $USER
-ENTRYPOINT [ "code-server" ]
+ENV \
+  S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+  S6_VERBOSITY=1 \
+  USER=podman \
+  UID=1000 \
+  HOME=/home/podman \
+  LANG=C.UTF-8 \
+  CODE_PORT=8080
+
+ENTRYPOINT ["/init"]

@@ -1,5 +1,8 @@
 ARG CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
 
+# s6 from https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
+FROM localhost/rootfs-stage:latest AS rootfs-stage
+
 FROM docker.io/nvidia/cuda:$CUDA_VERSION
 ARG CODE_VERSION=4.16.1
 ARG HELM_VERSION=3.12.3
@@ -7,6 +10,7 @@ ARG USER=podman
 ARG UID=1000
 ARG ARCH=amd64
 
+COPY --from=rootfs-stage /root-out/ /
 COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \
@@ -15,6 +19,7 @@ RUN set -x \
   && dnf install -y --setopt=install_weak_deps=False --best \
     podman \
     podman-plugins \
+    containernetworking-plugins \
     netavark \
     aardvark-dns \
     crun \
@@ -46,13 +51,18 @@ RUN set -x \
   && curl -L https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc \
   && chmod +x /usr/local/bin/mc \
   \
-  && useradd $USER -m -u $UID \
-  && echo -e "$USER:100000:65536" | tee /etc/subuid /etc/subgid \
-  && usermod -G wheel $USER \
-  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
-  && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d
+  && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d \
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 COPY /root /
 
-USER $USER
-ENTRYPOINT [ "code-server" ]
+ENV \
+  S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+  S6_VERBOSITY=1 \
+  USER=podman \
+  UID=1000 \
+  HOME=/home/podman \
+  LANG=C.UTF-8 \
+  CODE_PORT=8080
+
+ENTRYPOINT ["/init"]
