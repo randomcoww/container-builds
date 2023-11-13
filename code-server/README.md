@@ -2,7 +2,7 @@
 
 ```bash
 FEDORA_VERSION=38
-CODE_VERSION=4.17.1
+CODE_VERSION=4.18.0
 
 mkdir -p tmp
 ```
