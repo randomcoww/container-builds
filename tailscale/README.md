@@ -3,8 +3,8 @@ Tailscale without legacy iptables dependency
 ### Image build
 
 ```bash
-GO_VERSION=1.20
-VERSION=1.44.0
+GO_VERSION=1.21
+VERSION=1.52.1
 TAG=ghcr.io/randomcoww/tailscale:$VERSION
 
 podman build \
