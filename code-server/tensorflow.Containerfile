@@ -4,8 +4,8 @@ ARG CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
 FROM localhost/rootfs-stage:latest AS rootfs-stage
 
 FROM docker.io/nvidia/cuda:$CUDA_VERSION
-ARG CODE_VERSION=4.16.1
-ARG HELM_VERSION=3.12.3
+ARG CODE_VERSION=4.18.0
+ARG HELM_VERSION=3.13.1
 ARG USER=podman
 ARG UID=1000
 ARG ARCH=amd64
@@ -38,6 +38,9 @@ RUN set -x \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
     kubectl \
     conda \
+    rsync \
+    unrar \
+    unzip \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
