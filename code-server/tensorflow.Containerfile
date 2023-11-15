@@ -39,7 +39,7 @@ RUN set -x \
     kubectl \
     conda \
     rsync \
-    unrar \
+    unar \
     unzip \
   --exclude \
     container-selinux \
