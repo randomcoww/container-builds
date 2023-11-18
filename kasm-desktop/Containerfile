@@ -34,6 +34,8 @@ RUN set -x \
     gzip \
     tar \
     xz \
+    unar \
+    unzip \
     jq \
     which \
     lsof \
@@ -47,6 +49,10 @@ RUN set -x \
     mesa-libOpenCL \
     mesa-va-drivers-freeworld \
     mesa-vdpau-drivers-freeworld \
+    mesa-vulkan-drivers \
+    xorg-x11-drv-amdgpu \
+    vulkan \
+    vulkan-tools \
     intel-media-driver \
     # https://koji.rpmfusion.org/koji/packageinfo?packageID=650
     # https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-va-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
@@ -86,6 +92,7 @@ RUN set -x \
     glibc-all-langpacks \
     bash-completion \
     flatpak \
+    glx-utils \
   \
   && dnf autoremove -y \
   && dnf clean all \
