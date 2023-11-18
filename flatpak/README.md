@@ -3,9 +3,10 @@
 Build without malcontent
 
 ```bash
-FEDORA_VERSION=38
+FEDORA_VERSION=39
 
-podman build \
+mkdir -p tmp
+TMPDIR=$(pwd)/tmp podman build \
   --build-arg FEDORA_VERSION=$FEDORA_VERSION \
   -f rpmbuild.Containerfile \
   -t flatpak:latest

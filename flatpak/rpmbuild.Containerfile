@@ -14,9 +14,9 @@ RUN set -x \
   \
   && mkdir -p $HOME/rpmbuild/ \
   && cd $HOME/rpmbuild \
-  && git clone -b main https://src.fedoraproject.org/rpms/flatpak.git SOURCES/ \
+  && git clone -b f$(rpm -E %fedora) https://src.fedoraproject.org/rpms/flatpak.git SOURCES/ \
   && cd SOURCES \
   && spectool -gR flatpak.spec \
   && dnf builddep -y flatpak.spec \
   && rpmbuild -bb flatpak.spec \
-    --without malcontent \
+    --without malcontent

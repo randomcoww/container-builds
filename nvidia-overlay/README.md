@@ -1,7 +1,7 @@
 ### Nvidia driver overlay
 
 ```bash
-KERNEL_VERSION=6.4.15-200.fc38.x86_64
+KERNEL_VERSION=6.5.11-300.fc39.x86_64
 TAG=ghcr.io/randomcoww/nvidia-kmod:$KERNEL_VERSION
 
 mkdir -p tmp
