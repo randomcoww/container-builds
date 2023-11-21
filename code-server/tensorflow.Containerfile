@@ -15,6 +15,7 @@ COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \
   \
+  && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
   && rpm --setcaps shadow-utils 2>/dev/null \
   && dnf install -y --setopt=install_weak_deps=False --best \
     podman \

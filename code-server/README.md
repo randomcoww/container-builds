@@ -1,7 +1,7 @@
 ### Image build
 
 ```bash
-FEDORA_VERSION=39
+FEDORA_VERSION=latest
 CODE_VERSION=4.18.0
 
 mkdir -p tmp
@@ -17,21 +17,6 @@ podman build \
   --target rootfs-stage \
   -f docker-baseimage-fedora/Dockerfile \
   -t rootfs-stage
-```
-
-Fedora
-
-```bash
-TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').1
-
-TMPDIR=$(pwd)/tmp podman build \
-  --build-arg FEDORA_VERSION=$FEDORA_VERSION \
-  --build-arg CODE_VERSION=$CODE_VERSION \
-  --build-arg USER=$USER \
-  -f Containerfile \
-  -t $TAG . && \
-
-TMPDIR=$(pwd)/tmp podman push $TAG
 ```
 
 UBI8 With CUDA and cuDNN support for tensorflow
