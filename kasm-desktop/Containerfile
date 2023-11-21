@@ -54,9 +54,6 @@ RUN set -x \
     vulkan \
     vulkan-tools \
     intel-media-driver \
-    # https://koji.rpmfusion.org/koji/packageinfo?packageID=650
-    # https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-va-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
-    # https://koji.rpmfusion.org/kojifiles/packages/mesa-freeworld/23.1.6/1.fc38/x86_64/mesa-vdpau-drivers-freeworld-23.1.6-1.fc38.x86_64.rpm \
     libva-utils \
     pulseaudio \
     pulseaudio-utils \
@@ -91,8 +88,9 @@ RUN set -x \
     xfwm4 \
     glibc-all-langpacks \
     bash-completion \
-    flatpak \
     glx-utils \
+    VirtualGL \
+    flatpak \
   \
   && dnf autoremove -y \
   && dnf clean all \

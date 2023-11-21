@@ -17,6 +17,15 @@ autorefresh=1
 gpgcheck=0
 baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
 
+[nvidia]
+name=nvidia
+type=rpm-md
+baseurl=https://developer.download.nvidia.com/compute/cuda/repos/fedora37/$basearch
+enabled=1
+gpgcheck=0
+module_hotfixes=1
+priority=10
+
 [custom]
 name=custom
 type=rpm-md
