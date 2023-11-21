@@ -54,7 +54,7 @@ RUN set -x \
   && curl -L https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc \
   && chmod +x /usr/local/bin/mc \
   \
-  && ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d \
+  && ln -sf /opt/conda/etc/profile.d/conda.sh /etc/profile.d \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 COPY /root /

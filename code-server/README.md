@@ -1,7 +1,7 @@
 ### Image build
 
 ```bash
-FEDORA_VERSION=38
+FEDORA_VERSION=39
 CODE_VERSION=4.18.0
 
 mkdir -p tmp
