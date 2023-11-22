@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv bash
+
+exec s6-setuidgid $USER \
+  sunshine \
+    key_rightalt_to_key_win=enabled \
+    origin_pin_allowed=wan \
+    origin_web_ui_allowed=pc \
+    adapter_name=$DEVICE \
+    upnp=off

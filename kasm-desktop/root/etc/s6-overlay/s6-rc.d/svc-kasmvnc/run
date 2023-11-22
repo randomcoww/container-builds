@@ -10,7 +10,7 @@ exec s6-setuidgid $USER \
     -AlwaysShared \
     -http-header Cross-Origin-Embedder-Policy=require-corp \
     -http-header Cross-Origin-Opener-Policy=same-origin \
-    -geometry 1920x1080 \
+    -geometry $RESOLUTION \
     -sslOnly 0 \
     -RectThreads 0 \
     -websocketPort 6901 \

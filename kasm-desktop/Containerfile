@@ -8,6 +8,7 @@ FROM localhost/buildstage:latest AS buildstage
 FROM localhost/rootfs-stage:latest AS rootfs-stage
 
 FROM scratch AS BASE
+ARG SUNSHINE_VERSION=0.21.0
 
 COPY --from=rootfs-stage /root-out/ /
 COPY --from=buildstage /build-out/ /
@@ -92,6 +93,13 @@ RUN set -x \
     glx-utils \
     VirtualGL \
     flatpak \
+    https://github.com/LizardByte/Sunshine/releases/download/v$SUNSHINE_VERSION/sunshine-fedora-$(rpm -E %fedora)-amd64.rpm \
+    \
+    # Nvidia
+    libglvnd-egl \
+    gstreamer1-plugins-bad-free \
+    nvidia-drivers \
+    nvidia-vaapi-driver \
   \
   && dnf autoremove -y \
   && dnf clean all \
@@ -109,9 +117,10 @@ ENV \
   USER=kasm-user \
   UID=1000 \
   HOME=/home/kasm-user \
-  DISPLAY=:1 \
+  DISPLAY=:0 \
   DEVICE=/dev/dri/renderD128 \
   XDG_RUNTIME_DIR=/run/user/1000 \
-  LANG=C.UTF-8
+  LANG=C.UTF-8 \
+  RESOLUTION=2560x1600
 
 ENTRYPOINT ["/init"]

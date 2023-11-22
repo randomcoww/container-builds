@@ -2,7 +2,7 @@
 
 ```bash
 mkdir -p tmp
-FEDORA_VERSION=39
+FEDORA_VERSION=38
 TAG=ghcr.io/randomcoww/kasm-desktop:$(date -u +'%Y%m%d').3
 
 git clone -b fedora$FEDORA_VERSION https://github.com/linuxserver/docker-baseimage-kasmvnc.git
