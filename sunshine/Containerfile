@@ -1,0 +1,31 @@
+ARG FEDORA_VERSION=latest
+
+FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
+ARG SUNSHINE_VERSION=0.21.0
+
+COPY custom.repo /etc/yum.repos.d/
+
+RUN set -x \
+  \
+  && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
+  && dnf install -y \
+    https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
+  && dnf install -y --setopt=install_weak_deps=False --best \
+    mesa-dri-drivers \
+    mesa-va-drivers-freeworld \
+    mesa-vdpau-drivers-freeworld \
+    libglvnd-egl \
+    gstreamer1-plugins-bad-free \
+    nvidia-drivers \
+    https://github.com/LizardByte/Sunshine/releases/download/v$SUNSHINE_VERSION/sunshine-fedora-$(rpm -E %fedora)-amd64.rpm \
+  && dnf install -y --setopt=install_weak_deps=False --best \
+    nvidia-vaapi-driver --repo=rpmfusion-nonfree-updates \
+  \
+  && dnf autoremove -y \
+  && dnf clean all \
+  && rm -rf /var/cache /var/log/dnf* /var/log/yum.*
+
+COPY apps.json /root/.config/sunshine/apps.json
+
+ENTRYPOINT ["sunshine"]
