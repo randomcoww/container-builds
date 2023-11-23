@@ -1,0 +1,11 @@
+{
+    "apps": [
+      {
+        "image-path": "desktop.png",
+        "name": "Desktop"
+      }
+    ],
+    "env": {
+      "PATH": "$(PATH):$(HOME)/.local/bin"
+    }
+}
