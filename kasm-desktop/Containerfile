@@ -115,9 +115,8 @@ ENV \
   UID=1000 \
   HOME=/home/kasm-user \
   DISPLAY=:0 \
-  DEVICE=/dev/dri/renderD128 \
   XDG_RUNTIME_DIR=/run/user/1000 \
   LANG=C.UTF-8 \
-  RESOLUTION=2560x1600
+  RESOLUTION=1920x1080
 
 ENTRYPOINT ["/init"]
