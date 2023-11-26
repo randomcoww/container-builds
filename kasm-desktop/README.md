@@ -25,38 +25,3 @@ TMPDIR=$(pwd)/tmp podman build \
 
 TMPDIR=$(pwd)/tmp podman push $TAG
 ```
-
-### Run
-
-Flatpak issues:
-- https://discussion.fedoraproject.org/t/cannot-run-flatpaks-in-a-fedora-container/73867
-- https://github.com/flatpak/flatpak/issues/5076
-
-Use custom flatpak build without malcontent [here](../flatpak)
-
-```bash
-mkdir -p tmp
-TMPDIR=$(pwd)/tmp podman pull $TAG
-
-mkdir -p kasm-home
-USER=kasm-user
-UID="10000"
-
-podman run -it --rm --security-opt label=disable \
-  --name kasm-desktop \
-  --cap-add CAP_AUDIT_WRITE \
-  -e USER=$USER \
-  -e HOME=/home/$USER \
-  -e UID=$UID \
-  -e XDG_RUNTIME_DIR=/run/user/$UID \
-  -e DISPLAY=:1 \
-  -e DEVICE=/dev/dri/renderD128 \
-  -v $(pwd)/kasm-home:/home/$USER \
-  --shm-size=1g \
-  --device /dev/dri/renderD128 \
-  --device /dev/dri/card0 \
-  -p 6901:6901/tcp \
-  $TAG
-
-podman stop kasm-desktop
-```
