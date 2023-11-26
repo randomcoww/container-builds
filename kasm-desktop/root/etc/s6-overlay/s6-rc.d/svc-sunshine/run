@@ -1,12 +1,13 @@
 #!/usr/bin/with-contenv bash
 
-FILES=$(find /dev/dri -type c -print 2>/dev/null)
+FILES=$(find /dev/dri/renderD* -type c -print 2>/dev/null)
 
 for i in $FILES
 do
   vainfo --display drm --device ${i}
-  if [ $? -ne 0 ]; then
+  if [ $? -eq 0 ]; then
     DRINODE="${i}"
+    break
   fi
 done
 
