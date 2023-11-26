@@ -30,7 +30,6 @@ TMPDIR=$(pwd)/tmp podman build \
   --build-arg CUDA_VERSION=$CUDA_VERSION \
   --build-arg CODE_VERSION=$CODE_VERSION \
   --build-arg USER=$USER \
-  -f tensorflow.Containerfile \
   -t $TAG . && \
 
 TMPDIR=$(pwd)/tmp podman push $TAG
