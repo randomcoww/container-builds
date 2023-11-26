@@ -71,4 +71,4 @@ ENV \
   CODE_PORT=8080
 
 ENTRYPOINT ["/init"]
-CMD ["/etc/s6-overlay/s6-rc.d/svc-codeserver/run"]
+CMD ["/entrypoint.sh"]
