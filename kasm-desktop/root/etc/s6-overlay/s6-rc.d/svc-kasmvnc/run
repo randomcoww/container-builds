@@ -1,5 +1,19 @@
 #!/usr/bin/with-contenv bash
 
+FILES=$(find /dev/dri -type c -print 2>/dev/null)
+
+for i in $FILES
+do
+  vainfo --display drm --device ${i}
+  if [ $? -ne 0 ]; then
+    DRINODE="${i}"
+  fi
+done
+
+if [ -z "${DRINODE}" ]; then
+  exit 1
+fi
+
 exec s6-setuidgid $USER \
   /usr/local/bin/Xvnc $DISPLAY \
     -hw3d \
