@@ -3,6 +3,6 @@
 exec s6-setuidgid $USER \
   sunshine \
     key_rightalt_to_key_win=enabled \
-    origin_pin_allowed=wan \
+    adapter_name=$DRINODE \
     origin_web_ui_allowed=pc \
     upnp=off

@@ -116,6 +116,7 @@ ENV \
   UID=1000 \
   HOME=/home/kasm-user \
   DISPLAY=:0 \
+  DRINODE \
   XDG_RUNTIME_DIR=/run/user/1000 \
   LANG=C.UTF-8 \
   RESOLUTION=1920x1080

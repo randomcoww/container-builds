@@ -1,11 +1,9 @@
 #!/usr/bin/with-contenv bash
 
-DEVICE=$(ls /dev/dri/renderD* | head -n 1)
-
 exec s6-setuidgid $USER \
   /usr/local/bin/Xvnc $DISPLAY \
     -hw3d \
-    -drinode $DEVICE \
+    -drinode $DRINODE \
     -PublicIP 127.0.0.1 \
     -disableBasicAuth \
     -SecurityTypes None \

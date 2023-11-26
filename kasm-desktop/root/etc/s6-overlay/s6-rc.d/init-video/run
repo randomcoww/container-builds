@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+
+set -xe
+
+FILES=$(find /dev/dri -type c -print 2>/dev/null)
+
+for i in $FILES
+do
+  vainfo --display drm --device ${i}
+  DRINODE="${i}"
+  exit 0
+done
+
+exit 1
