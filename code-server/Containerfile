@@ -6,8 +6,6 @@ FROM localhost/rootfs-stage:latest AS rootfs-stage
 FROM docker.io/nvidia/cuda:$CUDA_VERSION
 ARG CODE_VERSION=4.18.0
 ARG HELM_VERSION=3.13.1
-ARG USER=podman
-ARG UID=1000
 ARG ARCH=amd64
 
 COPY --from=rootfs-stage /root-out/ /
@@ -42,6 +40,7 @@ RUN set -x \
     rsync \
     unar \
     unzip \
+    ldns-utils \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
@@ -52,7 +51,7 @@ RUN set -x \
   && tar xzf helm.tar.gz -C /usr/bin --strip-components=1 linux-$ARCH/helm \
   && rm helm.tar.gz \
   \
-  && curl -L https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc \
+  && curl -L https://dl.min.io/client/mc/release/linux-$ARCH/mc -o /usr/local/bin/mc \
   && chmod +x /usr/local/bin/mc \
   \
   && ln -sf /opt/conda/etc/profile.d/conda.sh /etc/profile.d \

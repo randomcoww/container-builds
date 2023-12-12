@@ -10,6 +10,13 @@ gpgkey=file:///usr/share/distribution-gpg-keys/fedora/RPM-GPG-KEY-fedora-$releas
 skip_if_unavailable=False
 includepkgs=mesa-*
 
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-$basearch
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+
 [brave-browser]
 name=Brave Browser
 enabled=1

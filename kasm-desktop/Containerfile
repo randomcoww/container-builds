@@ -9,6 +9,9 @@ FROM localhost/rootfs-stage:latest AS rootfs-stage
 
 FROM scratch AS BASE
 ARG SUNSHINE_VERSION=0.21.0
+ARG HELM_VERSION=3.13.1
+ARG HEROIC_VERSION=2.11.0
+ARG ARCH=amd64
 
 COPY --from=rootfs-stage /root-out/ /
 COPY --from=buildstage /build-out/ /
@@ -73,6 +76,8 @@ RUN set -x \
     pixman \
     strace \
     unzip \
+    kubectl \
+    rsync \
     \
     # XFCE
     gtk-xfce-engine \
@@ -92,15 +97,22 @@ RUN set -x \
     bash-completion \
     glx-utils \
     VirtualGL \
-    https://github.com/LizardByte/Sunshine/releases/download/v$SUNSHINE_VERSION/sunshine-fedora-$(rpm -E %fedora)-amd64.rpm \
+    https://github.com/LizardByte/Sunshine/releases/download/v$SUNSHINE_VERSION/sunshine-fedora-$(rpm -E %fedora)-$ARCH.rpm \
     brave-browser \
     steam \
-    godot \
-    blender \
+    lutris \
+    https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v$HEROIC_VERSION/heroic-$HEROIC_VERSION.$(arch).rpm \
   \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+  \
+  && curl -L -o helm.tar.gz https://get.helm.sh/helm-v$HELM_VERSION-linux-$ARCH.tar.gz \
+  && tar xzf helm.tar.gz -C /usr/bin --strip-components=1 linux-$ARCH/helm \
+  && rm helm.tar.gz \
+  \
+  && curl -L https://dl.min.io/client/mc/release/linux-$ARCH/mc -o /usr/local/bin/mc \
+  && chmod +x /usr/local/bin/mc \
   \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
   && rm -f \
@@ -115,9 +127,9 @@ ENV \
   USER=kasm-user \
   UID=1000 \
   HOME=/home/kasm-user \
+  LANG=C.UTF-8 \
   DISPLAY=:0 \
   XDG_RUNTIME_DIR=/run/user/1000 \
-  LANG=C.UTF-8 \
   RESOLUTION=1920x1080
 
 ENTRYPOINT ["/init"]
