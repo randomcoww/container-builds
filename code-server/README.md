@@ -1,10 +1,12 @@
 ### Image build
 
 ```bash
-FEDORA_VERSION=latest
-CODE_VERSION=4.18.0
-
 mkdir -p tmp
+FEDORA_VERSION=38
+CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
+CODE_VERSION=4.19.1
+HELM_VERSION=3.13.2
+TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').3-tensorflow
 ```
 
 S6 base image
@@ -22,14 +24,11 @@ podman build \
 UBI8 With CUDA and cuDNN support for tensorflow
 
 ```bash
-CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
-HELM_VERSION=3.13.1
-TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').3-tensorflow
 
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg CUDA_VERSION=$CUDA_VERSION \
   --build-arg CODE_VERSION=$CODE_VERSION \
-  --build-arg USER=$USER \
+  --build-arg HELM_VERSION=$HELM_VERSION \
   -t $TAG . && \
 
 TMPDIR=$(pwd)/tmp podman push $TAG
