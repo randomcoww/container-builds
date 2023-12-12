@@ -3,7 +3,6 @@
 ```bash
 mkdir -p tmp
 FEDORA_VERSION=38
-CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
 CODE_VERSION=4.19.1
 HELM_VERSION=3.13.2
 TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').3-tensorflow
@@ -26,7 +25,6 @@ UBI8 With CUDA and cuDNN support for tensorflow
 ```bash
 
 TMPDIR=$(pwd)/tmp podman build \
-  --build-arg CUDA_VERSION=$CUDA_VERSION \
   --build-arg CODE_VERSION=$CODE_VERSION \
   --build-arg HELM_VERSION=$HELM_VERSION \
   -t $TAG . && \
@@ -35,6 +33,15 @@ TMPDIR=$(pwd)/tmp podman push $TAG
 ```
 
 Setup tensorflow in environment https://www.tensorflow.org/install/pip
+
+Create conda environment:
+
+1. Select another kernel
+2. Python environments
+3. Create python environment
+4. Conda
+5. Select project path
+6. Select Python 3.11
 
 ```bash
 !python3 --version

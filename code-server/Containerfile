@@ -3,7 +3,9 @@ ARG CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
 # s6 from https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
 FROM localhost/rootfs-stage:latest AS rootfs-stage
 
-FROM docker.io/nvidia/cuda:$CUDA_VERSION
+# This hack overlays fedora rootfs on top of the cuda UBI image
+# FROM scratch AS BASE
+FROM nvcr.io/nvidia/cuda:$CUDA_VERSION
 ARG CODE_VERSION=4.18.0
 ARG HELM_VERSION=3.13.1
 ARG ARCH=amd64
@@ -22,10 +24,11 @@ RUN set -x \
     netavark \
     aardvark-dns \
     crun \
-    sudo \
     fuse-overlayfs \
+    sudo \
     git-core \
-    iproute \
+    iproute-tc \
+    iptables-nft \
     gzip \
     tar \
     xz \
@@ -54,6 +57,7 @@ RUN set -x \
   && curl -L https://dl.min.io/client/mc/release/linux-$ARCH/mc -o /usr/local/bin/mc \
   && chmod +x /usr/local/bin/mc \
   \
+  && ln -sf /usr/bin/python3 /usr/bin/python \
   && ln -sf /opt/conda/etc/profile.d/conda.sh /etc/profile.d \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
