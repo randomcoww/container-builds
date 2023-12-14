@@ -2,8 +2,7 @@
 
 ```bash
 mkdir -p tmp
-FEDORA_VERSION=38
-CODE_VERSION=4.19.1
+FEDORA_VERSION=39
 HELM_VERSION=3.13.2
 SUNSHINE_VERSION=0.21.0
 HEROIC_VERSION=2.11.0
@@ -26,7 +25,6 @@ TMPDIR=$(pwd)/tmp podman build \
 
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg SUNSHINE_VERSION=$SUNSHINE_VERSION \
-  --build-arg CODE_VERSION=$CODE_VERSION \
   --build-arg HELM_VERSION=$HELM_VERSION \
   --build-arg HEROIC_VERSION=$HEROIC_VERSION \
   -t $TAG . && \

@@ -4,15 +4,10 @@
 # https://github.com/linuxserver/docker-webtop/blob/fedora-xfce/Dockerfile
 # https://github.com/kasmtech/workspaces-core-images/blob/develop/dockerfile-kasm-core-fedora
 
-# ARG CUDA_VERSION=12.3.1-runtime-ubi9
-ARG CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
-
 FROM localhost/buildstage:latest AS buildstage
 FROM localhost/rootfs-stage:latest AS rootfs-stage
 
-# FROM scratch AS BASE
-FROM nvcr.io/nvidia/cuda:$CUDA_VERSION
-ARG CODE_VERSION=4.18.0
+FROM scratch AS BASE
 ARG SUNSHINE_VERSION=0.21.0
 ARG HELM_VERSION=3.13.1
 ARG HEROIC_VERSION=2.11.0
@@ -88,9 +83,19 @@ RUN set -x \
     bash-completion \
     glx-utils \
     VirtualGL \
-    # vscode server
-    https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
-    conda \
+    \
+    # f39 fonts
+    default-fonts-cjk-mono \
+    default-fonts-cjk-sans \
+    default-fonts-cjk-serif \
+    default-fonts-core-emoji \
+    default-fonts-core-math \
+    default-fonts-core-mono \
+    default-fonts-core-sans \
+    default-fonts-core-serif \
+    default-fonts-other-mono \
+    default-fonts-other-sans \
+    default-fonts-other-serif \
     \
     # podman
     podman \
@@ -140,8 +145,6 @@ RUN set -x \
   && curl -L https://dl.min.io/client/mc/release/linux-$ARCH/mc -o /usr/local/bin/mc \
   && chmod +x /usr/local/bin/mc \
   \
-  && ln -sf /usr/bin/python3 /usr/bin/python \
-  && ln -sf /opt/conda/etc/profile.d/conda.sh /etc/profile.d \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
   && rm -f \
     /etc/xdg/autostart/xfce-polkit.desktop
@@ -156,10 +159,8 @@ ENV \
   UID=1000 \
   HOME=/home/kasm-user \
   LANG=C.UTF-8 \
-  CODE_PORT=8080 \
   DISPLAY=:0 \
   XDG_RUNTIME_DIR=/run/user/1000 \
   RESOLUTION=1920x1080
 
 ENTRYPOINT ["/init"]
-CMD ["/entrypoint.sh"]
