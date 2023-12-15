@@ -6,6 +6,7 @@ FROM localhost/rootfs-stage:latest AS rootfs-stage
 # This hack overlays fedora rootfs on top of the cuda UBI image
 # FROM scratch AS BASE
 FROM nvcr.io/nvidia/cuda:$CUDA_VERSION
+ARG FEDORA_VERSION=39
 ARG CODE_VERSION=4.18.0
 ARG HELM_VERSION=3.13.1
 ARG ARCH=amd64
