@@ -10,7 +10,7 @@ ARG CODE_VERSION=4.18.0
 ARG HELM_VERSION=3.13.1
 ARG ARCH=amd64
 
-COPY --from=rootfs-stage /root-out/ /
+COPY --from=rootfs-stage:$FEDORA_VERSION /root-out/ /
 COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \

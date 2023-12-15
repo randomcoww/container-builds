@@ -2,7 +2,7 @@
 
 ```bash
 mkdir -p tmp
-FEDORA_VERSION=38
+FEDORA_VERSION=39
 CODE_VERSION=4.19.1
 HELM_VERSION=3.13.2
 TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').3-tensorflow
@@ -17,7 +17,7 @@ podman build \
   --build-arg FEDORA_VERSION=$FEDORA_VERSION \
   --target rootfs-stage \
   -f docker-baseimage-fedora/Dockerfile \
-  -t rootfs-stage
+  -t rootfs-stage:$FEDORA_VERSION
 ```
 
 UBI8 With CUDA and cuDNN support for tensorflow
@@ -25,6 +25,7 @@ UBI8 With CUDA and cuDNN support for tensorflow
 ```bash
 
 TMPDIR=$(pwd)/tmp podman build \
+  --build-arg FEDORA_VERSION=$FEDORA_VERSION \
   --build-arg CODE_VERSION=$CODE_VERSION \
   --build-arg HELM_VERSION=$HELM_VERSION \
   -t $TAG . && \
