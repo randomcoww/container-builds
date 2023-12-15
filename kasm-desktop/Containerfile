@@ -130,9 +130,6 @@ RUN set -x \
   --exclude \
     container-selinux \
   \
-  && dnf install -y --setopt=install_weak_deps=False --best --repo rpmfusion-nonfree-updates \
-    nvidia-vaapi-driver \
-  \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.*
