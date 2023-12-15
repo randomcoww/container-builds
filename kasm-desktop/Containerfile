@@ -4,18 +4,19 @@
 # https://github.com/linuxserver/docker-webtop/blob/fedora-xfce/Dockerfile
 # https://github.com/kasmtech/workspaces-core-images/blob/develop/dockerfile-kasm-core-fedora
 
-FROM localhost/buildstage:latest AS buildstage
-FROM localhost/rootfs-stage:latest AS rootfs-stage
+ARG FEDORA_VERSION=39
+
+FROM localhost/buildstage:$FEDORA_VERSION AS buildstage
+FROM localhost/rootfs-stage:$FEDORA_VERSION AS rootfs-stage
 
 FROM scratch AS BASE
-ARG FEDORA_VERSION=39
 ARG SUNSHINE_VERSION=0.21.0
 ARG HELM_VERSION=3.13.1
 ARG HEROIC_VERSION=2.11.0
 ARG ARCH=amd64
 
-COPY --from=rootfs-stage:$FEDORA_VERSION /root-out/ /
-COPY --from=buildstage:$FEDORA_VERSION /build-out/ /
+COPY --from=rootfs-stage /root-out/ /
+COPY --from=buildstage /build-out/ /
 COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \
