@@ -37,33 +37,11 @@ Setup tensorflow in environment https://www.tensorflow.org/install/pip
 
 Create conda environment:
 
-1. Select another kernel
+Open [env.ipynb](env.ipynb)
+
+1. Select kernel
 2. Python environments
 3. Create python environment
 4. Conda
 5. Select project path
 6. Select Python 3.11
-
-```bash
-!python3 --version
-!conda install -y -c conda-forge cudatoolkit=11.8.0
-!pip install nvidia-cudnn-cu11==8.6.0.163
-
-!CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))
-!export LD_LIBRARY_PATH=$CUDNN_PATH/lib:$CONDA_PREFIX/lib/:$LD_LIBRARY_PATH
-
-!mkdir -p $CONDA_PREFIX/etc/conda/activate.d
-!echo 'CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
-!echo 'export LD_LIBRARY_PATH=$CUDNN_PATH/lib:$CONDA_PREFIX/lib/:$LD_LIBRARY_PATH' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
-
-!pip install --upgrade pip
-!pip install tensorflow==2.13.*
-```
-
-Verify GPU
-
-```bash
-!nvidia-smi
-import tensorflow as tf
-print(tf.config.list_physical_devices('GPU'))
-```
