@@ -93,7 +93,7 @@
 #  kernel-headers                                                                x86_64                                       6.4.4-200.fc38                                                   updates                                                    1.5 M
 #  kmod                                                                          x86_64                                       30-4.fc38                                                        fedora                                                     120 k
 #  kmod-libs                                                                     x86_64                                       30-4.fc38                                                        fedora                                                      68 k
-#  kmod-nvidia-latest-dkms                                                       x86_64                                       3:535.86.10-1.fc37                                               cuda-fedora37-x86_64                                        43 M
+#  kmod-nvidia-open-dkms                                                       x86_64                                       3:535.86.10-1.fc37                                               cuda-fedora37-x86_64                                        43 M
 #  lame-libs                                                                     x86_64                                       3.100-14.fc38                                                    fedora                                                     337 k
 #  langpacks-core-font-en                                                        noarch                                       3.0-32.fc38                                                      updates                                                    9.6 k
 #  lcms2                                                                         x86_64                                       2.15-1.fc38                                                      fedora                                                     178 k
@@ -284,17 +284,17 @@ RUN set -x \
   \
   && dnf install -y --setopt=install_weak_deps=False \
     kernel-devel-$KERNEL_VERSION \
-    kmod-nvidia-latest-dkms
+    kmod-nvidia-open-dkms
 
 RUN set -x \
   \
-  && dkms build -m nvidia/$(rpm -q --queryformat "%{VERSION}" kmod-nvidia-latest-dkms) \
+  && dkms build -m nvidia-open/$(rpm -q --queryformat "%{VERSION}" kmod-nvidia-open-dkms) \
     -k $KERNEL_VERSION \
     -a ${KERNEL_VERSION##*.} \
     --no-depmod \
     --kernelsourcedir /usr/src/kernels/$KERNEL_VERSION \
   && mkdir -p /build \
-  && cp /var/lib/dkms/nvidia/$(rpm -q --queryformat "%{VERSION}" kmod-nvidia-latest-dkms)/$KERNEL_VERSION/${KERNEL_VERSION##*.}/module/* /build
+  && cp /var/lib/dkms/nvidia-open/$(rpm -q --queryformat "%{VERSION}" kmod-nvidia-open-dkms)/$KERNEL_VERSION/${KERNEL_VERSION##*.}/module/* /build
 
 FROM alpine:latest
 ARG KERNEL_VERSION
