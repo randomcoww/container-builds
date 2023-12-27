@@ -277,6 +277,7 @@
 
 FROM fedora:latest AS BUILD
 ARG KERNEL_VERSION
+ARG DRIVER_VERSION
 
 COPY custom.repo /etc/yum.repos.d/
 
@@ -284,7 +285,8 @@ RUN set -x \
   \
   && dnf install -y --setopt=install_weak_deps=False \
     kernel-devel-$KERNEL_VERSION \
-    kmod-nvidia-open-dkms
+    https://developer.download.nvidia.com/compute/cuda/repos/fedora37/$(arch)/kmod-nvidia-open-dkms-$DRIVER_VERSION-1.fc37.$(arch).rpm
+    # kmod-nvidia-open-dkms-$DRIVER_VERSION
 
 RUN set -x \
   \

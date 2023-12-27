@@ -2,11 +2,13 @@
 
 ```bash
 KERNEL_VERSION=6.6.8-200.fc39.x86_64
+DRIVER_VERSION=545.23.08
 TAG=ghcr.io/randomcoww/nvidia-kmod:$KERNEL_VERSION
 
 mkdir -p tmp
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg KERNEL_VERSION=$KERNEL_VERSION \
+  --build-arg DRIVER_VERSION=$DRIVER_VERSION \
   -f kmod.Containerfile \
   -t $TAG .
 
