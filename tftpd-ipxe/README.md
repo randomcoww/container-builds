@@ -23,7 +23,7 @@ Menu
 
 ```bash
 VERSION=master
-TAG=ghcr.io/randomcoww/tftpd-ipxe:$(date -u +'%Y%m%d')
+TAG=ghcr.io/randomcoww/tftpd-ipxe:$(date -u +'%Y%m%d').3
 
 podman build \
   --build-arg VERSION=$VERSION \
