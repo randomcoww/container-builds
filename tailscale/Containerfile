@@ -13,7 +13,7 @@ RUN set -x \
     https://github.com/tailscale/tailscale.git \
   && cd tailscale \
   && go install -v \
-    ./cmd/tailscale \
+    # ./cmd/tailscale \
     ./cmd/tailscaled \
     ./cmd/containerboot
 
@@ -26,9 +26,6 @@ RUN set -x \
     ca-certificates \
     iptables \
     iproute2 \
-    ip6tables \
-  \
-  && mkdir -p /tailscale \
-  && ln -s /usr/local/bin/containerboot /tailscale/run.sh
+    ip6tables
 
-ENTRYPOINT [ "/tailscale/run.sh" ]
+ENTRYPOINT [ "/usr/local/bin/containerboot" ]
