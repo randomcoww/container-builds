@@ -1,0 +1,21 @@
+ARG FEDORA_VERSION=38
+
+FROM registry.fedoraproject.org/fedora-toolbox:$FEDORA_VERSION  
+ARG HEROIC_VERSION=2.11.0
+ARG ARCH=amd64
+
+COPY custom.repo /etc/yum.repos.d/
+
+RUN set -x \
+  \
+  && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
+  && dnf install -y \
+    https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
+  && dnf install -y --setopt=install_weak_deps=False --best \
+    nvidia-drivers \
+    cuda-drivers \
+    vulkan-tools \
+    steam \
+    lutris \
+    https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v$HEROIC_VERSION/heroic-$HEROIC_VERSION.$(arch).rpm
