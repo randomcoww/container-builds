@@ -3,10 +3,11 @@
 #### Build binaries
 
 ```bash
-GO_VERSION=1.20
-VERSION=v1.27.1
+mkdir -p tmp
+GO_VERSION=1.21
+VERSION=v1.29.0
 
-podman build \
+TMPDIR=$(pwd)/tmp podman build \
   --build-arg VERSION=$VERSION \
   --build-arg GO_VERSION=$GO_VERSION \
   -f base.Containerfile \
@@ -16,16 +17,16 @@ podman build \
 #### Kubernetes components
 
 ```bash
-podman build \
+TMPDIR=$(pwd)/tmp podman build \
   --build-arg VERSION=$VERSION \
   --target kube-master \
-  -t ghcr.io/randomcoww/kubernetes:kube-master-$VERSION && \
+  -t ghcr.io/randomcoww/kubernetes:kube-master-$VERSION . && \
 
-podman build \
+TMPDIR=$(pwd)/tmp podman build \
   --build-arg VERSION=$VERSION \
   --target kube-proxy \
-  -t ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION && \
+  -t ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION . && \
 
-podman push ghcr.io/randomcoww/kubernetes:kube-master-$VERSION && \
-podman push ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION
+TMPDIR=$(pwd)/tmp podman push ghcr.io/randomcoww/kubernetes:kube-master-$VERSION && \
+TMPDIR=$(pwd)/tmp podman push ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION
 ```
