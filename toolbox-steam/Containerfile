@@ -17,5 +17,5 @@ RUN set -x \
     cuda-drivers \
     vulkan-tools \
     steam \
-    lutris \
+    lutris wine \
     https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v$HEROIC_VERSION/heroic-$HEROIC_VERSION.$(arch).rpm
