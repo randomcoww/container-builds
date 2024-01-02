@@ -13,7 +13,7 @@ S6 base image
 ```bash
 git clone -b master https://github.com/linuxserver/docker-baseimage-fedora.git
 
-podman build \
+TMPDIR=$(pwd)/tmp podman build \
   --build-arg FEDORA_VERSION=$FEDORA_VERSION \
   --target rootfs-stage \
   -f docker-baseimage-fedora/Dockerfile \
