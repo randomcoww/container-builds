@@ -24,9 +24,9 @@ RUN set -x \
   \
   && wget -O ca.crt https://ipxe.org/_media/certs/ca.crt \
   && CERT=ca.crt TRUST=ca.crt make -j "$(getconf _NPROCESSORS_ONLN)" \
+    bin-x86_64-efi/ipxe.efi \
     bin-x86_64-efi/snp.efi \
-    bin-x86_64-efi/snponly.efi \
-    bin-x86_64-efi/ipxe.efi
+    bin-x86_64-efi/snponly.efi
 
 FROM alpine:latest
 
