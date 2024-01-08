@@ -17,7 +17,7 @@ CGO_ENABLED=0 GO111MODULE=on GOOS=linux \
 
 ```bash
 VERSION=latest
-TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d')
+TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d').1
 
 podman build \
   --build-arg VERSION=$VERSION \

@@ -20,6 +20,6 @@ RUN set -x \
   \
   && apk add --no-cache \
 	  transmission-daemon \
-	  transmission-cli
+	  transmission-remote
 
 ENTRYPOINT ["transmission-daemon", "--foreground"]
