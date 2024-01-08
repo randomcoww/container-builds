@@ -36,6 +36,8 @@ RUN set -x \
     --enable-static=false \
   && make -j "$(getconf _NPROCESSORS_ONLN)" \
   && make install \
+## remove default configs
+  && rm /etc/kea/*.conf \
   \
 ## cleanup
   && cd / \
