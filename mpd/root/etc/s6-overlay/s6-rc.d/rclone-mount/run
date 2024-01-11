@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv sh
+
+mkdir -p $CACHE_MOUNT_PATH
+
+exec rclone mount \
+  :s3:$S3_CACHE_RESOURCE \
+  $CACHE_MOUNT_PATH \
+  --s3-provider=$S3_PROVIDER \
+  --s3-endpoint=$S3_ENDPOINT \
+  --allow-non-empty \
+  --vfs-cache-mode=$VFS_CACHE_MODE

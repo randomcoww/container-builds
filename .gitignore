@@ -2,3 +2,4 @@ tmp
 RPMS
 .conda
 docker-baseimage-fedora
+docker-baseimage-alpine
