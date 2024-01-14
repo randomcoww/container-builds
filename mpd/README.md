@@ -25,7 +25,7 @@ TMPDIR=$(pwd)/tmp podman build \
   --build-arg VERSION=$VERSION \
   --build-arg PATCH=$PATCH \
   -f s6.Containerfile \
-  -t $TAG . && \
+  -t $TAG && \
 
 TMPDIR=$(pwd)/tmp podman push $TAG
 ```
