@@ -3,9 +3,9 @@
 ```bash
 mkdir -p tmp
 FEDORA_VERSION=39
-CODE_VERSION=4.19.1
-HELM_VERSION=3.13.2
-TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').3-tensorflow
+CODE_VERSION=4.20.0
+HELM_VERSION=3.14.0
+TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').0-tensorflow
 ```
 
 S6 base image

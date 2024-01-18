@@ -45,6 +45,7 @@ RUN set -x \
     unar \
     unzip \
     ldns-utils \
+    s3fs-fuse \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
