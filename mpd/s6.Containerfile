@@ -68,7 +68,7 @@ RUN set -x \
       | sort -u \
       | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
   )" \
-  && apk add --virtual .mpd-rundeps $runDeps \
+  && apk add --no-cache --virtual .mpd-rundeps $runDeps \
   && apk add --no-cache \
     rclone \
     fuse3 \
