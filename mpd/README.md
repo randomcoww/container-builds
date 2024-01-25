@@ -3,7 +3,7 @@
 ```bash
 mkdir -p tmp
 VERSION=0.23
-PATCH=12
+PATCH=15
 TAG=ghcr.io/randomcoww/mpd:$VERSION.$PATCH
 
 TMPDIR=$(pwd)/tmp podman build \
