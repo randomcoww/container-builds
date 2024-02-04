@@ -41,6 +41,7 @@ RUN set -x \
 	&& echo "CONFIG_IEEE80211R=y" >> .config \
 	&& echo "CONFIG_FULL_DYNAMIC_VLAN=y" >> .config \
 	&& echo "CONFIG_ACS=y" >> .config \
+	&& echo "CONFIG_MBO=y" >> .config \
 	&& echo "CONFIG_SAE=y" >> .config \
   \
   && make -j "$(getconf _NPROCESSORS_ONLN)" install \
