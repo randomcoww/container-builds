@@ -5,7 +5,8 @@ ARG VERSION
 COPY . .
 
 RUN <<_EOF
-set -x
+set -xe
+
 apk add --no-cache --virtual .build-deps \
   libnl3-dev \
   openssl-dev \
