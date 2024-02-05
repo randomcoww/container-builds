@@ -23,7 +23,7 @@ rm hostapd.tar.gz
 cd /usr/src/hostapd/hostapd
 
 cp defconfig .config
-cat > .config <<EOT
+cat >> .config <<EOT
 CC ?= ${CC:-gcc}
 CFLAGS += -I/usr/include/libnl3
 LIBS += -L/usr/local/lib
