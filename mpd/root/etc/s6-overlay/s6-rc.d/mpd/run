@@ -3,12 +3,6 @@
 set -e
 
 mountpoint $CACHE_MOUNT_PATH
-mkdir -p $CACHE_MOUNT_PATH/playlists
-touch \
-  $CACHE_MOUNT_PATH/playlists/.keep \
-  $CACHE_MOUNT_PATH/tag_cache \
-  $CACHE_MOUNT_PATH/state \
-  $CACHE_MOUNT_PATH/sticker.sql
 
 exec mpd \
   --no-daemon \
