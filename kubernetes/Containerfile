@@ -9,8 +9,6 @@ COPY --from=BASE /usr/local/bin/kube-controller-manager /usr/local/bin/
 COPY --from=BASE /usr/local/bin/kube-scheduler /usr/local/bin/
 
 ## kube-proxy
-## https://github.com/kubernetes/kubernetes/blob/master/build/debian-iptables/Dockerfile
-# There is bug with iptables-nft-restore on alpine:edge. Use 3.11.
 FROM docker.io/alpine:edge AS kube-proxy
 
 COPY --from=BASE /usr/local/bin/kube-proxy /usr/local/bin/
@@ -18,10 +16,7 @@ RUN set -x \
   \
   && apk add --no-cache \
     conntrack-tools \
+    nftables \
     iptables \
     ipset \
-    kmod \
-  \
-  # kubelet expects some binaries at /usr/sbin
-  && ln -s /sbin/* /usr/sbin/ || true \
-  && ln -s /bin/* /usr/bin/ || true
+    kmod
