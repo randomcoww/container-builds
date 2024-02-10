@@ -20,4 +20,5 @@ exec s6-setuidgid $USER \
     key_rightalt_to_key_win=enabled \
     adapter_name=$DRINODE \
     origin_web_ui_allowed=pc \
+    port=$SUNSHINE_PORT \
     upnp=off
