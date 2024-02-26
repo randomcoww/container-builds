@@ -5,7 +5,7 @@
 ```bash
 mkdir -p tmp
 GO_VERSION=1.21
-VERSION=v1.29.1
+VERSION=v1.29.2
 
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg VERSION=$VERSION \
