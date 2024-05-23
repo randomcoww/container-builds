@@ -3,13 +3,17 @@ Tailscale without legacy iptables dependency
 ### Image build
 
 ```bash
-GO_VERSION=1.21
-VERSION=1.56.1
+VERSION=1.66.4
 TAG=ghcr.io/randomcoww/tailscale:$VERSION
 
+git clone -b v$VERSION https://github.com/tailscale/tailscale.git
+
 podman build \
-  --build-arg GO_VERSION=$GO_VERSION \
-  --build-arg VERSION=$VERSION \
+  -f tailscale/Dockerfile \
+  --target build-env \
+  -t tailscale-build
+
+podman build \
   -t $TAG . && \
 
 podman push $TAG

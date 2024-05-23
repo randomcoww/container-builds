@@ -1,21 +1,4 @@
-ARG GO_VERSION
-FROM golang:$GO_VERSION-alpine AS BUILD
-
-ARG VERSION
-WORKDIR /go/src
-
-RUN set -x \
-  \
-  && apk add --no-cache \
-    git \
-  \
-  && git clone -b v$VERSION \
-    https://github.com/tailscale/tailscale.git \
-  && cd tailscale \
-  && go install -v \
-    ./cmd/tailscale \
-    ./cmd/tailscaled \
-    ./cmd/containerboot
+FROM tailscale-build AS BUILD
 
 FROM alpine:edge
 COPY --from=BUILD /go/bin/* /usr/local/bin/
