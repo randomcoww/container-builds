@@ -16,7 +16,7 @@ CGO_ENABLED=0 GO111MODULE=on GOOS=linux \
 ### Image build
 
 ```bash
-TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d').9
+TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d').11
 JFS_VERSION=$(curl -s https://api.github.com/repos/juicedata/juicefs/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 
 podman build \
