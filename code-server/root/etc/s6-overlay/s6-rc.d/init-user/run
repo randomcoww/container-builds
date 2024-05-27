@@ -2,7 +2,8 @@
 
 set -xe
 
-mkdir -p $HOME
+mountpoint $HOME
+
 chown $UID:$UID $HOME
 
 useradd $USER -d $HOME -m -u $UID

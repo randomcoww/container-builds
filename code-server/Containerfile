@@ -1,31 +1,32 @@
-ARG CUDA_VERSION=11.8.0-cudnn8-runtime-ubi8
-ARG FEDORA_VERSION=39
+ARG FEDORA_VERSION=40
 
 # s6 from https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
 FROM localhost/rootfs-stage:$FEDORA_VERSION AS rootfs-stage
 
 # This hack overlays fedora rootfs on top of the cuda UBI image
 # FROM scratch AS BASE
-FROM nvcr.io/nvidia/cuda:$CUDA_VERSION
+FROM fedora:$FEDORA_VERSION
+ARG ARCH=amd64
 ARG CODE_VERSION=4.18.0
 ARG HELM_VERSION=3.13.1
-ARG ARCH=amd64
+ARG JFS_VERSION
 
 COPY --from=rootfs-stage /root-out/ /
-COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \
   \
   && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
   && rpm --setcaps shadow-utils 2>/dev/null \
   && dnf install -y --setopt=install_weak_deps=False --best \
+    \
     podman \
-    podman-plugins \
     containernetworking-plugins \
+    slirp4netns \
     netavark \
     aardvark-dns \
     crun \
     fuse-overlayfs \
+    \
     sudo \
     git-core \
     iproute-tc \
@@ -39,8 +40,7 @@ RUN set -x \
     lsof \
     strace \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
-    kubectl \
-    conda \
+    kubernetes-client \
     rsync \
     unar \
     unzip \
@@ -51,16 +51,19 @@ RUN set -x \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
   \
-  && curl -L -o helm.tar.gz https://get.helm.sh/helm-v$HELM_VERSION-linux-$ARCH.tar.gz \
-  && tar xzf helm.tar.gz -C /usr/bin --strip-components=1 linux-$ARCH/helm \
-  && rm helm.tar.gz \
+  && curl -L -o helm.tar.gz \
+    https://get.helm.sh/helm-v$HELM_VERSION-linux-$ARCH.tar.gz \
+  && tar xzf helm.tar.gz -C /usr/local/bin --strip-components=1 linux-$ARCH/helm \
+  && rm -f helm.tar.gz \
   \
-  && curl -L https://dl.min.io/client/mc/release/linux-$ARCH/mc -o /usr/local/bin/mc \
+  && curl -L -o /usr/local/bin/mc \
+    https://dl.min.io/client/mc/release/linux-$ARCH/mc \
   && chmod +x /usr/local/bin/mc \
   \
-  && ln -sf /usr/bin/python3 /usr/bin/python \
-  && ln -sf /opt/conda/etc/profile.d/conda.sh /etc/profile.d \
-  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
+  && curl -L -o jfs.tar.gz \
+    https://github.com/juicedata/juicefs/releases/download/v$JFS_VERSION/juicefs-$JFS_VERSION-linux-$ARCH.tar.gz \
+  && tar xzf jfs.tar.gz -C /usr/local/bin juicefs \
+  && rm -f jfs.tar.gz
 
 COPY /root /
 
@@ -75,4 +78,3 @@ ENV \
   CODE_PORT=8080
 
 ENTRYPOINT ["/init"]
-CMD ["/entrypoint.sh"]
