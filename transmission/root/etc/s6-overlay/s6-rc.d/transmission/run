@@ -1,0 +1,17 @@
+#!/usr/bin/with-contenv sh
+
+set -e
+
+mountpoint $CACHE_MOUNT_PATH
+
+mkdir -p $TRANSMISSION_HOME_PATH
+cp $TRANSMISSION_CONF_PATH $TRANSMISSION_HOME_PATH
+
+exec transmission-daemon \
+  --foreground \
+  --rpc-bind-address 0.0.0.0 \
+  --port $TRANSMISSION_PORT \
+  --no-portmap \
+  --no-incomplete-dir \
+  --download-dir $CACHE_MOUNT_PATH \
+  --config-dir $TRANSMISSION_HOME_PATH
