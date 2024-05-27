@@ -2,14 +2,6 @@
 
 mkdir -p $TRANSMISSION_HOME_PATH
 
-juicefs format \
-  --storage minio \
-  --bucket $JFS_MINIO_BUCKET \
-  --access-key $ACCESS_KEY_ID \
-  --secret-key $SECRET_ACCESS_KEY \
-  sqlite3://$JFS_DB_PATH \
-  $JFS_RESOURCE_NAME
-
 exec juicefs mount \
   --storage minio \
   --bucket $JFS_MINIO_BUCKET \
