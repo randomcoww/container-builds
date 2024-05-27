@@ -2,9 +2,9 @@
 
 set -e
 
-mountpoint $CACHE_MOUNT_PATH
+mountpoint $TRANSMISSION_HOME_PATH
 
-mkdir -p $TRANSMISSION_HOME_PATH
+mkdir -p $TRANSMISSION_HOME_PATH/incomplete
 cp $TRANSMISSION_CONF_PATH $TRANSMISSION_HOME_PATH
 
 exec transmission-daemon \
@@ -13,5 +13,5 @@ exec transmission-daemon \
   --port $TRANSMISSION_PORT \
   --no-portmap \
   --no-incomplete-dir \
-  --download-dir $CACHE_MOUNT_PATH \
+  --download-dir $TRANSMISSION_HOME_PATH/incomplete \
   --config-dir $TRANSMISSION_HOME_PATH

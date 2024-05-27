@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv sh
 
-mkdir -p $CACHE_MOUNT_PATH
+mkdir -p $TRANSMISSION_HOME_PATH
 
 juicefs format \
   --storage minio \
@@ -14,4 +14,4 @@ exec juicefs mount \
   --storage minio \
   --bucket $JFS_MINIO_BUCKET \
   sqlite3://$JFS_DB_PATH \
-  $CACHE_MOUNT_PATH
+  $TRANSMISSION_HOME_PATH
