@@ -11,8 +11,7 @@ RUN set -x \
     bash \
     rsync \
   \
-  && git clone -b $VERSION \
-    https://github.com/kubernetes/kubernetes.git \
+  && git clone -b v$VERSION https://github.com/kubernetes/kubernetes.git \
   && cd kubernetes \
   && make \
     kube-apiserver \
