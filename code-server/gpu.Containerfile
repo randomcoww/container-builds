@@ -1,15 +1,34 @@
-ARG FEDORA_VERSION
+# add s6 overlay
+# https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
+FROM alpine:edge AS rootfs-stage
 
-# s6 from https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
-FROM localhost/rootfs-stage:$FEDORA_VERSION AS rootfs-stage
+ARG S6_OVERLAY_VERSION="3.1.6.2"
+RUN set -x \
+  \
+  && mkdir -p /root-out src \
+  && wget -O src/s6-overlay-noarch.tar.xz \
+    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz \
+  && wget -O src/s6-overlay-arch.tar.xz \
+    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-$(arch).tar.xz \
+  && wget -O src/s6-overlay-symlinks-noarch.tar.xz \
+    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz \
+  && wget -O src/s6-overlay-symlinks-arch.tar.xz \
+    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz \
+  && tar -C /root-out -Jxpf src/s6-overlay-noarch.tar.xz \
+  && tar -C /root-out -Jxpf src/s6-overlay-arch.tar.xz \
+  && tar -C /root-out -Jxpf src/s6-overlay-symlinks-noarch.tar.xz \
+  && tar -C /root-out -Jxpf src/s6-overlay-symlinks-arch.tar.xz \
+  && rm -rf src
 
-FROM scratch AS BASE
+FROM nvidia/cuda:12.2.2-cudnn8-runtime-rockylinux9
+
 ARG ARCH
 ARG CODE_VERSION
 ARG HELM_VERSION
 ARG JFS_VERSION
 
 COPY --from=rootfs-stage /root-out/ /
+COPY kubernetes.repo /etc/yum.repos.d/
 
 RUN set -x \
   \
@@ -17,9 +36,10 @@ RUN set -x \
   && rpm --setcaps shadow-utils 2>/dev/null \
   && dnf install -y --setopt=install_weak_deps=False --best \
     \
+    # podman
     podman \
     containernetworking-plugins \
-    passt \
+    slirp4netns \
     netavark \
     aardvark-dns \
     crun \
@@ -38,16 +58,19 @@ RUN set -x \
     lsof \
     strace \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
-    kubernetes-client \
     rsync \
-    unar \
     unzip \
-    ldns-utils \
+    kubelet \
+    \
+    # ipynb
+    python3-pip \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
   && dnf clean all \
-  && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+  && rm -rf /var/cache /var/log/dnf* /var/log/yum.*
+
+RUN set -x \
   \
   && curl -L -o helm.tar.gz \
     https://get.helm.sh/helm-v$HELM_VERSION-linux-$ARCH.tar.gz \
