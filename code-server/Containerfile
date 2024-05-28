@@ -1,14 +1,13 @@
-ARG FEDORA_VERSION=40
+ARG FEDORA_VERSION
 
 # s6 from https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
 FROM localhost/rootfs-stage:$FEDORA_VERSION AS rootfs-stage
 
 # This hack overlays fedora rootfs on top of the cuda UBI image
-# FROM scratch AS BASE
-FROM fedora:$FEDORA_VERSION
-ARG ARCH=amd64
-ARG CODE_VERSION=4.18.0
-ARG HELM_VERSION=3.13.1
+FROM scratch AS BASE
+ARG ARCH
+ARG CODE_VERSION
+ARG HELM_VERSION
 ARG JFS_VERSION
 
 COPY --from=rootfs-stage /root-out/ /
@@ -21,7 +20,7 @@ RUN set -x \
     \
     podman \
     containernetworking-plugins \
-    slirp4netns \
+    passt \
     netavark \
     aardvark-dns \
     crun \
@@ -63,7 +62,9 @@ RUN set -x \
   && curl -L -o jfs.tar.gz \
     https://github.com/juicedata/juicefs/releases/download/v$JFS_VERSION/juicefs-$JFS_VERSION-linux-$ARCH.tar.gz \
   && tar xzf jfs.tar.gz -C /usr/local/bin juicefs \
-  && rm -f jfs.tar.gz
+  && rm -f jfs.tar.gz \
+  \
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 COPY /root /
 

@@ -3,11 +3,11 @@
 ```bash
 mkdir -p tmp
 FEDORA_VERSION=40
-CODE_VERSION=4.20.0
-HELM_VERSION=3.14.0
+CODE_VERSION=$(curl -s https://api.github.com/repos/coder/code-server/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
+HELM_VERSION=$(curl -s https://api.github.com/repos/helm/helm/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 JFS_VERSION=$(curl -s https://api.github.com/repos/juicedata/juicefs/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 ARCH=amd64
-TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').0
+TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').6
 ```
 
 S6 base image
@@ -22,6 +22,8 @@ TMPDIR=$(pwd)/tmp podman build \
   -t rootfs-stage:$FEDORA_VERSION
 ```
 
+Build
+
 ```bash
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg ARCH=$ARCH \
@@ -33,16 +35,3 @@ TMPDIR=$(pwd)/tmp podman build \
 
 TMPDIR=$(pwd)/tmp podman push $TAG
 ```
-
-Setup tensorflow in environment https://www.tensorflow.org/install/pip
-
-Create conda environment:
-
-Open [env.ipynb](env.ipynb)
-
-1. Select kernel
-2. Python environments
-3. Create python environment
-4. Conda
-5. Select project path
-6. Select Python 3.11
