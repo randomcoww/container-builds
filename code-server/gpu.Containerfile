@@ -60,7 +60,7 @@ RUN set -x \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
     rsync \
     unzip \
-    kubelet \
+    kubectl \
     \
     # ipynb
     python3-pip \

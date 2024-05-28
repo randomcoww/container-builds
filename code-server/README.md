@@ -38,7 +38,7 @@ TMPDIR=$(pwd)/tmp podman push $TAG
 GPU build based on Nvidia CUDA container
 
 ```bash
-TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').8-gpu
+TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').9-gpu
 
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg ARCH=$ARCH \
@@ -53,8 +53,6 @@ TMPDIR=$(pwd)/tmp podman push $TAG
 ```
 
 Setup tensorflow in environment https://www.tensorflow.org/install/pip
-
-Create conda environment:
 
 Open [tfenv.ipynb](tfenv.ipynb)
 
