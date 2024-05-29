@@ -2,7 +2,7 @@
 # https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
 FROM alpine:edge AS rootfs-stage
 
-ARG S6_OVERLAY_VERSION="3.1.6.2"
+ARG S6_OVERLAY_VERSION
 RUN set -x \
   \
   && mkdir -p /root-out src \
@@ -20,7 +20,8 @@ RUN set -x \
   && tar -C /root-out -Jxpf src/s6-overlay-symlinks-arch.tar.xz \
   && rm -rf src
 
-FROM nvidia/cuda:12.2.2-cudnn8-runtime-rockylinux9
+ARG CUDA_IMAGE_TAG
+FROM nvidia/cuda:$CUDA_IMAGE_TAG
 
 ARG ARCH
 ARG CODE_VERSION

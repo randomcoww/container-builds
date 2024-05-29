@@ -2,9 +2,8 @@
 
 ```bash
 mkdir -p tmp
-FEDORA_VERSION=40
-
 ARCH=amd64
+S6_OVERLAY_VERSION=$(curl -s https://api.github.com/repos/just-containers/s6-overlay/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 CODE_VERSION=$(curl -s https://api.github.com/repos/coder/code-server/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 HELM_VERSION=$(curl -s https://api.github.com/repos/helm/helm/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 JFS_VERSION=$(curl -s https://api.github.com/repos/juicedata/juicefs/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
@@ -14,10 +13,12 @@ Build
 
 ```bash
 TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').8
+FEDORA_VERSION=40
 
 git clone -b master https://github.com/linuxserver/docker-baseimage-fedora.git
 
 TMPDIR=$(pwd)/tmp podman build \
+  --build-arg S6_OVERLAY_VERSION=$S6_OVERLAY_VERSION \
   --build-arg FEDORA_VERSION=$FEDORA_VERSION \
   --target rootfs-stage \
   -f docker-baseimage-fedora/Dockerfile \
@@ -39,10 +40,12 @@ GPU build based on Nvidia CUDA container
 
 ```bash
 TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').10-gpu
+CUDA_IMAGE_TAG="12.2.2-cudnn8-runtime-rockylinux9"
 
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg ARCH=$ARCH \
-  --build-arg FEDORA_VERSION=$FEDORA_VERSION \
+  --build-arg S6_OVERLAY_VERSION=$S6_OVERLAY_VERSION \
+  --build-arg CUDA_IMAGE_TAG=$CUDA_IMAGE_TAG \
   --build-arg CODE_VERSION=$CODE_VERSION \
   --build-arg HELM_VERSION=$HELM_VERSION \
   --build-arg JFS_VERSION=$JFS_VERSION \
