@@ -38,7 +38,7 @@ TMPDIR=$(pwd)/tmp podman push $TAG
 GPU build based on Nvidia CUDA container
 
 ```bash
-TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').9-gpu
+TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').10-gpu
 
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg ARCH=$ARCH \

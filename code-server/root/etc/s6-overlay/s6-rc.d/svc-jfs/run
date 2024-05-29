@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv sh
 
+set -e
+
 mkdir -p $(dirname $HOME)
 
 exec juicefs mount \

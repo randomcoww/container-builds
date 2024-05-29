@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bash
 
-set -xe
+set -e
 
 mountpoint $(dirname $HOME)
 
@@ -9,7 +9,7 @@ chown $UID:$UID $HOME
 
 useradd $USER -d $HOME -m -u $UID
 usermod -G wheel $USER
-echo -e "$USER:100000:65536" | tee /etc/subuid /etc/subgid
+usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
 
 s6-setuidgid $USER \
   cp -r /etc/skel/. $HOME
