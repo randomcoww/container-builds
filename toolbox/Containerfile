@@ -1,0 +1,37 @@
+FROM fedora:latest AS BUILD
+
+COPY . .
+
+ENV TOOLBOX_PATH=/usr/bin/toolbox
+
+RUN set -x \
+  \
+  && dnf install -y --setopt=install_weak_deps=False --best \
+    \
+    meson \
+    clang \
+    shadow-utils-subid-devel \
+    golang \
+    go-md2man \
+    cmake \
+    podman \
+    bats \
+    codespell \
+    openssl \
+    shellcheck \
+    skopeo \
+    httpd-tools \
+    git-core
+
+RUN set -x \
+  \
+  && git clone https://github.com/containers/toolbox \
+  && cd toolbox \
+  && git apply -v ../network.patch \
+  \
+  && meson setup -Dprofile_dir=/etc/profile.d builddir \
+  && meson compile -C builddir
+
+FROM alpine:edge
+
+COPY --from=BUILD /toolbox/builddir/src/toolbox /build/
