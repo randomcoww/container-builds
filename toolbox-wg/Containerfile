@@ -1,8 +1,6 @@
 ARG FEDORA_VERSION=39
 
 FROM registry.fedoraproject.org/fedora-toolbox:$FEDORA_VERSION  
-ARG HEROIC_VERSION=2.11.0
-ARG ARCH=amd64
 
 COPY custom.repo /etc/yum.repos.d/
 
@@ -12,10 +10,21 @@ RUN set -x \
   && dnf install -y \
     https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
+  \
   && dnf install -y --setopt=install_weak_deps=False --best \
-    nvidia-drivers \
-    cuda-drivers \
-    vulkan-tools \
-    steam \
-    lutris wine \
-    https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v$HEROIC_VERSION/heroic-$HEROIC_VERSION.$(arch).rpm
+    wireguard-tools \
+    iptables-nft \
+    openresolv \
+    default-fonts-cjk-mono \
+    default-fonts-cjk-sans \
+    default-fonts-cjk-serif \
+    default-fonts-core-emoji \
+    default-fonts-core-math \
+    default-fonts-core-mono \
+    default-fonts-core-sans \
+    default-fonts-core-serif \
+    default-fonts-other-mono \
+    default-fonts-other-sans \
+    default-fonts-other-serif \
+    brave-browser \
+    pulseaudio
