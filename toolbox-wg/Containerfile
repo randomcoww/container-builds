@@ -15,6 +15,7 @@ RUN set -x \
     wireguard-tools \
     iptables-nft \
     openresolv \
+    tailscale \
     default-fonts-cjk-mono \
     default-fonts-cjk-sans \
     default-fonts-cjk-serif \
