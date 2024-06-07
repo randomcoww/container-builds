@@ -22,6 +22,6 @@ toolbox enter wg
 Launch wireguard and browser
 
 ```bash
-wg up ~/wg0.conf
+sudo wg-quick up ~/wg0.conf
 brave-brwoser
 ```
