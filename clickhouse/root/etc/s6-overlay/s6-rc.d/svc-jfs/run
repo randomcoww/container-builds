@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+mkdir -p $TRANSMISSION_HOME_PATH
+
+exec juicefs mount \
+  --storage minio \
+  --bucket $JFS_MINIO_BUCKET \
+  sqlite3://$JFS_DB_PATH \
+  $TRANSMISSION_HOME_PATH

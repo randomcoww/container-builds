@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+juicefs format \
+  --storage minio \
+  --bucket $JFS_MINIO_BUCKET \
+  --access-key $JFS_MINIO_ACCESS_KEY_ID \
+  --secret-key $JFS_MINIO_SECRET_ACCESS_KEY \
+  sqlite3://$JFS_DB_PATH \
+  $JFS_RESOURCE_NAME

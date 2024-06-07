@@ -12,3 +12,7 @@ RUN set -x \
   && apk add --no-cache \
     fuse \
     s6-overlay
+
+COPY /root /
+
+ENTRYPOINT ["/init"]

@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv sh
+
+set -e
+
+mountpoint $CLICKHOUSE_DATA_PATH
+
+exec clickhouse-server \
+  -C $CLICKHOUSE_CONF_PATH
