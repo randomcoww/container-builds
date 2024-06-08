@@ -2,16 +2,10 @@
 
 set -e
 
-mountpoint $TRANSMISSION_HOME_PATH
+mountpoint $HOME
 
-mkdir -p $TRANSMISSION_HOME_PATH/incomplete
-cp $TRANSMISSION_CONF_PATH $TRANSMISSION_HOME_PATH
+cp $TRANSMISSION_CONF_PATH $HOME/settings.json
 
 exec transmission-daemon \
   --foreground \
-  --rpc-bind-address 0.0.0.0 \
-  --port $TRANSMISSION_PORT \
-  --no-portmap \
-  --no-incomplete-dir \
-  --download-dir $TRANSMISSION_HOME_PATH/incomplete \
-  --config-dir $TRANSMISSION_HOME_PATH
+  --config-dir $HOME

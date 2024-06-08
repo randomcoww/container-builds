@@ -16,13 +16,14 @@ CGO_ENABLED=0 GO111MODULE=on GOOS=linux \
 ### Image build
 
 ```bash
-TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d').11
+TAG=ghcr.io/randomcoww/transmission:$(date -u +'%Y%m%d').1
 JFS_VERSION=$(curl -s https://api.github.com/repos/juicedata/juicefs/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 
 podman build \
+  --arch amd64 \
   --build-arg JFS_VERSION=$JFS_VERSION \
   -f jfs.Containerfile \
-  -t $TAG . && \
+  -t $TAG && \
 
 podman push $TAG
 ```
