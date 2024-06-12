@@ -8,8 +8,7 @@ mkdir -p $HOME
 chown $UID:$UID $HOME
 
 useradd $USER -d $HOME -m -u $UID
-usermod -G wheel $USER
-usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
+usermod -G wheel --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
 
 s6-setuidgid $USER \
   cp -r /etc/skel/. $HOME
