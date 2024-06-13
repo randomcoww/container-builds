@@ -6,7 +6,7 @@ Clickhouse with JFS
 CLICKHOUSE_VERSION=$(curl -s https://api.github.com/repos/clickhouse/clickhouse/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v' | cut -d "-" -f 1)
 JFS_VERSION=$(curl -s https://api.github.com/repos/juicedata/juicefs/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 
-TAG=ghcr.io/randomcoww/clickhouse:$CLICKHOUSE_VERSION
+TAG=ghcr.io/randomcoww/clickhouse:$CLICKHOUSE_VERSION.4
 
 podman build \
   --arch amd64 \

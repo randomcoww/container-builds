@@ -4,5 +4,5 @@ set -e
 
 mountpoint $CLICKHOUSE_DATA_PATH
 
-exec clickhouse-server \
-  -C $CLICKHOUSE_CONF_PATH
+exec clickhouse-server -C \
+  /etc/clickhouse-server/config.xml
