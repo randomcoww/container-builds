@@ -26,7 +26,6 @@ FROM nvidia/cuda:$CUDA_IMAGE_TAG
 ARG ARCH
 ARG CODE_VERSION
 ARG HELM_VERSION
-ARG JFS_VERSION
 
 COPY --from=rootfs-stage /root-out/ /
 COPY kubernetes.repo /etc/yum.repos.d/
@@ -82,11 +81,6 @@ RUN set -x \
     https://dl.min.io/client/mc/release/linux-$ARCH/mc \
   && chmod +x /usr/local/bin/mc \
   \
-  && curl -L -o jfs.tar.gz \
-    https://github.com/juicedata/juicefs/releases/download/v$JFS_VERSION/juicefs-$JFS_VERSION-linux-$ARCH.tar.gz \
-  && tar xzf jfs.tar.gz -C /usr/local/bin juicefs \
-  && rm -f jfs.tar.gz \
-  \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 COPY /root /
@@ -95,10 +89,6 @@ ENV \
   S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
   S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
   S6_VERBOSITY=1 \
-  USER=podman \
-  UID=1000 \
-  HOME=/home/podman \
-  LANG=C.UTF-8 \
-  CODE_PORT=8080
+  LANG=C.UTF-8
 
 ENTRYPOINT ["/init"]
