@@ -1,9 +1,0 @@
-#!/usr/bin/with-contenv sh
-
-mkdir -p $HOME
-
-exec juicefs mount \
-  --storage minio \
-  --bucket $JFS_MINIO_BUCKET \
-  sqlite3://$JFS_DB_PATH \
-  $HOME
