@@ -122,7 +122,7 @@ RUN set -x \
     https://dl.min.io/client/mc/release/linux-$TARGETARCH/mc \
   && chmod +x /usr/local/bin/mc \
   \
-  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 ENV \
   S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
