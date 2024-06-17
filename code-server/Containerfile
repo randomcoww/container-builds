@@ -23,12 +23,13 @@ RUN set -x \
 ARG CUDA_IMAGE_TAG
 FROM nvidia/cuda:$CUDA_IMAGE_TAG
 
-ARG ARCH
+ARG TARGETARCH
 ARG CODE_VERSION
 ARG HELM_VERSION
 
 COPY --from=rootfs-stage /root-out/ /
 COPY kubernetes.repo /etc/yum.repos.d/
+COPY conda.repo /etc/yum.repos.d/
 
 RUN set -x \
   \
@@ -36,12 +37,10 @@ RUN set -x \
   && rpm --setcaps shadow-utils 2>/dev/null \
   && dnf install -y --setopt=install_weak_deps=False --best \
     \
-    # podman
     podman \
     containernetworking-plugins \
-    slirp4netns \
-    ## replace slirp4netns at some point
     # passt \
+    slirp4netns \
     netavark \
     aardvark-dns \
     crun \
@@ -59,7 +58,7 @@ RUN set -x \
     which \
     lsof \
     strace \
-    https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$ARCH.rpm \
+    https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$TARGETARCH.rpm \
     # kubernetes-client \
     kubectl \
     rsync \
@@ -67,21 +66,23 @@ RUN set -x \
     unzip \
     # ldns-utils \
     python3-pip \
+    conda \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
   && dnf clean all \
-  && rm -rf /var/cache /var/log/dnf* /var/log/yum.*
+  && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+  && ln -sf /usr/bin/python3 /usr/bin/python
 
 RUN set -x \
   \
   && curl -L -o helm.tar.gz \
-    https://get.helm.sh/helm-v$HELM_VERSION-linux-$ARCH.tar.gz \
-  && tar xzf helm.tar.gz -C /usr/local/bin --strip-components=1 linux-$ARCH/helm \
+    https://get.helm.sh/helm-v$HELM_VERSION-linux-$TARGETARCH.tar.gz \
+  && tar xzf helm.tar.gz -C /usr/local/bin --strip-components=1 linux-$TARGETARCH/helm \
   && rm -f helm.tar.gz \
   \
   && curl -L -o /usr/local/bin/mc \
-    https://dl.min.io/client/mc/release/linux-$ARCH/mc \
+    https://dl.min.io/client/mc/release/linux-$TARGETARCH/mc \
   && chmod +x /usr/local/bin/mc \
   \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
