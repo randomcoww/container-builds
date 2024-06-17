@@ -8,7 +8,7 @@ CODE_VERSION=$(curl -s https://api.github.com/repos/coder/code-server/releases/l
 HELM_VERSION=$(curl -s https://api.github.com/repos/helm/helm/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 CUDA_IMAGE_TAG="12.2.2-cudnn8-runtime-rockylinux9"
 
-TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').6-tensorflow
+TAG=ghcr.io/randomcoww/code-server:$(date -u +'%Y%m%d').1-tensorflow
 
 TMPDIR=$(pwd)/tmp podman build \
   --build-arg TARGETARCH=$TARGETARCH \
