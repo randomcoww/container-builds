@@ -87,7 +87,7 @@ RUN set -x \
     sudo \
     git-core \
     iproute-tc \
-    nftables \
+    iptables-nft \
     gzip \
     tar \
     xz \

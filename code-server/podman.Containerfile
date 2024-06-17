@@ -33,18 +33,10 @@ RUN set -x \
   && rpm --setcaps shadow-utils 2>/dev/null \
   && dnf install -y --setopt=install_weak_deps=False --best \
     \
-    podman \
-    containernetworking-plugins \
-    passt \
-    netavark \
-    aardvark-dns \
-    crun \
-    fuse-overlayfs \
-    \
     sudo \
     git-core \
     iproute-tc \
-    nftables \
+    iptables-nft \
     gzip \
     tar \
     xz \
@@ -56,8 +48,14 @@ RUN set -x \
     strace \
     ldns-utils \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$TARGETARCH.rpm \
-    kubernetes-client \
-    helm \
+    \
+    podman \
+    containernetworking-plugins \
+    passt \
+    netavark \
+    aardvark-dns \
+    crun \
+    fuse-overlayfs \
   --exclude \
     container-selinux \
   && dnf autoremove -y \
