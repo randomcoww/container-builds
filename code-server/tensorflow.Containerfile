@@ -27,7 +27,7 @@ ARG CODE_VERSION
 
 COPY --from=rootfs-stage /root-out/ /
 
-### Setup from nvidia/cuda:12.2.2-cudnn8-runtime-rockylinux9
+### Steps from nvidia/cuda:12.2.2-cudnn8-runtime-rockylinux9 image build + libnvinfer for tensorrt
 COPY cuda.repo /etc/yum.repos.d/
 
 ENV \
@@ -51,12 +51,15 @@ ENV \
   NV_LIBNCCL_PACKAGE=libnccl-2.19.3-1+cuda12.2 \
   NVIDIA_PRODUCT_NAME=CUDA \
   NV_CUDNN_VERSION=8.9.6.50-1 \
-  NV_CUDNN_PACKAGE=libcudnn8-8.9.6.50-1.cuda12.2
+  NV_CUDNN_PACKAGE=libcudnn8-8.9.6.50-1.cuda12.2 \
+  # TensorRT for TF 2.16 requires libnvinfer 8.6.1
+  LIBNVINFER_VERSION=8.6.1.6-1.cuda12.0
 
 LABEL com.nvidia.cudnn.version=8.9.6.50-1
 
 RUN set -x \
   \
+  && TARGETARCH=$TARGETARCH \
   && echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf \
   && echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf \
   \
@@ -71,14 +74,12 @@ RUN set -x \
     libcublas-12-2-${NV_LIBCUBLAS_VERSION} \
     ${NV_LIBNCCL_PACKAGE} \
     ${NV_CUDNN_PACKAGE} \
+    libnvinfer8-${LIBNVINFER_VERSION} \
+    libnvinfer-plugin8-${LIBNVINFER_VERSION} \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.*
 ###
-
-ENV \
-  # TensorRT for TF 2.16 - requires libnvinfer 8.6.1
-  LIBNVINFER_VERSION=8.6.1.6-1.cuda12.0
 
 RUN set -x \
   \
@@ -101,8 +102,6 @@ RUN set -x \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$TARGETARCH.rpm \
     python3-pip \
     conda \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/$(arch)/libnvinfer8-${LIBNVINFER_VERSION}.$(arch).rpm \
-    https://developer.download.nvidia.com/compute/cuda/repos/rhel8/$(arch)/libnvinfer-plugin8-${LIBNVINFER_VERSION}.$(arch).rpm \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
