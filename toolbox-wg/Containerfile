@@ -1,7 +1,10 @@
 ARG FEDORA_VERSION=39
 
+FROM tailscale-build AS BUILD
+
 FROM registry.fedoraproject.org/fedora-toolbox:$FEDORA_VERSION  
 
+COPY --from=BUILD /go/bin/* /usr/local/bin/
 COPY custom.repo /etc/yum.repos.d/
 
 RUN set -x \
@@ -15,7 +18,6 @@ RUN set -x \
     wireguard-tools \
     iptables-nft \
     openresolv \
-    tailscale \
     default-fonts-cjk-mono \
     default-fonts-cjk-sans \
     default-fonts-cjk-serif \
@@ -29,3 +31,8 @@ RUN set -x \
     default-fonts-other-serif \
     brave-browser \
     pulseaudio
+
+# skip "resolve" for nsswitch - it won't resolve tailnet hosts
+RUN set -x \
+  \
+  && echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns [!UNAVAIL=return] myhostname' >> /etc/nsswitch.conf
