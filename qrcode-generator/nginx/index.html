@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="lib/tailwind.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        html,
+        body,
+        #app {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        svg {
+            width: 256px;
+            height: 256px;
+        }
+
+        .mwh {
+            min-width: 380px;
+            min-height: 290px;
+        }
+
+        a {
+            color: rgb(34, 125, 230);
+        }
+        a:hover {
+            color: rgb(0, 105, 224);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="w-full h-full bg-gray-800 absolute flex flex-row justify-center items-center">
+        <div id="qrcode" class="m-2"></div>
+    </div>
+
+    <script src="lib/qrcode.min.js"></script>
+    <script type="module">
+        function genSvg(val) {
+            return new QRCode({
+                content: val,
+                container: 'svg-viewbox',
+                join: true,
+                width: 2048,
+                height: 2048,
+            }).svg()
+        }
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('q')) {
+                document.getElementById("qrcode").innerHTML = genSvg(atob(urlParams.get('q')))
+            }
+        }
+    </script>
+</body>
+
+</html>
