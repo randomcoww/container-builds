@@ -18,3 +18,17 @@ TMPDIR=$(pwd)/tmp podman build \
 
 TMPDIR=$(pwd)/tmp podman push $TAG
 ```
+
+#### Tensorflow setup
+
+```bash
+conda create --name tf -c conda-forge python=3.11
+conda activate tf
+pip install --upgrade pip setuptools wheel
+pip install --upgrade tensorflow[and-cuda]==2.16.1
+```
+
+```python
+import tensorflow as tf
+print(tf.config.list_physical_devices('GPU'))
+```
