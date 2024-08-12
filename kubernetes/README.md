@@ -4,7 +4,7 @@
 
 ```bash
 mkdir -p tmp
-GO_VERSION=1.21
+GO_VERSION=1.22
 VERSION=$(curl -s https://api.github.com/repos/kubernetes/kubernetes/releases/latest |grep tag_name | cut -d '"' -f 4 | tr -d 'v')
 
 TMPDIR=$(pwd)/tmp podman build \
