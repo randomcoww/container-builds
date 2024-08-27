@@ -28,7 +28,7 @@ ARG CODE_VERSION
 COPY --from=rootfs-stage /root-out/ /
 
 ### Steps from nvidia/cuda:12.2.2-cudnn8-runtime-rockylinux9 image build + libnvinfer for tensorrt
-COPY cuda.repo /etc/yum.repos.d/
+COPY custom.repo /etc/yum.repos.d/
 
 ENV \
   NVARCH=x86_64 \
@@ -102,10 +102,15 @@ RUN set -x \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$TARGETARCH.rpm \
     python3-pip \
     conda \
+    podman-remote \
+    kubernetes-client \
+    helm \
+    tmux \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
-  && ln -sf /usr/bin/python3 /usr/bin/python
+  && ln -sf /usr/bin/python3 /usr/bin/python \
+  && ln -sf /usr/bin/podman-remote /usr/bin/podman
 
 RUN set -x \
   \
