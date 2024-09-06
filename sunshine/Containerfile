@@ -5,6 +5,7 @@ ARG USER
 ARG UID
 ARG HOME
 ARG VERSION
+ARG TARGETARCH
 
 COPY custom.repo /etc/yum.repos.d/
 
@@ -20,6 +21,6 @@ RUN set -x \
     nvidia-driver \
     nvidia-driver-cuda \
     nvidia-vaapi-driver \
-    https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-39-amd64.rpm \
+    https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-$(rpm -E %fedora)-$TARGETARCH.rpm \
   \
   && useradd -u $UID -d $HOME $USER

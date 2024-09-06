@@ -2,10 +2,12 @@
 
 ```bash
 VERSION=$(curl -s https://api.github.com/repos/lizardbyte/sunshine/tags | jq -r '.[0].name' | tr -d 'v')
-VERSION=2024.905.205246
 TAG=ghcr.io/randomcoww/sunshine:$VERSION
+TARGETARCH=amd64
 
 sudo podman build \
+  --arch $TARGETARCH \
+  --build-arg TARGETARCH=$TARGETARCH \
   --build-arg VERSION=$VERSION \
   --build-arg USER=$(whoami) \
   --build-arg UID=$(id -u) \

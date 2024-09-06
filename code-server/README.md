@@ -8,6 +8,7 @@ CODE_VERSION=$(curl -s https://api.github.com/repos/coder/code-server/releases/l
 TAG=ghcr.io/randomcoww/code-server:tensorflow-$(date -u +'%Y%m%d').4
 
 TMPDIR=$(pwd)/tmp podman build \
+  --arch $TARGETARCH \
   --build-arg TARGETARCH=$TARGETARCH \
   --build-arg S6_OVERLAY_VERSION=$S6_OVERLAY_VERSION \
   --build-arg CODE_VERSION=$CODE_VERSION \
