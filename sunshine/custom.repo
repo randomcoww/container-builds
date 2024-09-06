@@ -1,0 +1,14 @@
+[brave-browser]
+name=Brave Browser
+enabled=1
+autorefresh=1
+baseurl=https://brave-browser-rpm-release.s3.brave.com/$basearch
+gpgcheck=0
+repo_gpgcheck=0
+
+[cuda-fedora]
+name=cuda-fedora-$basearch
+baseurl=https://developer.download.nvidia.com/compute/cuda/repos/fedora39/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://developer.download.nvidia.com/compute/cuda/repos/fedora39/$basearch/D42D0685.pub

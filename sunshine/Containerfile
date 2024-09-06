@@ -1,0 +1,26 @@
+ARG FEDORA_VERSION=39
+
+FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
+ARG USER
+ARG UID
+ARG HOME
+ARG VERSION
+
+COPY custom.repo /etc/yum.repos.d/
+
+RUN set -x \
+  \
+  && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
+  && dnf install -y \
+    https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
+  \
+  && dnf install -y --setopt=install_weak_deps=False --best \
+    kmod-nvidia-open-dkms \
+    nvidia-drivers \
+    nvidia-container-runtime \
+    nvidia-vaapi-driver \
+    https://developer.download.nvidia.com/compute/cuda/repos/fedora39/x86_64/cuda-drivers-560.35.03-1.x86_64.rpm \
+    https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-39-amd64.rpm \
+  \
+  && useradd -u $UID -d $HOME $USER
