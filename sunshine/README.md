@@ -19,7 +19,6 @@ Test
 sudo podman \
 run --rm \
 --net host \
---cgroupns host \
 --env XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
 --name sunshine-test \
 --privileged \

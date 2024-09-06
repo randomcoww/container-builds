@@ -17,10 +17,9 @@ RUN set -x \
   \
   && dnf install -y --setopt=install_weak_deps=False --best \
     kmod-nvidia-open-dkms \
-    nvidia-drivers \
-    nvidia-container-runtime \
+    nvidia-driver \
+    nvidia-driver-cuda \
     nvidia-vaapi-driver \
-    https://developer.download.nvidia.com/compute/cuda/repos/fedora39/x86_64/cuda-drivers-560.35.03-1.x86_64.rpm \
     https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-39-amd64.rpm \
   \
   && useradd -u $UID -d $HOME $USER
