@@ -1,9 +1,6 @@
 ARG FEDORA_VERSION=39
 
 FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
-ARG USER
-ARG UID
-ARG HOME
 ARG VERSION
 ARG TARGETARCH
 
@@ -21,6 +18,7 @@ RUN set -x \
     nvidia-driver \
     nvidia-driver-cuda \
     nvidia-vaapi-driver \
-    https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-$(rpm -E %fedora)-$TARGETARCH.rpm \
-  \
-  && useradd -u $UID -d $HOME $USER
+    libnvidia-fbc \
+    https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-$(rpm -E %fedora)-$TARGETARCH.rpm
+
+ENTRYPOINT ["sunshine"]
