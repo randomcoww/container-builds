@@ -37,8 +37,6 @@ ENV \
   CUDA_VERSION=12.2.2 \
   PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
   LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64 \
-  NVIDIA_VISIBLE_DEVICES=all \
-  NVIDIA_DRIVER_CAPABILITIES=compute,utility \
   NV_CUDA_LIB_VERSION=12.2.2-1 \
   NV_NVTX_VERSION=12.2.140-1 \
   NV_LIBNPP_VERSION=12.2.1.4-1 \
@@ -121,6 +119,8 @@ RUN set -x \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 ENV \
+  NVIDIA_VISIBLE_DEVICES=all \
+  NVIDIA_DRIVER_CAPABILITIES=compute,utility \
   S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
   S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
   S6_VERBOSITY=1 \
