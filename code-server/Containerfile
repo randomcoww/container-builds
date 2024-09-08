@@ -87,6 +87,7 @@ RUN set -x \
     git-core \
     iproute-tc \
     iptables-nft \
+    iputils \
     gzip \
     tar \
     xz \
