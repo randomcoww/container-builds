@@ -2,7 +2,7 @@
 
 ```bash
 VERSION=$(curl -s https://api.github.com/repos/lizardbyte/sunshine/tags | jq -r '.[0].name' | tr -d 'v')
-TAG=ghcr.io/randomcoww/sunshine:$VERSION.1
+TAG=ghcr.io/randomcoww/sunshine:$VERSION.2
 TARGETARCH=amd64
 
 sudo podman build \

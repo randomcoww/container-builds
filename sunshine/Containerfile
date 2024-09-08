@@ -32,4 +32,8 @@ RUN set -x \
   && dnf clean all \
   && rm -rf /var/cache /var/log/dnf* /var/log/yum.* nvidia-patch /opt/nvidia
 
+ENV \
+  NVIDIA_VISIBLE_DEVICES=all \
+  NVIDIA_DRIVER_CAPABILITIES=all
+
 ENTRYPOINT ["sunshine"]
