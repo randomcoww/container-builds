@@ -18,19 +18,24 @@ RUN set -x \
     kmod-nvidia-open-dkms \
     nvidia-driver \
     nvidia-driver-cuda \
-    nvidia-vaapi-driver \
+    libva-nvidia-driver \
     libnvidia-fbc \
     https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-$(rpm -E %fedora)-$TARGETARCH.rpm \
   \
   && git clone https://github.com/keylase/nvidia-patch.git nvidia-patch \
-  && ./nvidia-patch/patch.sh -d $(rpm -q --queryformat "%{VERSION}" nvidia-driver) \
-  && ./nvidia-patch/patch-fbc.sh -d $(rpm -q --queryformat "%{VERSION}" nvidia-driver) \
+  && nvidia-patch/patch.sh -d $(rpm -q --queryformat "%{VERSION}" libnvidia-fbc) \
+  && nvidia-patch/patch-fbc.sh -d $(rpm -q --queryformat "%{VERSION}" libnvidia-fbc) \
   \
   && dnf remove -y \
     git-core \
   && dnf autoremove -y \
   && dnf clean all \
-  && rm -rf /var/cache /var/log/dnf* /var/log/yum.* nvidia-patch /opt/nvidia
+  && rm -rf \
+    /var/cache \
+    /var/log/dnf* \
+    /var/log/yum.* \
+    nvidia-patch \
+    /opt/nvidia
 
 ENV \
   NVIDIA_VISIBLE_DEVICES=all \
