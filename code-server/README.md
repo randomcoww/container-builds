@@ -11,7 +11,7 @@ podman build \
   --build-arg TARGETARCH=$TARGETARCH \
   --build-arg S6_OVERLAY_VERSION=$S6_OVERLAY_VERSION \
   --build-arg CODE_VERSION=$CODE_VERSION \
-  -t $TAG . && \
+  -t $TAG .
 
 podman push $TAG
 ```

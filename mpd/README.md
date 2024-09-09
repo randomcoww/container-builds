@@ -5,11 +5,13 @@ VERSION=$(curl -s https://api.github.com/repos/MusicPlayerDaemon/MPD/tags | jq -
 MAJOR=$(echo $VERSION | cut -d '.' -f1-2)
 PATCH=$(echo $VERSION | cut -d '.' -f3)
 TAG=ghcr.io/randomcoww/mpd:$VERSION
+TARGETARCH=amd64
 
 podman build \
+  --arch $TARGETARCH \
   --build-arg MAJOR=$MAJOR \
   --build-arg PATCH=$PATCH \
-  -t $TAG . && \
+  -t $TAG .
 
 podman push $TAG
 ```

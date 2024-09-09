@@ -1,11 +1,12 @@
 FROM alpine:latest
 
 ARG VERSION
+ARG TARGETARCH
 
 RUN set -x \
   \
   && wget -O jfs.tar.gz \
-    https://github.com/juicedata/juicefs/releases/download/v$VERSION/juicefs-$VERSION-linux-amd64.tar.gz \
+    https://github.com/juicedata/juicefs/releases/download/v$VERSION/juicefs-$VERSION-linux-$TARGETARCH.tar.gz \
   && tar xzf jfs.tar.gz -C /usr/local/bin juicefs \
   && rm jfs.tar.gz \
   && apk add --no-cache \

@@ -11,6 +11,8 @@ sudo podman build \
   --build-arg VERSION=$VERSION \
   --build-arg UID=$(stat -c %u $XDG_RUNTIME_DIR) \
   -t $TAG .
+
+sudo podman push $TAG
 ```
 
 Test

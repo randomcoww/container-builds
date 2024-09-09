@@ -6,9 +6,11 @@ Based on https://github.com/bizzycola/qrcode-generator
 
 ```bash
 TAG=ghcr.io/randomcoww/qrcode-generator:$(date -u +'%Y%m%d').3
+TARGETARCH=amd64
 
 podman build \
-  -t $TAG . && \
+  --arch $TARGETARCH \
+  -t $TAG .
 
 podman push $TAG
 ```

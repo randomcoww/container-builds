@@ -7,10 +7,12 @@ https://github.com/dvdesolve/pkgbuilds/blob/master/packages/hostapd-noscan/nosca
 ```bash
 VERSION=2.10
 TAG=ghcr.io/randomcoww/hostapd:$VERSION
+TARGETARCH=amd64
 
 podman build \
+  --arch $TARGETARCH \
   --build-arg VERSION=$VERSION \
-  -t $TAG . && \
+  -t $TAG .
 
 podman push $TAG
 ```

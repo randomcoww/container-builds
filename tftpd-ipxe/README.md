@@ -24,10 +24,12 @@ Menu
 ```bash
 VERSION=master
 TAG=ghcr.io/randomcoww/tftpd-ipxe:$(date -u +'%Y%m%d').3
+TARGETARCH=amd64
 
 podman build \
+  --arch $TARGETARCH \
   --build-arg VERSION=$VERSION \
-  -t $TAG . && \
+  -t $TAG .
 
 podman push $TAG
 ```
