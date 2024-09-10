@@ -14,28 +14,31 @@ RUN set -x \
     https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
   \
   && dnf install -y --setopt=install_weak_deps=False --best \
-    git-core \
     kmod-nvidia-open-dkms \
     nvidia-driver \
-    nvidia-driver-cuda \
-    libva-nvidia-driver \
+    nvidia-driver-cuda-libs \
     libnvidia-fbc \
+    libva-nvidia-driver \
     https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-$(rpm -E %fedora)-$TARGETARCH.rpm \
   \
-  && git clone https://github.com/keylase/nvidia-patch.git nvidia-patch \
-  && nvidia-patch/patch.sh -d $(rpm -q --queryformat "%{VERSION}" libnvidia-fbc) \
-  && nvidia-patch/patch-fbc.sh -d $(rpm -q --queryformat "%{VERSION}" libnvidia-fbc) \
+  # patch breaks unless nvidia-smi can be read, but isn't required to work because driver version is passed in manually
+  && touch /usr/bin/nvidia-smi \
+  && curl -L -o master.tar.gz \
+    https://github.com/keylase/nvidia-patch/archive/master.tar.gz \
+  && tar xf master.tar.gz \
+  && nvidia-patch-master/patch.sh -d $(rpm -q --queryformat "%{VERSION}" libnvidia-fbc) \
+  && nvidia-patch-master/patch-fbc.sh -d $(rpm -q --queryformat "%{VERSION}" libnvidia-fbc) \
   \
-  && dnf remove -y \
-    git-core \
   && dnf autoremove -y \
   && dnf clean all \
   && rm -rf \
     /var/cache \
     /var/log/dnf* \
     /var/log/yum.* \
-    nvidia-patch \
-    /opt/nvidia
+    nvidia-patch-master \
+    master.tar.gz \
+    /opt/nvidia \
+    /usr/bin/nvidia-smi
 
 ENV \
   NVIDIA_VISIBLE_DEVICES=all \
