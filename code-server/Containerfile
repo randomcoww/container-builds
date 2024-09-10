@@ -69,8 +69,6 @@ RUN set -x \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
 ENV \
-  NVIDIA_VISIBLE_DEVICES=all \
-  NVIDIA_DRIVER_CAPABILITIES=compute,utility \
   S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
   S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
   S6_VERBOSITY=1 \
