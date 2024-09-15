@@ -20,7 +20,7 @@ RUN set -x \
   && tar -C /root-out -Jxpf src/s6-overlay-symlinks-arch.tar.xz \
   && rm -rf src
 
-FROM fedora:latest
+FROM registry.fedoraproject.org/fedora-minimal:latest
 
 ARG TARGETARCH
 ARG CODE_VERSION
@@ -30,7 +30,7 @@ COPY --from=rootfs-stage /root-out/ /
 RUN set -x \
   \
   && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
-  && dnf install -y --setopt=install_weak_deps=False --best \
+  && microdnf install -y --setopt=install_weak_deps=False --best \
     \
     sudo \
     git-core \
@@ -54,11 +54,12 @@ RUN set -x \
     kubernetes-client \
     helm \
     tmux \
-  && dnf autoremove -y \
-  && dnf clean all \
-  && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+  && microdnf clean all \
   && ln -sf /usr/bin/python3 /usr/bin/python \
-  && ln -sf /usr/bin/podman-remote /usr/bin/podman
+  && ln -sf /usr/bin/podman-remote /usr/bin/podman \
+  && rm -rf \
+    /var/cache \
+    /var/log/*
 
 RUN set -x \
   \
