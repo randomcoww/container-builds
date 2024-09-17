@@ -1,5 +1,7 @@
 ### Image build
 
+- CUDA driver releases https://developer.download.nvidia.com/compute/cuda/repos/fedora39/x86_64/
+
 ```bash
 VERSION=$(curl -s https://api.github.com/repos/lizardbyte/sunshine/tags | jq -r '.[0].name' | tr -d 'v')
 TAG=ghcr.io/randomcoww/sunshine:$VERSION
