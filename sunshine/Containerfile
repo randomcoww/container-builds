@@ -16,9 +16,10 @@ RUN set -x \
   \
   && microdnf install -y --setopt=install_weak_deps=False --best \
     kmod-nvidia-open-dkms-$DRIVER_VERSION \
-    nvidia-driver \
-    nvidia-driver-cuda-libs \
-    libnvidia-fbc \
+    nvidia-driver-$DRIVER_VERSION \
+    nvidia-driver-cuda-libs-$DRIVER_VERSION \
+    nvidia-modprobe-$DRIVER_VERSION \
+    libnvidia-fbc-$DRIVER_VERSION \
     libva-nvidia-driver \
     https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-$(rpm -E %fedora)-$TARGETARCH.rpm \
   \

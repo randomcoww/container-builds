@@ -4,10 +4,10 @@
 
 ```bash
 VERSION=$(curl -s https://api.github.com/repos/lizardbyte/sunshine/tags | jq -r '.[0].name' | tr -d 'v')
-TAG=ghcr.io/randomcoww/sunshine:$VERSION
 TARGETARCH=amd64
 FEDORA_VERSION=39
 DRIVER_VERSION=560.35.03
+TAG=ghcr.io/randomcoww/sunshine:$VERSION-$DRIVER_VERSION
 
 sudo podman build \
   --arch $TARGETARCH \
