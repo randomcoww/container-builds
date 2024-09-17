@@ -2,6 +2,7 @@ ARG FEDORA_VERSION=39
 
 FROM registry.fedoraproject.org/fedora-minimal:$FEDORA_VERSION
 ARG VERSION
+ARG DRIVER_VERSION
 ARG TARGETARCH
 
 COPY custom.repo /etc/yum.repos.d/
@@ -14,7 +15,7 @@ RUN set -x \
     https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
   \
   && microdnf install -y --setopt=install_weak_deps=False --best \
-    kmod-nvidia-open-dkms \
+    kmod-nvidia-open-dkms-$DRIVER_VERSION \
     nvidia-driver \
     nvidia-driver-cuda-libs \
     libnvidia-fbc \
