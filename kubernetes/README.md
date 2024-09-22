@@ -22,14 +22,14 @@ podman build \
   --arch $TARGETARCH \
   --build-arg VERSION=$VERSION \
   --target kube-master \
-  -t ghcr.io/randomcoww/kubernetes:kube-master-$VERSION . && \
+  -t ghcr.io/randomcoww/kubernetes:kube-master-$VERSION .
 
 podman build \
   --arch $TARGETARCH \
   --build-arg VERSION=$VERSION \
   --target kube-proxy \
-  -t ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION . && \
+  -t ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION .
 
-podman push ghcr.io/randomcoww/kubernetes:kube-master-$VERSION && \
+podman push ghcr.io/randomcoww/kubernetes:kube-master-$VERSION
 podman push ghcr.io/randomcoww/kubernetes:kube-proxy-$VERSION
 ```
