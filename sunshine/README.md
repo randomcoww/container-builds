@@ -3,18 +3,19 @@
 - CUDA driver releases https://developer.download.nvidia.com/compute/cuda/repos/fedora39/x86_64/
 
 ```bash
-VERSION=$(curl -s https://api.github.com/repos/lizardbyte/sunshine/tags | jq -r '.[0].name' | tr -d 'v')
 TARGETARCH=amd64
 FEDORA_VERSION=39
-DRIVER_VERSION=560.35.03
+VERSION=2024.1101.204249
+DRIVER_VERSION=565.57.01
 TAG=ghcr.io/randomcoww/sunshine:$VERSION-$DRIVER_VERSION
 
 sudo podman build \
+  --net host \
   --arch $TARGETARCH \
   --build-arg TARGETARCH=$TARGETARCH \
   --build-arg FEDORA_VERSION=$FEDORA_VERSION \
-  --build-arg DRIVER_VERSION=$DRIVER_VERSION \
   --build-arg VERSION=$VERSION \
+  --build-arg DRIVER_VERSION=$DRIVER_VERSION \
   -t $TAG .
 
 sudo podman push $TAG

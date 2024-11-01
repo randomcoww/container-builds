@@ -1,11 +1,36 @@
-ARG FEDORA_VERSION=39
+ARG FEDORA_VERSION
+FROM fedora:$FEDORA_VERSION AS BUILD
 
-FROM registry.fedoraproject.org/fedora-minimal:$FEDORA_VERSION
 ARG VERSION
-ARG DRIVER_VERSION
-ARG TARGETARCH
+RUN <<_BUILD
+#!/bin/bash
+set -xe
 
+dnf install -y --setopt=install_weak_deps=False \
+  git-core
+
+git clone -b v$VERSION \
+  --recurse-submodules https://github.com/LizardByte/Sunshine.git /sunshine
+cd /sunshine
+
+chmod +x ./scripts/linux_build.sh
+./scripts/linux_build.sh \
+  --publisher-name='LizardByte' \
+  --publisher-website='https://app.lizardbyte.dev' \
+  --publisher-issue-url='https://app.lizardbyte.dev/support' \
+  --sudo-off
+dnf clean all
+rm -rf /var/cache/yum
+_BUILD
+
+# output at /sunshine/build/cpack_artifacts/Sunshine.rpm
+
+ARG FEDORA_VERSION
+FROM registry.fedoraproject.org/fedora-minimal:$FEDORA_VERSION
+
+ARG DRIVER_VERSION
 COPY custom.repo /etc/yum.repos.d/
+COPY --from=BUILD /sunshine/build/cpack_artifacts/Sunshine.rpm /
 
 RUN set -x \
   \
@@ -21,15 +46,11 @@ RUN set -x \
     nvidia-modprobe-$DRIVER_VERSION \
     libnvidia-fbc-$DRIVER_VERSION \
     libva-nvidia-driver \
-    https://github.com/LizardByte/Sunshine/releases/download/v$VERSION/sunshine-fedora-$(rpm -E %fedora)-$TARGETARCH.rpm \
+    /Sunshine.rpm \
   \
   && microdnf clean all \
   && rm -rf \
     /var/cache \
     /var/log/*
-
-ENV \
-  NVIDIA_VISIBLE_DEVICES=all \
-  NVIDIA_DRIVER_CAPABILITIES=all
 
 ENTRYPOINT ["sunshine"]
