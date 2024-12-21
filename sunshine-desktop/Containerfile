@@ -105,7 +105,6 @@ RUN set -x \
     util-linux \
     dbus-x11 \
     xorg-x11-server-Xorg \
-    xorg-x11-server-Xvfb \
     xauth \
     xkbcomp \
     xkeyboard-config \

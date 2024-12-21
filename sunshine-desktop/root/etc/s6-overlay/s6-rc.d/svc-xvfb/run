@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv bash
-
-set -xe
-
-exec Xvfb \
-  $DISPLAY \
-  -screen 0 "${RESOLUTION}x${COLOR_DEPTH}"

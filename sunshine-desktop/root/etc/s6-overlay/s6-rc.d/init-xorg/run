@@ -37,7 +37,6 @@ nvidia-xconfig \
   --depth="$COLOR_DEPTH" \
   --allow-empty-initial-configuration \
   --no-probe-all-gpus \
-  --no-multigpu \
   --egpu \
   --no-sli \
   --no-base-mosaic \
