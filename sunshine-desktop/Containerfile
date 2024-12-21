@@ -1,0 +1,164 @@
+ARG FEDORA_VERSION
+FROM fedora:$FEDORA_VERSION AS BUILD
+
+ARG VERSION
+RUN <<_BUILD
+#!/bin/bash
+set -xe
+
+dnf install -y --setopt=install_weak_deps=False \
+  git-core
+
+git clone -b v$VERSION \
+  --recurse-submodules https://github.com/LizardByte/Sunshine.git /sunshine
+cd /sunshine
+
+chmod +x ./scripts/linux_build.sh
+./scripts/linux_build.sh \
+  --publisher-name='LizardByte' \
+  --publisher-website='https://app.lizardbyte.dev' \
+  --publisher-issue-url='https://app.lizardbyte.dev/support' \
+  --sudo-off
+dnf clean all
+rm -rf /var/cache/yum
+_BUILD
+
+# output at /sunshine/build/cpack_artifacts/Sunshine.rpm
+
+ARG FEDORA_VERSION
+FROM registry.fedoraproject.org/fedora-minimal:$FEDORA_VERSION
+
+ARG DRIVER_VERSION
+COPY custom.repo /etc/yum.repos.d/
+COPY --from=BUILD /sunshine/build/cpack_artifacts/Sunshine.rpm /
+
+RUN set -x \
+  \
+  && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
+  && microdnf install -y \
+    https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
+  \
+  && microdnf install -y --setopt=install_weak_deps=False --best \
+    # nvidia drivers
+    kmod-nvidia-open-dkms-$DRIVER_VERSION \
+    nvidia-driver-$DRIVER_VERSION \
+    nvidia-driver-cuda-libs-$DRIVER_VERSION \
+    nvidia-modprobe-$DRIVER_VERSION \
+    libnvidia-fbc-$DRIVER_VERSION \
+    libva-nvidia-driver \
+    # tools
+    ca-certificates \
+    coreutils \
+    curl \
+    findutils \
+    hostname \
+    netcat \
+    procps-ng \
+    pciutils-libs \
+    shadow \
+    git-core \
+    iproute-tc \
+    iptables-nft \
+    gzip \
+    tar \
+    xz \
+    unar \
+    unzip \
+    jq \
+    which \
+    lsof \
+    ldns-utils \
+    sudo \
+    vim-minimal \
+    less \
+    mesa-dri-drivers \
+    mesa-libgbm \
+    mesa-libGL \
+    mesa-libOpenCL \
+    mesa-va-drivers-freeworld \
+    mesa-vdpau-drivers-freeworld \
+    mesa-vulkan-drivers \
+    vulkan \
+    vulkan-tools \
+    intel-media-driver \
+    libva-utils \
+    pulseaudio \
+    pulseaudio-utils \
+    util-linux \
+    dbus-x11 \
+    xauth \
+    xkbcomp \
+    xkeyboard-config \
+    ffmpeg \
+    libjpeg-turbo \
+    libwebp \
+    libXdmcp \
+    libXfont2 \
+    libxshmfence \
+    pixman \
+    strace \
+    unzip \
+    rsync \
+    glibc-all-langpacks \
+    bash-completion \
+    glx-utils \
+    systemd-udev \
+    # f39 fonts
+    default-fonts-cjk-mono \
+    default-fonts-cjk-sans \
+    default-fonts-cjk-serif \
+    default-fonts-core-emoji \
+    default-fonts-core-math \
+    default-fonts-core-mono \
+    default-fonts-core-sans \
+    default-fonts-core-serif \
+    default-fonts-other-mono \
+    default-fonts-other-sans \
+    default-fonts-other-serif \
+    # XFCE
+    gtk-xfce-engine \
+    xfce4-appfinder \
+    xfce4-datetime-plugin \
+    xfce4-panel \
+    xfce4-places-plugin \
+    xfce4-pulseaudio-plugin \
+    xfce4-session \
+    xfce4-settings \
+    xfce4-terminal \
+    xfconf \
+    xfdesktop \
+    xfwm4 \
+    # apps
+    Thunar \
+    brave-browser \
+    steam \
+    /Sunshine.rpm \
+  \
+  && microdnf clean all \
+  && rm -rf \
+    /var/cache \
+    /var/log/*
+
+RUN set -x \
+  \
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
+
+COPY /root /
+
+ENV \
+  S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+  S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+  S6_VERBOSITY=1
+
+# ENV \
+#   USER=sunshine \
+#   UID=10000 \
+#   HOME=/home/sunshine \
+#   LANG=C.UTF-8 \
+#   DISPLAY=:10 \
+#   XDG_RUNTIME_DIR=/run/user/10000 \
+#   RESOLUTION=2560x1600 \
+#   COLOR_DEPTH=24
+
+ENTRYPOINT ["/init"]

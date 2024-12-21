@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bash
+
+exec s6-setuidgid $USER \
+  sunshine \
+    key_rightalt_to_key_win=enabled \
+    origin_web_ui_allowed=pc \
+    port=$SUNSHINE_PORT \
+    upnp=off

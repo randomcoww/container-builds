@@ -1,0 +1,15 @@
+#!/usr/bin/with-contenv bash
+
+set -xe
+
+nvidia-xconfig \
+  --virtual="$RESOLUTION" \
+  --depth="$COLOR_DEPTH" \
+  --allow-empty-initial-configuration \
+  --no-probe-all-gpus \
+  --no-multigpu \
+  --egpu \
+  --no-sli \
+  --no-base-mosaic \
+  --only-one-x-screen \
+  --use-display-device=None
