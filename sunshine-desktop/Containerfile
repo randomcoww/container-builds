@@ -122,6 +122,7 @@ RUN set -x \
     bash-completion \
     glx-utils \
     systemd-udev \
+    xrandr \
     # f39 fonts
     default-fonts-cjk-mono \
     default-fonts-cjk-sans \
@@ -167,14 +168,17 @@ ENV \
   S6_VERBOSITY=1 \
   LANG=C.UTF-8 \
   SUNSHINE_PORT=47989 \
-  DISPLAY=:55
+  DISPLAY_DEVICE=DFP \
+  DISPLAY=:16
 
 # ENV \
 #   USER=sunshine \
 #   UID=10000 \
 #   HOME=/home/sunshine \
 #   XDG_RUNTIME_DIR=/run/user/10000 \
-#   RESOLUTION=2560x1600 \
+#   SIZE_W=2560 \
+#   SIZE_H=1600 \
+#   REFRESH_RATE=120 \
 #   COLOR_DEPTH=24 \
 #   SUNSHINE_USERNAME=sunshine \
 #   SUNSHINE_PASSWORD=password

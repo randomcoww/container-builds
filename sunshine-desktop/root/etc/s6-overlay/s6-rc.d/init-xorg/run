@@ -33,7 +33,7 @@ chmod +x $DRIVER_FILE
   --no-install-libglvnd
 
 nvidia-xconfig \
-  --virtual="$RESOLUTION" \
+  --virtual="${SIZE_W}x${SIZE_H}" \
   --depth="$COLOR_DEPTH" \
   --allow-empty-initial-configuration \
   --no-probe-all-gpus \
@@ -41,4 +41,28 @@ nvidia-xconfig \
   --no-sli \
   --no-base-mosaic \
   --only-one-x-screen \
-  --use-display-device=DFP
+  --use-display-device=$DISPLAY_DEVICE
+
+modeline=$(cvt $SIZE_W $SIZE_H $REFRESH_RATE |grep -v ^#)
+
+cat > /etc/X11/xorg.conf.d/20-custom.conf <<EOF
+Section "OutputClass"
+    Identifier "nvidia"
+    Option     "ModeValidation" "NoMaxPClkCheck, NoEdidMaxPClkCheck, NoMaxSizeCheck, NoHorizSyncCheck, NoVertRefreshCheck, NoVirtualSizeCheck, NoTotalSizeCheck, NoDualLinkDVICheck, NoDisplayPortBandwidthCheck, AllowNon3DVisionModes, AllowNonHDMI3DModes, AllowNonEdidModes, NoEdidHDMI2Check, AllowDpInterlaced"
+EndSection
+
+Section "Monitor"
+    Identifier "Monitor0"
+    $modeline
+    Option     "PreferredMode" $(echo $modeline | awk '{print $2}')
+EndSection
+
+Section "Screen"
+    Identifier    "Screen0"
+    Monitor       "Monitor0"
+    Option        "ConnectedMonitor" "$DISPLAY_DEVICE"
+    SubSection    "Display"
+        Modes     $(echo $modeline | awk '{print $2}')
+    EndSubSection
+EndSection
+EOF
