@@ -47,14 +47,15 @@ RUN set -x \
     lsof \
     strace \
     ldns-utils \
+    vim-minimal \
+    tmux \
+    \
     https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$TARGETARCH.rpm \
     python3-pip \
     conda \
     podman-remote \
     kubernetes-client \
     helm \
-    tmux \
-    vim-minimal \
   \
   && microdnf clean all \
   && ln -sf /usr/bin/python3 /usr/bin/python \
