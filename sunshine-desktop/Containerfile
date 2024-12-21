@@ -162,13 +162,13 @@ COPY /root /
 ENV \
   S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
   S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-  S6_VERBOSITY=1
+  S6_VERBOSITY=1 \
+  LANG=C.UTF-8
 
 # ENV \
 #   USER=sunshine \
 #   UID=10000 \
 #   HOME=/home/sunshine \
-#   LANG=C.UTF-8 \
 #   DISPLAY=:10 \
 #   XDG_RUNTIME_DIR=/run/user/10000 \
 #   RESOLUTION=2560x1600 \
