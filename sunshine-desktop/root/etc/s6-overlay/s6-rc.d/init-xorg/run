@@ -15,6 +15,7 @@ fi
 chmod +x $DRIVER_FILE
 
 "$DRIVER_FILE" \
+  --silent \
   --accept-license \
   --skip-depmod \
   --skip-module-unload \
