@@ -5,7 +5,7 @@
 ```bash
 TARGETARCH=amd64
 FEDORA_VERSION=39
-VERSION=2024.1214.152703
+VERSION=$(curl -s https://api.github.com/repos/LizardByte/Sunshine/tags | jq -r '.[0].name' | tr -d 'v')
 DRIVER_VERSION=565.57.01
 TAG=ghcr.io/randomcoww/sunshine:$VERSION-$DRIVER_VERSION
 
