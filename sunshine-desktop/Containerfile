@@ -1,6 +1,7 @@
 ARG FEDORA_VERSION
 
-# add s6 overlay
+## Add s6 overlay
+
 # https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
 FROM alpine:edge AS rootfs-stage
 
@@ -22,8 +23,10 @@ RUN set -x \
   && tar -C /root-out -Jxpf src/s6-overlay-symlinks-arch.tar.xz \
   && rm -rf src
 
+## Build sunshine for fedora
+
 ARG FEDORA_VERSION
-FROM fedora:$FEDORA_VERSION AS BUILD
+FROM fedora:$FEDORA_VERSION AS sunshine
 
 ARG VERSION
 RUN <<_BUILD
@@ -47,13 +50,14 @@ dnf clean all
 rm -rf /var/cache/yum
 _BUILD
 
-# output at /sunshine/build/cpack_artifacts/Sunshine.rpm
+## Main build
 
 ARG FEDORA_VERSION
 FROM registry.fedoraproject.org/fedora-minimal:$FEDORA_VERSION
 
+COPY custom.repo /etc/yum.repos.d/
 COPY --from=rootfs-stage /root-out/ /
-COPY --from=BUILD /sunshine/build/cpack_artifacts/Sunshine.rpm /
+COPY --from=sunshine /sunshine/build/cpack_artifacts/Sunshine.rpm /rpms/
 
 RUN set -x \
   \
@@ -63,33 +67,25 @@ RUN set -x \
     https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
   \
   && microdnf install -y --setopt=install_weak_deps=False --best \
-    # nvidia drivers
-    libva-nvidia-driver \
     # tools
-    ca-certificates \
-    coreutils \
-    curl \
-    findutils \
-    hostname \
-    netcat \
-    procps-ng \
-    pciutils-libs \
-    shadow \
+    sudo \
     git-core \
     iproute-tc \
     iptables-nft \
+    iputils \
     gzip \
     tar \
     xz \
     unar \
-    unzip \
     jq \
+    procps-ng \
     which \
     lsof \
+    strace \
     ldns-utils \
-    sudo \
     vim-minimal \
-    less \
+    tmux \
+    \
     mesa-dri-drivers \
     mesa-libgbm \
     mesa-libGL \
@@ -97,32 +93,25 @@ RUN set -x \
     mesa-va-drivers-freeworld \
     mesa-vdpau-drivers-freeworld \
     mesa-vulkan-drivers \
+    libva-nvidia-driver \
     vulkan \
     vulkan-tools \
     libva-utils \
     pulseaudio \
     pulseaudio-utils \
-    util-linux \
     dbus-x11 \
     xorg-x11-server-Xorg \
+    xrandr \
     xauth \
     xkbcomp \
     xkeyboard-config \
-    ffmpeg \
-    libjpeg-turbo \
-    libwebp \
     libXdmcp \
     libXfont2 \
     libxshmfence \
     pixman \
-    strace \
-    unzip \
-    rsync \
     glibc-all-langpacks \
-    bash-completion \
     glx-utils \
     systemd-udev \
-    xrandr \
     # f39 fonts
     default-fonts-cjk-mono \
     default-fonts-cjk-sans \
@@ -138,9 +127,7 @@ RUN set -x \
     # XFCE
     gtk-xfce-engine \
     xfce4-appfinder \
-    xfce4-datetime-plugin \
     xfce4-panel \
-    xfce4-places-plugin \
     xfce4-pulseaudio-plugin \
     xfce4-session \
     xfce4-settings \
@@ -149,7 +136,8 @@ RUN set -x \
     xfdesktop \
     xfwm4 \
     # apps
-    /Sunshine.rpm \
+    flatpak \
+    /rpms/Sunshine.rpm \
   \
   && microdnf clean all \
   && rm -rf \
