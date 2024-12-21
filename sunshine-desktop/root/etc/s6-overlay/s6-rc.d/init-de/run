@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv bash
+
+set -xe
+
+rm -f \
+  /etc/xdg/autostart/xfce-polkit.desktop \
+  /etc/xdg/autostart/at-spi-dbus-bus.desktop
