@@ -9,4 +9,5 @@ useradd $USER -d $HOME -m -u $UID
 usermod -G wheel,video,input,render $USER
 
 s6-setuidgid $USER \
-  cp -r /etc/skel/. $HOME
+  sunshine \
+    --creds $SUNSHINE_USERNAME $SUNSHINE_PASSWORD

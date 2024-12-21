@@ -42,4 +42,4 @@ nvidia-xconfig \
   --no-sli \
   --no-base-mosaic \
   --only-one-x-screen \
-  --use-display-device=None
+  --use-display-device=DFP

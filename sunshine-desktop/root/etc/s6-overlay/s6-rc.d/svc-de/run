@@ -1,5 +1,7 @@
 #!/usr/bin/with-contenv bash
 
+set -xe
+
 cd $HOME
 exec s6-setuidgid $USER \
   xfce4-session > /dev/null 2>&1

@@ -1,3 +1,5 @@
 #!/usr/bin/with-contenv bash
 
+set -xe
+
 exec /lib/systemd/systemd-udevd

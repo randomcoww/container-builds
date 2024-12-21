@@ -99,12 +99,13 @@ RUN set -x \
     mesa-vulkan-drivers \
     vulkan \
     vulkan-tools \
-    intel-media-driver \
     libva-utils \
     pulseaudio \
     pulseaudio-utils \
     util-linux \
     dbus-x11 \
+    xorg-x11-server-Xorg \
+    xorg-x11-server-Xvfb \
     xauth \
     xkbcomp \
     xkeyboard-config \
@@ -165,15 +166,18 @@ ENV \
   S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
   S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
   S6_VERBOSITY=1 \
-  LANG=C.UTF-8
+  LANG=C.UTF-8 \
+  SUNSHINE_PORT=47989 \
+  DISPLAY=:55
 
 # ENV \
 #   USER=sunshine \
 #   UID=10000 \
 #   HOME=/home/sunshine \
-#   DISPLAY=:10 \
 #   XDG_RUNTIME_DIR=/run/user/10000 \
 #   RESOLUTION=2560x1600 \
-#   COLOR_DEPTH=24
+#   COLOR_DEPTH=24 \
+#   SUNSHINE_USERNAME=sunshine \
+#   SUNSHINE_PASSWORD=password
 
 ENTRYPOINT ["/init"]
