@@ -158,7 +158,10 @@ RUN set -x \
 
 RUN set -x \
   \
-  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
+  && rm -f \
+    /etc/xdg/autostart/xfce-polkit.desktop \
+    /etc/xdg/autostart/at-spi-dbus-bus.desktop
 
 COPY /root /
 
