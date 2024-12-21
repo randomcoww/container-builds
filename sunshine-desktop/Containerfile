@@ -1,3 +1,25 @@
+# add s6 overlay
+# https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
+FROM alpine:edge AS rootfs-stage
+
+ARG S6_OVERLAY_VERSION
+RUN set -x \
+  \
+  && mkdir -p /root-out src \
+  && wget -O src/s6-overlay-noarch.tar.xz \
+    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz \
+  && wget -O src/s6-overlay-arch.tar.xz \
+    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-$(arch).tar.xz \
+  && wget -O src/s6-overlay-symlinks-noarch.tar.xz \
+    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz \
+  && wget -O src/s6-overlay-symlinks-arch.tar.xz \
+    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz \
+  && tar -C /root-out -Jxpf src/s6-overlay-noarch.tar.xz \
+  && tar -C /root-out -Jxpf src/s6-overlay-arch.tar.xz \
+  && tar -C /root-out -Jxpf src/s6-overlay-symlinks-noarch.tar.xz \
+  && tar -C /root-out -Jxpf src/s6-overlay-symlinks-arch.tar.xz \
+  && rm -rf src
+
 ARG FEDORA_VERSION
 FROM fedora:$FEDORA_VERSION AS BUILD
 
@@ -28,8 +50,7 @@ _BUILD
 ARG FEDORA_VERSION
 FROM registry.fedoraproject.org/fedora-minimal:$FEDORA_VERSION
 
-ARG DRIVER_VERSION
-COPY custom.repo /etc/yum.repos.d/
+COPY --from=rootfs-stage /root-out/ /
 COPY --from=BUILD /sunshine/build/cpack_artifacts/Sunshine.rpm /
 
 RUN set -x \
@@ -41,11 +62,6 @@ RUN set -x \
   \
   && microdnf install -y --setopt=install_weak_deps=False --best \
     # nvidia drivers
-    kmod-nvidia-open-dkms-$DRIVER_VERSION \
-    nvidia-driver-$DRIVER_VERSION \
-    nvidia-driver-cuda-libs-$DRIVER_VERSION \
-    nvidia-modprobe-$DRIVER_VERSION \
-    libnvidia-fbc-$DRIVER_VERSION \
     libva-nvidia-driver \
     # tools
     ca-certificates \
@@ -130,9 +146,6 @@ RUN set -x \
     xfdesktop \
     xfwm4 \
     # apps
-    Thunar \
-    brave-browser \
-    steam \
     /Sunshine.rpm \
   \
   && microdnf clean all \

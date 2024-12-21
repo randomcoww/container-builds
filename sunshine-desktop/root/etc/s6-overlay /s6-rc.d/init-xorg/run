@@ -2,6 +2,35 @@
 
 set -xe
 
+mkdir -p $HOME/nvidia
+
+VERSION=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader --id=0)
+DRIVER_FILE=$HOME/nvidia/NVIDIA-Linux-$(arch)-${VERSION}.run
+
+if [[ ! -f "$DRIVER_FILE" ]]; then
+  curl -L -o $DRIVER_FILE \
+    http://download.nvidia.com/XFree86/Linux-$(arch)/${VERSION}/NVIDIA-Linux-$(arch)-${VERSION}.run
+fi
+
+chmod +x $DRIVER_FILE
+
+"$DRIVER_FILE" \
+  --accept-license \
+  --skip-depmod \
+  --skip-module-unload \
+  --no-kernel-modules \
+  --no-kernel-module-source \
+  --install-compat32-libs \
+  --no-nouveau-check \
+  --no-nvidia-modprobe \
+  --no-systemd \
+  --no-distro-scripts \
+  --no-rpms \
+  --no-backup \
+  --no-check-for-alternate-installs \
+  --no-libglx-indirect \
+  --no-install-libglvnd
+
 nvidia-xconfig \
   --virtual="$RESOLUTION" \
   --depth="$COLOR_DEPTH" \
