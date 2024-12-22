@@ -1,6 +1,0 @@
-[cuda-fedora]
-name=cuda-fedora-$basearch
-baseurl=https://developer.download.nvidia.com/compute/cuda/repos/fedora40/$basearch
-enabled=1
-gpgcheck=0
-module_hotfixes=true
