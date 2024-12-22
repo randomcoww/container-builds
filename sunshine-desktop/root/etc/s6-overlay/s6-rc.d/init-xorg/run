@@ -67,7 +67,7 @@ Section "Screen"
 EndSection
 
 Section "InputClass"
-    Identifier      "libinput pointer catchall"
-    Option          "AccelProfile" "flat"
+    Identifier "libinput pointer catchall"
+    Option     "AccelProfile" "flat"
 EndSection
 EOF
