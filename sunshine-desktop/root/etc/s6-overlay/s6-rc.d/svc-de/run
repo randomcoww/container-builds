@@ -2,7 +2,7 @@
 
 set -xe
 
-while ! xdpyinfo; do
+while ! xdpyinfo >/dev/null 2>&1; do
 sleep 1
 done
 
