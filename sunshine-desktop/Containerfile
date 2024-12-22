@@ -139,7 +139,11 @@ RUN set -x \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
   && rm -f \
     /etc/xdg/autostart/xfce-polkit.desktop \
-    /etc/xdg/autostart/at-spi-dbus-bus.desktop
+    /etc/xdg/autostart/at-spi-dbus-bus.desktop \
+    /usr/share/applications/xfce4-accessibility-settings.desktop \
+    /usr/share/applications/xfce4-color-settings.desktop \
+    /usr/share/applications/xfce4-mail-reader.desktop \
+    /usr/share/applications/xfce4-session-logout.desktop
 
 COPY /root /
 
