@@ -117,7 +117,7 @@ RUN set -x \
     gtk-xfce-engine \
     xfce4-appfinder \
     xfce4-panel \
-    xfce4-pulseaudio-plugin \
+    # xfce4-pulseaudio-plugin \
     xfce4-session \
     xfce4-settings \
     xfce4-terminal \
@@ -143,7 +143,8 @@ RUN set -x \
     /usr/share/applications/xfce4-accessibility-settings.desktop \
     /usr/share/applications/xfce4-color-settings.desktop \
     /usr/share/applications/xfce4-mail-reader.desktop \
-    /usr/share/applications/xfce4-session-logout.desktop
+    /usr/share/applications/xfce4-session-logout.desktop \
+    /usr/share/applications/xfce-ui-settings.desktop
 
 COPY /root /
 
