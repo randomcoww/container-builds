@@ -98,6 +98,7 @@ RUN set -x \
     glx-utils \
     dbus-x11 \
     xorg-x11-server-Xorg \
+    xdpyinfo \
     glibc-all-langpacks \
     systemd-udev \
     # f39 fonts

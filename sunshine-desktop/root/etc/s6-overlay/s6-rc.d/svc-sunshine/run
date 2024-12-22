@@ -2,6 +2,10 @@
 
 set -xe
 
+while ! xdpyinfo; do
+sleep 1
+done
+
 exec s6-setuidgid $USER \
   sunshine \
     key_rightalt_to_key_win=enabled \
