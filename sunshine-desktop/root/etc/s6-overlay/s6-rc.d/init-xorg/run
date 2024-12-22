@@ -45,7 +45,7 @@ nvidia-xconfig \
 
 modeline=$(cvt $SIZE_W $SIZE_H $REFRESH_RATE |grep -v ^#)
 
-cat > /etc/X11/xorg.conf.d/20-custom.conf <<EOF
+cat > /etc/X11/xorg.conf.d/50-custom.conf <<EOF
 Section "OutputClass"
     Identifier "nvidia"
     Option     "ModeValidation" "NoMaxPClkCheck, NoEdidMaxPClkCheck, NoMaxSizeCheck, NoHorizSyncCheck, NoVertRefreshCheck, NoVirtualSizeCheck, NoTotalSizeCheck, NoDualLinkDVICheck, NoDisplayPortBandwidthCheck, AllowNon3DVisionModes, AllowNonHDMI3DModes, AllowNonEdidModes, NoEdidHDMI2Check, AllowDpInterlaced"
@@ -64,5 +64,10 @@ Section "Screen"
     SubSection    "Display"
         Modes     $(echo $modeline | awk '{print $2}')
     EndSubSection
+EndSection
+
+Section "InputClass"
+    Identifier      "libinput pointer catchall"
+    Option          "AccelProfile" "flat"
 EndSection
 EOF
