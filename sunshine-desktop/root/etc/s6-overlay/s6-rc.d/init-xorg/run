@@ -46,11 +46,6 @@ nvidia-xconfig \
 modeline=$(cvt $SIZE_W $SIZE_H $REFRESH_RATE |grep -v ^#)
 
 cat > /etc/X11/xorg.conf.d/50-custom.conf <<EOF
-Section "OutputClass"
-    Identifier "nvidia"
-    Option     "ModeValidation" "NoMaxPClkCheck, NoEdidMaxPClkCheck, NoMaxSizeCheck, NoHorizSyncCheck, NoVertRefreshCheck, NoVirtualSizeCheck, NoTotalSizeCheck, NoDualLinkDVICheck, NoDisplayPortBandwidthCheck, AllowNon3DVisionModes, AllowNonHDMI3DModes, AllowNonEdidModes, NoEdidHDMI2Check, AllowDpInterlaced"
-EndSection
-
 Section "Monitor"
     Identifier "Monitor0"
     $modeline
@@ -61,6 +56,7 @@ Section "Screen"
     Identifier    "Screen0"
     Monitor       "Monitor0"
     Option        "ConnectedMonitor" "$DISPLAY_DEVICE"
+    Option        "ModeValidation" "NoMaxPClkCheck,NoEdidMaxPClkCheck,NoMaxSizeCheck,NoHorizSyncCheck,NoVertRefreshCheck,NoVirtualSizeCheck,NoTotalSizeCheck,NoDualLinkDVICheck,NoDisplayPortBandwidthCheck,AllowNon3DVisionModes,AllowNonHDMI3DModes,AllowNonEdidModes,NoEdidHDMI2Check,AllowDpInterlaced"
     SubSection    "Display"
         Modes     $(echo $modeline | awk '{print $2}')
     EndSubSection
