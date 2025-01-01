@@ -11,9 +11,9 @@ usermod -G wheel,video,input,render $USER
 s6-setuidgid $USER \
   cp -r /etc/skel/. $HOME
 
+# sunshine
 s6-setuidgid $USER \
-  sunshine \
-    --creds $SUNSHINE_USERNAME $SUNSHINE_PASSWORD
+  sunshine --creds $SUNSHINE_USERNAME $SUNSHINE_PASSWORD
 
 # flatpak
 mount -t proc none /proc
