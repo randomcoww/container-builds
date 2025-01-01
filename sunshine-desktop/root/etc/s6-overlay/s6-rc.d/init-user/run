@@ -14,3 +14,11 @@ s6-setuidgid $USER \
 s6-setuidgid $USER \
   sunshine \
     --creds $SUNSHINE_USERNAME $SUNSHINE_PASSWORD
+
+# flatpak
+mount -t proc none /proc
+
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+s6-setuidgid $USER \
+  flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo

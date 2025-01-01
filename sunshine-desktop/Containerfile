@@ -85,6 +85,7 @@ RUN set -x \
     ldns-utils \
     vim-minimal \
     tmux \
+    bash-completion \
     \
     mesa-dri-drivers \
     mesa-va-drivers-freeworld \
@@ -126,8 +127,7 @@ RUN set -x \
     xfwm4 \
     # apps
     /rpms/Sunshine.rpm \
-    steam \
-    brave-browser \
+    flatpak \
   \
   && microdnf clean all \
   && rm -rf \
@@ -144,7 +144,8 @@ RUN set -x \
     /usr/share/applications/xfce4-color-settings.desktop \
     /usr/share/applications/xfce4-mail-reader.desktop \
     /usr/share/applications/xfce4-session-logout.desktop \
-    /usr/share/applications/xfce-ui-settings.desktop
+    /usr/share/applications/xfce-ui-settings.desktop \
+    /usr/share/applications/xfce4-web-browser.desktop
 
 COPY /root /
 
