@@ -145,7 +145,8 @@ RUN set -x \
     /usr/share/applications/xfce4-mail-reader.desktop \
     /usr/share/applications/xfce4-session-logout.desktop \
     /usr/share/applications/xfce-ui-settings.desktop \
-    /usr/share/applications/xfce4-web-browser.desktop
+    /usr/share/applications/xfce4-web-browser.desktop \
+    /usr/share/applications/thunar-bulk-rename.desktop
 
 COPY /root /
 
