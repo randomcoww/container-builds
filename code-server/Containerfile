@@ -31,7 +31,7 @@ RUN set -x \
   \
   && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
   && microdnf install -y --setopt=install_weak_deps=False --best \
-    \
+    # tools
     sudo \
     git-core \
     iproute-tc \
@@ -49,28 +49,29 @@ RUN set -x \
     ldns-utils \
     vim-minimal \
     tmux \
-    \
-    https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$TARGETARCH.rpm \
-    python3-pip \
-    conda \
+    bash-completion \
+    # container
     podman-remote \
     kubernetes-client \
     helm \
+    # apps
+    https://github.com/coder/code-server/releases/download/v$CODE_VERSION/code-server-$CODE_VERSION-$TARGETARCH.rpm \
+    python3-pip \
+    conda \
   \
   && microdnf clean all \
-  && ln -sf /usr/bin/python3 /usr/bin/python \
-  && ln -sf /usr/bin/podman-remote /usr/bin/podman \
   && rm -rf \
     /var/cache \
     /var/log/*
 
 RUN set -x \
   \
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
+  && ln -sf /usr/bin/python3 /usr/bin/python \
+  && ln -sf /usr/bin/podman-remote /usr/bin/podman \
   && curl -L -o /usr/local/bin/mc \
     https://dl.min.io/client/mc/release/linux-$TARGETARCH/mc \
-  && chmod +x /usr/local/bin/mc \
-  \
-  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
+  && chmod +x /usr/local/bin/mc
 
 ENV \
   S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
