@@ -1,11 +1,11 @@
-Applies patch from
+Applies noscan patch from
 
-https://github.com/dvdesolve/pkgbuilds/blob/master/packages/hostapd-noscan/noscan.patch
+http://copr-dist-git.fedorainfracloud.org/git/dturner/hostapd-noscan/hostapd.git
 
 ### Image build
 
 ```bash
-VERSION=2.10
+VERSION=2.11
 TAG=ghcr.io/randomcoww/hostapd:$VERSION
 TARGETARCH=amd64
 

@@ -18,7 +18,7 @@ apk add --no-cache --virtual .build-deps \
 wget -O hostapd.tar.gz "https://w1.fi/releases/hostapd-$VERSION.tar.gz"
 mkdir -p /usr/src/hostapd
 tar xf hostapd.tar.gz --strip-components=1 -C /usr/src/hostapd
-patch -Np0 -i /noscan.patch -d /usr/src/hostapd
+patch -Np1 -i /noscan.patch -d /usr/src/hostapd
 rm hostapd.tar.gz
 cd /usr/src/hostapd/hostapd
 
@@ -39,6 +39,7 @@ CONFIG_IEEE80211AX=y
 CONFIG_IEEE80211R=y
 CONFIG_FULL_DYNAMIC_VLAN=y
 CONFIG_ACS=y
+CONFIG_OCV=y
 CONFIG_MBO=y
 CONFIG_SAE=y
 CONFIG_OWE=y
