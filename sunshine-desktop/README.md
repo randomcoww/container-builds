@@ -1,6 +1,11 @@
 ### Image build
 
-Ref: https://github.com/Steam-Headless/docker-steam-headless/tree/master
+This is based on https://github.com/Steam-Headless/docker-steam-headless/tree/master
+
+- Based on Fedora 39 (Sunshine CUDA build only supports up to F39).
+- Sunshine only to access the desktop. No VNC.
+- Nvidia GPUs only. Setup breaks unless `nvidia-smi` can run.
+- Intended to work in Kubernetes with configMap mounts to support service configuration.
 
 ```bash
 TARGETARCH=amd64
