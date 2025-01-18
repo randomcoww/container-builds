@@ -99,6 +99,7 @@ RUN set -x \
     glx-utils \
     dbus-x11 \
     xorg-x11-server-Xorg \
+    xrandr \
     xdpyinfo \
     glibc-all-langpacks \
     systemd-udev \
@@ -157,17 +158,14 @@ ENV \
   LANG=C.UTF-8 \
   SUNSHINE_PORT=47989 \
   DISPLAY_DEVICE=DFP \
-  DISPLAY=:16
+  DISPLAY=:16 \
+  COLOR_DEPTH=24
 
 # ENV \
 #   USER=sunshine \
 #   UID=10000 \
 #   HOME=/home/sunshine \
 #   XDG_RUNTIME_DIR=/run/user/10000 \
-#   SIZE_W=2560 \
-#   SIZE_H=1600 \
-#   REFRESH_RATE=120 \
-#   COLOR_DEPTH=24 \
 #   SUNSHINE_USERNAME=sunshine \
 #   SUNSHINE_PASSWORD=password
 

@@ -33,7 +33,6 @@ chmod +x $DRIVER_FILE
   --no-install-libglvnd
 
 nvidia-xconfig \
-  --virtual="${SIZE_W}x${SIZE_H}" \
   --depth="$COLOR_DEPTH" \
   --allow-empty-initial-configuration \
   --no-probe-all-gpus \
@@ -43,23 +42,12 @@ nvidia-xconfig \
   --only-one-x-screen \
   --use-display-device=$DISPLAY_DEVICE
 
-modeline=$(cvt $SIZE_W $SIZE_H $REFRESH_RATE |grep -v ^#)
-
 cat > /etc/X11/xorg.conf.d/50-custom.conf <<EOF
-Section "Monitor"
-    Identifier "Monitor0"
-    $modeline
-    Option     "PreferredMode" $(echo $modeline | awk '{print $2}')
-EndSection
-
 Section "Screen"
-    Identifier    "Screen0"
-    Monitor       "Monitor0"
-    Option        "ConnectedMonitor" "$DISPLAY_DEVICE"
-    Option        "ModeValidation" "NoMaxPClkCheck,NoEdidMaxPClkCheck,NoMaxSizeCheck,NoHorizSyncCheck,NoVertRefreshCheck,NoVirtualSizeCheck,NoTotalSizeCheck,NoDualLinkDVICheck,NoDisplayPortBandwidthCheck,AllowNon3DVisionModes,AllowNonHDMI3DModes,AllowNonEdidModes,NoEdidHDMI2Check,AllowDpInterlaced"
-    SubSection    "Display"
-        Modes     $(echo $modeline | awk '{print $2}')
-    EndSubSection
+    Identifier "Screen0"
+    Monitor    "Monitor0"
+    Option     "ConnectedMonitor" "$DISPLAY_DEVICE"
+    Option     "ModeValidation" "NoMaxPClkCheck,NoEdidMaxPClkCheck,NoMaxSizeCheck,NoHorizSyncCheck,NoVertRefreshCheck,NoVirtualSizeCheck,NoTotalSizeCheck,NoDualLinkDVICheck,NoDisplayPortBandwidthCheck,AllowNon3DVisionModes,AllowNonHDMI3DModes,AllowNonEdidModes,NoEdidHDMI2Check,AllowDpInterlaced"
 EndSection
 
 Section "InputClass"
