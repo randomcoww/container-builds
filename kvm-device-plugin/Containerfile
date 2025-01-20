@@ -1,0 +1,17 @@
+FROM golang:alpine AS BUILD
+ARG VERSION
+
+RUN set -x \
+  \
+  && apk add --no-cache \
+    git \
+    make \
+  \
+  && git clone -b $VERSION https://github.com/cgwalters/kvm-device-plugin.git \
+  && cd kvm-device-plugin \
+  && make build
+
+FROM alpine:edge
+
+COPY --from=BUILD /go/kvm-device-plugin/cmd/kvm/kvm /usr/bin/device-plugin-kvm
+CMD ["/usr/bin/device-plugin-kvm"]
