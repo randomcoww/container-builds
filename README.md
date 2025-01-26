@@ -1,3 +1,1 @@
-### Custom container build Containerfiles
-
-Used mostly in https://github.com/randomcoww/homelab
+### Deprecated - all builds moved out to individual repos
