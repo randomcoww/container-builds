@@ -1,9 +1,0 @@
-#!/usr/bin/with-contenv bash
-
-set -xe
-
-exec s6-setuidgid $USER \
-  pulseaudio \
-    --log-level=0 \
-    --log-target=stderr \
-    --exit-idle-time=-1 > /dev/null 2>&1

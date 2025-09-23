@@ -1,75 +1,19 @@
 ARG FEDORA_VERSION
-
-## Add s6 overlay
-
-# https://github.com/linuxserver/docker-baseimage-fedora/blob/master/Dockerfile
-FROM alpine:edge AS rootfs-stage
-
-ARG S6_OVERLAY_VERSION
-RUN set -x \
-  \
-  && mkdir -p /root-out src \
-  && wget -O src/s6-overlay-noarch.tar.xz \
-    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz \
-  && wget -O src/s6-overlay-arch.tar.xz \
-    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-$(arch).tar.xz \
-  && wget -O src/s6-overlay-symlinks-noarch.tar.xz \
-    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz \
-  && wget -O src/s6-overlay-symlinks-arch.tar.xz \
-    https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz \
-  && tar -C /root-out -Jxpf src/s6-overlay-noarch.tar.xz \
-  && tar -C /root-out -Jxpf src/s6-overlay-arch.tar.xz \
-  && tar -C /root-out -Jxpf src/s6-overlay-symlinks-noarch.tar.xz \
-  && tar -C /root-out -Jxpf src/s6-overlay-symlinks-arch.tar.xz \
-  && rm -rf src
-
-## Build sunshine for fedora
-
-ARG FEDORA_VERSION
-FROM fedora:$FEDORA_VERSION AS sunshine
-
-ARG VERSION
-RUN <<_BUILD
-#!/bin/bash
-set -xe
-
-dnf install -y --setopt=install_weak_deps=False \
-  git-core
-
-git clone -b v$VERSION \
-  --recurse-submodules https://github.com/LizardByte/Sunshine.git /sunshine
-cd /sunshine
-
-chmod +x ./scripts/linux_build.sh
-./scripts/linux_build.sh \
-  --publisher-name='LizardByte' \
-  --publisher-website='https://app.lizardbyte.dev' \
-  --publisher-issue-url='https://app.lizardbyte.dev/support' \
-  --sudo-off
-dnf clean all
-rm -rf /var/cache/yum
-_BUILD
-
-## Main build
-
-ARG FEDORA_VERSION
-FROM registry.fedoraproject.org/fedora-minimal:$FEDORA_VERSION
-
-COPY custom.repo /etc/yum.repos.d/
-COPY --from=rootfs-stage /root-out/ /
-COPY --from=sunshine /sunshine/build/cpack_artifacts/Sunshine.rpm /rpms/
+FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
 
 RUN set -x \
   \
   && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
-  && microdnf install -y \
+  && dnf install -y \
     https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
-  \
-  && microdnf install -y --setopt=install_weak_deps=False --best \
-    # tools
+  && dnf copr enable -y \
+    lizardbyte/beta \
+  && dnf install -y --setopt=install_weak_deps=False --best \
+    tini \
     sudo \
     git-core \
+    git-lfs \
     iproute-tc \
     iptables-nft \
     iputils \
@@ -86,24 +30,9 @@ RUN set -x \
     vim-minimal \
     tmux \
     bash-completion \
+    gawk \
     \
-    mesa-dri-drivers \
-    mesa-va-drivers-freeworld \
-    mesa-vdpau-drivers-freeworld \
-    mesa-vulkan-drivers \
-    libva-nvidia-driver \
-    vulkan \
-    vulkan-tools \
-    pulseaudio \
-    pulseaudio-utils \
-    glx-utils \
-    dbus-x11 \
-    xorg-x11-server-Xorg \
-    xrandr \
-    xdpyinfo \
     glibc-all-langpacks \
-    systemd-udev \
-    # f39 fonts
     default-fonts-cjk-mono \
     default-fonts-cjk-sans \
     default-fonts-cjk-serif \
@@ -115,58 +44,64 @@ RUN set -x \
     default-fonts-other-mono \
     default-fonts-other-sans \
     default-fonts-other-serif \
-    # XFCE
-    gtk-xfce-engine \
-    xfce4-appfinder \
-    xfce4-panel \
-    # xfce4-pulseaudio-plugin \
-    xfce4-session \
-    xfce4-settings \
-    xfce4-terminal \
-    xfconf \
-    xfdesktop \
-    xfwm4 \
-    # apps
-    /rpms/Sunshine.rpm \
-    flatpak \
+    \
+    mesa-dri-drivers \
+    mesa-va-drivers-freeworld \
+    mesa-vdpau-drivers-freeworld \
+    mesa-vulkan-drivers \
+    libva-nvidia-driver \
+    vulkan \
+    vulkan-tools \
+    glx-utils \
+    \
+    systemd-udev \
+    pulseaudio \
+    pulseaudio-utils \
+    seatd \
+    sway \
+    wlr-randr \
+    foot \
+    Sunshine \
+    steam \
+    gamescope \
+    # called by steam
+    xdg-user-dir \
+    lsb_release \
+    pciutils \
+    diffutils \
+    dbus-launch \
   \
-  && microdnf clean all \
+  && dnf clean all \
   && rm -rf \
     /var/cache \
-    /var/log/*
+    /var/log/* \
+  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
-RUN set -x \
-  \
-  && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel \
-  && rm -f \
-    /etc/xdg/autostart/xfce-polkit.desktop \
-    /etc/xdg/autostart/at-spi-dbus-bus.desktop \
-    /usr/share/applications/xfce4-accessibility-settings.desktop \
-    /usr/share/applications/xfce4-color-settings.desktop \
-    /usr/share/applications/xfce4-mail-reader.desktop \
-    /usr/share/applications/xfce4-session-logout.desktop \
-    /usr/share/applications/xfce-ui-settings.desktop \
-    /usr/share/applications/xfce4-web-browser.desktop \
-    /usr/share/applications/thunar-bulk-rename.desktop
-
-COPY /root /
+COPY sunshine-prep-cmd.sh /usr/local/bin/
 
 ENV \
-  S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
-  S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-  S6_VERBOSITY=1 \
   LANG=C.UTF-8 \
+  LC_ALL=C.UTF-8 \
   SUNSHINE_PORT=47989 \
-  DISPLAY_DEVICE=DFP \
-  DISPLAY=:16 \
-  COLOR_DEPTH=24
+  DESKTOP_SESSION=sway \
+  XDG_CURRENT_DESKTOP=sway \
+  XDG_DATA_DIRS=/usr/local/share:/usr/share \
+  XDG_SESSION_DESKTOP=sway \
+  XDG_SESSION_TYPE=wayland \
+  WLR_BACKENDS=headless,libinput \
+  WLR_LIBINPUT_NO_DEVICES=1 \
+  WAYLAND_DISPLAY=wayland-1 \
+  LIBSEAT_BACKEND=seatd
 
 # ENV \
+#   NVIDIA_VISIBLE_DEVICES=all \
+#   NVIDIA_DRIVER_CAPABILITIES=all \
+#   __NV_PRIME_RENDER_OFFLOAD=1 \
+#   __GLX_VENDOR_LIBRARY_NAME=nvidia \
+#   TZ=America/Los_Angeles \
 #   USER=sunshine \
 #   UID=10000 \
 #   HOME=/home/sunshine \
-#   XDG_RUNTIME_DIR=/run/user/10000 \
-#   SUNSHINE_USERNAME=sunshine \
-#   SUNSHINE_PASSWORD=password
+#   XDG_RUNTIME_DIR=/run/user/10000
 
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["tini", "--"]

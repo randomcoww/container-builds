@@ -1,0 +1,82 @@
+name: hostapd-noscan build
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 23 1 * *"
+  push:
+    paths:
+    - "hostapd-noscan/**"
+    - "!hostapd-noscan/README.md"
+    branches:
+    - master
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  PKGNAME: hostapd-noscan
+  FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
+
+jobs:
+  build:
+    runs-on: arc-runner-${{ github.event.repository.name }}
+    container:
+      image: docker.io/martizih/kaniko:debug
+    permissions:
+      contents: read
+    steps:
+    - name: Set tag
+      run: |
+        set -e
+        echo VERSION=$(wget -O - https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=$PKGNAME | grep ^pkgver | tr -d "pkgver=") | tee -a "$GITHUB_ENV"
+        echo TAG=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
+
+    - name: Build and release container
+      run: |
+        cat > $DOCKER_CONFIG/config.json <<EOF
+        {
+          "auths": {
+            "ghcr.io": {
+              "auth": "$(echo -n ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
+            }
+          }
+        }
+        EOF
+        echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
+
+        executor \
+          --context-sub-path="$TARGET" \
+          --dockerfile="./Containerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:v$VERSION.$TAG" \
+          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
+          --build-arg PKGNAME=$PKGNAME \
+          --build-arg VERSION=$VERSION \
+          --use-new-run \
+          --skip-unused-stages \
+          --snapshot-mode=redo \
+          --cleanup \
+          --image-download-retry=4 \
+          --image-fs-extract-retry=4 \
+          --push-retry=4
+  cleanup:
+    needs:
+      - build
+    env:
+      TAGS_KEEP: 4
+    runs-on: arc-runner-${{ github.event.repository.name }}
+    container:
+      image: docker.io/regclient/regctl:alpine
+    steps:
+    - name: Remove old tags
+      run: |
+        set -e
+        regctl registry set $INTERNAL_REGISTRY --cacert "$INTERNAL_CA_CERT"
+        i=0
+        for tag in $(regctl tag ls $INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }} --exclude latest | sort -r); do
+          if [ "$i" -ge "$TAGS_KEEP" ]; then
+            echo "Delete $tag"
+            regctl tag delete --ignore-missing $INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:$tag
+          fi
+          i=$((i + 1))
+        done

@@ -1,14 +1,13 @@
-### Image build
+### Container for Kea development release
+
+https://github.com/isc-projects/kea
+
+Alpine package
+
+https://cloudsmith.io/~isc/repos/kea-dev/setup/#formats-alpine
+
+Latest release
 
 ```bash
-VERSION=$(curl -s https://api.github.com/repos/isc-projects/kea/tags | jq -r 'first(.[] | select(.name | startswith("Kea-"))).name' | tr -d 'Kea-')
-TAG=ghcr.io/randomcoww/kea:$VERSION
-TARGETARCH=amd64
-
-podman build \
-  --arch $TARGETARCH \
-  --build-arg VERSION=$VERSION \
-  -t $TAG .
-
-podman push $TAG
+curl -s https://api.github.com/repos/isc-projects/kea/git/refs/tags | jq -r 'last(.[] | select(.ref | startswith("refs/tags/Kea-"))).ref' | sed 's/refs\/tags\/Kea-//'
 ```
