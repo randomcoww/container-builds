@@ -1,0 +1,78 @@
+name: ipxe build
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 21 1 * *"
+  push:
+    paths:
+    - "ipxe/**"
+    - "!ipxe/README.md"
+    branches:
+    - master
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  TARGET: ipxe
+  COMMIT: master
+  FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
+
+jobs:
+  build:
+    runs-on: arc-runner-${{ github.event.repository.name }}
+    container:
+      image: docker.io/martizih/kaniko:debug
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Set tag
+      run: |
+        set -e
+        echo TAG=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
+
+    - name: Build and release container
+      run: |
+        cat > $DOCKER_CONFIG/config.json <<EOF
+        {
+          "auths": {
+            "ghcr.io": {
+              "auth": "$(echo -n ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
+            }
+          }
+        }
+        EOF
+        echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
+
+        executor \
+          --context-sub-path="$TARGET" \
+          --dockerfile="./Containerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --destination="ghcr.io/${{ github.actor }}/${{ env.TARGET }}:v$TAG" \
+          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
+          --build-arg COMMIT=$COMMIT \
+          --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
+          --use-new-run \
+          --skip-unused-stages \
+          --snapshot-mode=redo \
+          --cleanup \
+          --image-download-retry=4 \
+          --image-fs-extract-retry=4 \
+          --push-retry=4
+  cleanup:
+    needs:
+      - build
+    runs-on: arc-runner-${{ github.event.repository.name }}
+    container:
+      image: docker.io/node:current-alpine
+    permissions:
+      packages: write
+    steps:
+      - name: Remove old container images
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ github.actor }}/${{ env.TARGET }}
+          package-type: container
+          min-versions-to-keep: 4
+          token: ${{ secrets.GITHUB_TOKEN }}
