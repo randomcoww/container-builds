@@ -15,7 +15,7 @@ RUN set -x \
   && make \
     kube-proxy
 
-FROM alpine:3.21 as
+FROM alpine:3.21
 
 COPY --from=build /go/src/kubernetes/_output/bin/kube-proxy /usr/local/bin/
 RUN set -x \
