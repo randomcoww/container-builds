@@ -24,7 +24,6 @@ jobs:
         RENOVATE_AUTODISCOVER: false
         RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         RENOVATE_CONFIG_FILE: /tmp/renovate.json
-        RENOVATE_DEPENDENCY_DASHBOARD: false
       run: |
         cat > $RENOVATE_CONFIG_FILE <<EOF
         {
