@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora:42
+FROM registry.fedoraproject.org/fedora:44@sha256:5134b062e7571a2bcfec3f6c637ab2df813110cf46d9e43a78d7a2d4f80cb640
 
 RUN set -x \
   \
