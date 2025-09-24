@@ -1,1 +1,3 @@
-### Deprecated - all builds moved out to individual repos
+### Container builds for homelab
+
+Pushes to ghcr.io and internal registry (registry.default)
