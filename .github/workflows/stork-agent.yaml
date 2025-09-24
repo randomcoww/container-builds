@@ -21,7 +21,7 @@ jobs:
   build:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: docker.io/martizih/kaniko:debug
+      image: docker.io/martizih/kaniko:v1.25.4-debug
     permissions:
       contents: read
       packages: write
@@ -74,7 +74,7 @@ jobs:
       packages: write
     steps:
       - name: Remove old container images
-        uses: actions/delete-package-versions@v5
+        uses: actions/delete-package-versions@0d39a63126868f5eefaa47169615edd3c0f61e20
         with:
           package-name: ${{ env.TARGET }}
           package-type: container
