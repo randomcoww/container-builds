@@ -1,4 +1,4 @@
-FROM busybox:stable-musl
+FROM busybox:1.37.0-musl
 
 WORKDIR /var/www
 COPY --chown=www-data:www-data www/ .

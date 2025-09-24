@@ -1,5 +1,4 @@
-ARG FEDORA_VERSION
-FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
+FROM registry.fedoraproject.org/fedora:42
 
 RUN set -x \
   \

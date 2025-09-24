@@ -2,6 +2,8 @@
 
 https://github.com/tailscale/tailscale
 
+https://github.com/tailscale/tailscale/blob/main/Dockerfile
+
 Latest release
 
 ```bash

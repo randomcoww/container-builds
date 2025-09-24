@@ -15,7 +15,6 @@ concurrency:
 
 env:
   TARGET: sunshine-desktop
-  FEDORA_VERSION: 42
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -50,7 +49,6 @@ jobs:
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
           --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:v$TAG" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg FEDORA_VERSION=$FEDORA_VERSION \
           --use-new-run \
           --skip-unused-stages \
           --snapshot-mode=redo \

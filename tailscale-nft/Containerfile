@@ -1,9 +1,7 @@
-# https://github.com/tailscale/tailscale/blob/main/Dockerfile
 
-ARG VERSION
-FROM ghcr.io/tailscale/tailscale:$VERSION AS source
+FROM ghcr.io/tailscale/tailscale:v1.88.2 AS source
 
-FROM alpine:latest
+FROM docker.io/alpine:3.22.1
 
 COPY --from=source /usr/local/bin/tailscale /usr/local/bin/
 COPY --from=source /usr/local/bin/tailscaled /usr/local/bin/

@@ -1,5 +1,4 @@
-ARG VERSION
-FROM ghcr.io/renovatebot/renovate:$VERSION
+FROM ghcr.io/renovatebot/renovate:41.130.0
 
 ARG INTERNAL_CA_CERT
 

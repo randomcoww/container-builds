@@ -28,7 +28,6 @@ jobs:
     - name: Set tag
       run: |
         set -e
-        echo VERSION=$(wget -O - https://api.github.com/repos/renovatebot/renovate/releases/latest |grep tag_name | cut -d '"' -f 4) | tee -a "$GITHUB_ENV"
         echo TAG=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
 
     - name: Build and release container
@@ -48,10 +47,9 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:v$VERSION.$TAG" \
+          --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:v$TAG" \
           --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:latest" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg VERSION=$VERSION \
           --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
           --use-new-run \
           --skip-unused-stages \
