@@ -1,10 +1,10 @@
-name: kubernetes-control-plane build
+name: qrcode-resource build
 on:
   workflow_dispatch:
   push:
     paths:
-    - "kubernetes-control-plane/**"
-    - "!kubernetes-control-plane/README.md"
+    - "qrcode-resource/**"
+    - "!qrcode-resource/README.md"
     branches:
     - master
 concurrency:
@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: kubernetes-control-plane
+  TARGET: qrcode-resource
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -22,15 +22,15 @@ jobs:
       image: docker.io/martizih/kaniko:debug
     permissions:
       contents: read
-      packages: write
     steps:
     - name: Set tag
       run: |
         set -e
-        echo VERSION=$(wget -O - https://api.github.com/repos/kubernetes/kubernetes/releases/latest | grep tag_name | cut -d '"' -f 4) | tee -a "$GITHUB_ENV"
+        echo TAG=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
 
     - name: Build and release container
       run: |
+        set -e
         cat > $DOCKER_CONFIG/config.json <<EOF
         {
           "auths": {
@@ -46,9 +46,8 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.actor }}/${{ env.TARGET }}:$VERSION" \
+          --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:v$TAG" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg VERSION=$VERSION \
           --use-new-run \
           --skip-unused-stages \
           --snapshot-mode=redo \
@@ -59,17 +58,21 @@ jobs:
   cleanup:
     needs:
     - build
+    env:
+      TAGS_KEEP: 4
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: docker.io/node:current-alpine
-    permissions:
-      packages: write
+      image: docker.io/regclient/regctl:alpine
     steps:
-      - name: Remove old container images
-        uses: actions/delete-package-versions@v5
-        with:
-          package-name: ${{ env.TARGET }}
-          package-type: container
-          min-versions-to-keep: 4
-          ignore-versions: latest
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Remove old tags
+      run: |
+        set -e
+        regctl registry set $INTERNAL_REGISTRY --cacert "$INTERNAL_CA_CERT"
+        i=0
+        for tag in $(regctl tag ls $INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }} --exclude latest | sort -r); do
+          if [ "$i" -ge "$TAGS_KEEP" ]; then
+            echo "Delete $tag"
+            regctl tag delete --ignore-missing $INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:$tag
+          fi
+          i=$((i + 1))
+        done
