@@ -13,6 +13,7 @@ concurrency:
 
 env:
   TARGET: qrcode-resource
+  VERSION: 1
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -46,7 +47,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:v$TAG" \
+          --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:v$VERSION.$TAG" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --use-new-run \
           --skip-unused-stages \

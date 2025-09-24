@@ -16,6 +16,7 @@ concurrency:
 env:
   TARGET: ipxe
   COMMIT: master
+  VERSION: 1
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -49,7 +50,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.actor }}/${{ env.TARGET }}:v$TAG" \
+          --destination="ghcr.io/${{ github.actor }}/${{ env.TARGET }}:v$VERSION.$TAG" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg COMMIT=$COMMIT \
           --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
