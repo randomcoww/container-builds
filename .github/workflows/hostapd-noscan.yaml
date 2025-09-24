@@ -2,7 +2,7 @@ name: hostapd-noscan build
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 23 1 * *"
+  - cron: "0 22 2 * *"
   push:
     paths:
     - "hostapd-noscan/**"
@@ -62,7 +62,7 @@ jobs:
           --push-retry=4
   cleanup:
     needs:
-      - build
+    - build
     env:
       TAGS_KEEP: 4
     runs-on: arc-runner-${{ github.event.repository.name }}

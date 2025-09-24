@@ -68,7 +68,7 @@ jobs:
           --push-retry=4
   cleanup:
     needs:
-      - build
+    - build
     env:
       TAGS_KEEP: 4
     runs-on: arc-runner-${{ github.event.repository.name }}

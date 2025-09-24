@@ -2,7 +2,7 @@ name: mountpoint-s3 build
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 23 1 * *"
+  - cron: "0 22 2 * *"
   push:
     paths:
     - "mountpoint-s3/**"
@@ -61,7 +61,7 @@ jobs:
           --push-retry=4
   cleanup:
     needs:
-      - build
+    - build
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
       image: docker.io/node:current-alpine

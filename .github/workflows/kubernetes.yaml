@@ -52,7 +52,7 @@ jobs:
           --push-retry=4
   cleanup:
     needs:
-      - build
+    - build
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
       image: docker.io/node:current-alpine
