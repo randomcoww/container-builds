@@ -71,12 +71,17 @@ jobs:
     - name: Remove old tags
       run: |
         set -e
+        tags=$(mktemp)
+        repo=$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}
         regctl registry set $INTERNAL_REGISTRY --cacert "$INTERNAL_CA_CERT"
+
+        for tag in $(regctl tag ls $repo --exclude latest); do
+          regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags
+        done
         i=0
-        for tag in $(regctl tag ls $INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }} --exclude latest | sort -r); do
+        for tag in $(sort -k2 -t "|" -n -r $tags); do
           if [ "$i" -ge "$TAGS_KEEP" ]; then
-            echo "Delete $tag"
-            regctl tag delete --ignore-missing $INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:$tag
+            regctl tag delete --ignore-missing $repo:$(echo $tag | cut -d "|" -f 1)
           fi
           i=$((i + 1))
         done
