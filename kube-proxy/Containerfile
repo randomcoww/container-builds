@@ -1,4 +1,4 @@
-FROM docker.io/golang:1.25.1-alpine as build
+FROM docker.io/golang:alpine as build
 ARG VERSION
 
 WORKDIR /go/src
@@ -15,7 +15,7 @@ RUN set -x \
   && make \
     kube-proxy
 
-FROM alpine:3.22.1
+FROM docker.io/alpine:3.22
 
 # nftables version should match version on host
 COPY --from=build /go/src/kubernetes/_output/bin/kube-proxy /usr/local/bin/

@@ -1,4 +1,4 @@
-FROM docker.io/golang:1.25.1-alpine as build
+FROM docker.io/golang:alpine as build
 ARG VERSION
 
 WORKDIR /go/src

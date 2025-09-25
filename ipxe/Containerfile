@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.22.1 as build
+FROM docker.io/alpine:3.22 as build
 ARG COMMIT
 
 RUN set -x \
@@ -35,7 +35,7 @@ RUN set -x \
   && mkdir -p /build \
   && mv bin-$(arch)-efi/*.efi /build/
 
-FROM busybox:1.37.0-musl
+FROM docker.io/busybox:1.37.0-musl
 
 WORKDIR /var/www
 COPY --from=build --chown=www-data:www-data /build/ .

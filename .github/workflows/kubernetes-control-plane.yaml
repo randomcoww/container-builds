@@ -65,11 +65,11 @@ jobs:
     permissions:
       packages: write
     steps:
-      - name: Remove old container images
-        uses: actions/delete-package-versions@v5
-        with:
-          package-name: ${{ env.TARGET }}
-          package-type: container
-          min-versions-to-keep: 4
-          ignore-versions: latest
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Remove old container images
+      uses: actions/delete-package-versions@v5
+      with:
+        package-name: ${{ env.TARGET }}
+        package-type: container
+        min-versions-to-keep: 4
+        ignore-versions: latest
+        token: ${{ secrets.GITHUB_TOKEN }}
