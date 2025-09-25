@@ -7,16 +7,6 @@ on:
     paths:
     - "tailscale-nft/**"
     - "!tailscale-nft/README.md"
-    branches:
-    - master
-  pull_request:
-    types:
-    - closed
-    paths:
-    - "tailscale-nft/**"
-    - "!tailscale-nft/README.md"
-    branches:
-    - master
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
@@ -45,7 +35,7 @@ jobs:
         {
           "auths": {
             "ghcr.io": {
-              "auth": "$(echo -n ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
+              "auth": "$(echo -n ${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
             }
           }
         }
@@ -56,7 +46,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}:v$VERSION.$TAG" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$VERSION.$TAG" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --use-new-run \
           --skip-unused-stages \
@@ -78,7 +68,7 @@ jobs:
       run: |
         set -e
         tags=$(mktemp)
-        repo=$INTERNAL_REGISTRY/${{ github.actor }}/${{ env.TARGET }}
+        repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
         regctl registry set $INTERNAL_REGISTRY --cacert "$INTERNAL_CA_CERT"
 
         for tag in $(regctl tag ls $repo --exclude latest); do

@@ -7,16 +7,6 @@ on:
     paths:
     - "kube-proxy/**"
     - "!kube-proxy/README.md"
-    branches:
-    - master
-  pull_request:
-    types:
-    - closed
-    paths:
-    - "kube-proxy/**"
-    - "!kube-proxy/README.md"
-    branches:
-    - master
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
@@ -46,7 +36,7 @@ jobs:
         {
           "auths": {
             "ghcr.io": {
-              "auth": "$(echo -n ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
+              "auth": "$(echo -n ${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
             }
           }
         }
@@ -57,7 +47,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.actor }}/${{ env.TARGET }}:$VERSION.$TAG" \
+          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$VERSION.$TAG" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg VERSION=$VERSION \
           --use-new-run \
