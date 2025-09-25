@@ -9,6 +9,14 @@ on:
     - "!kea/README.md"
     branches:
     - master
+  pull_request:
+    types:
+    - closed
+    paths:
+    - "kea/**"
+    - "!kea/README.md"
+    branches:
+    - master
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true

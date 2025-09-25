@@ -9,6 +9,14 @@ on:
     - "!mountpoint-s3/README.md"
     branches:
     - master
+  pull_request:
+    types:
+    - closed
+    paths:
+    - "mountpoint-s3/**"
+    - "!mountpoint-s3/README.md"
+    branches:
+    - master
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true

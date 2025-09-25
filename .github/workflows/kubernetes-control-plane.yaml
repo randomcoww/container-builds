@@ -7,6 +7,14 @@ on:
     - "!kubernetes-control-plane/README.md"
     branches:
     - master
+  pull_request:
+    types:
+    - closed
+    paths:
+    - "kubernetes-control-plane/**"
+    - "!kubernetes-control-plane/README.md"
+    branches:
+    - master
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true

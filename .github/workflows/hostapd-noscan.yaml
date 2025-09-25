@@ -9,6 +9,14 @@ on:
     - "!hostapd-noscan/README.md"
     branches:
     - master
+  pull_request:
+    types:
+    - closed
+    paths:
+    - "hostapd-noscan/**"
+    - "!hostapd-noscan/README.md"
+    branches:
+    - master
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
