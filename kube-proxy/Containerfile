@@ -15,7 +15,7 @@ RUN set -x \
   && make \
     kube-proxy
 
-FROM docker.io/alpine:3.22
+FROM docker.io/alpine:3.22.1
 
 # nftables version should match version on host
 COPY --from=build /go/src/kubernetes/_output/bin/kube-proxy /usr/local/bin/

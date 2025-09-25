@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.22
+FROM docker.io/alpine:3.22.1
 
 RUN set -x \
   \
