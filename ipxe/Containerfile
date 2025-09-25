@@ -42,5 +42,3 @@ COPY --from=build --chown=www-data:www-data /build/ .
 USER www-data
 
 ENTRYPOINT [ "httpd", "-f", "-v" ]
-# busybox also includes tftpd and may be started like this:
-# ENTRYPOINT [ "udpsvd", "-vE", "0.0.0.0", "69", "tftpd", "-r", "-u", "www-data", "/var/www" ]

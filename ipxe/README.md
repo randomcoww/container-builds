@@ -1,19 +1,13 @@
-### Container for iPXE images served over TFTP or HTTP
+### Container for iPXE images with internal CA served over TFTP or HTTP
 
 https://github.com/ipxe/ipxe
 
-PXE images built to support
+busybox also includes tftpd and may be started like this
 
+```dockerfile
+ENTRYPOINT [ "udpsvd", "-vE", "0.0.0.0", "69", "tftpd", "-r", "-u", "www-data", "/var/www" ]
 ```
-DNS
-HTTP
-HTTPS
-iSCSI
-TFTP
-FCoE
-SRP
-VLAN
-AoE
-EFI
-Menu
+
+```dockerfile
+ENTRYPOINT [ "udpsvd", "-vE", "0.0.0.0", "1069", "tftpd", "-r", "/var/www" ]
 ```
