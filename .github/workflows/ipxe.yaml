@@ -21,7 +21,7 @@ jobs:
   build:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: docker.io/martizih/kaniko:debug
+      image: docker.io/martizih/kaniko:debug@sha256:b544f98f36c86fc9b7bd43edb3fa0e8766a8e4919795af50c597621949a91519
     permissions:
       contents: read
       packages: write
@@ -64,12 +64,12 @@ jobs:
     - build
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: docker.io/node:current-alpine
+      image: docker.io/node:current-alpine@sha256:532571bb2b0d4fd6b4700a076facaab587c8d11ab5380d84594d0121e278d16d
     permissions:
       packages: write
     steps:
     - name: Remove old container images
-      uses: actions/delete-package-versions@v5
+      uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5
       with:
         package-name: ${{ env.TARGET }}
         package-type: container
