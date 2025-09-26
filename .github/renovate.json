@@ -3,6 +3,19 @@
   "extends": [
     "config:best-practices"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^.+.ya?ml$/"
+      ],
+      "matchStrings": [
+        "GOLANG_VERSION:\\s+(?<currentValue>[^\\s]+)"
+      ],
+      "depNameTemplate": "go",
+      "datasourceTemplate": "golang-version"
+    }
+  ],
   "packageRules": [
     {
       "matchUpdateTypes": [
