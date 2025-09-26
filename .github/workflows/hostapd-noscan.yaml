@@ -20,7 +20,7 @@ jobs:
   build:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: docker.io/martizih/kaniko:debug
+      image: docker.io/martizih/kaniko:debug@sha256:b544f98f36c86fc9b7bd43edb3fa0e8766a8e4919795af50c597621949a91519
     permissions:
       contents: read
     steps:
@@ -65,7 +65,7 @@ jobs:
       TAGS_KEEP: 4
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: docker.io/regclient/regctl:alpine
+      image: docker.io/regclient/regctl:alpine@sha256:53115c38927846d4f2ae111121cca7e95a033fd84132d69569e814ede1a696d3
     steps:
     - name: Remove old tags
       run: |
