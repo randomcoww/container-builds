@@ -12,11 +12,11 @@ jobs:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
       image: registry.default/randomcoww/renovate:latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-      actions: write
+    permissions: write-all
+      # contents: write
+      # issues: write
+      # pull-requests: write
+      # actions: write
     steps:
     - name: Check for updates
       env:
