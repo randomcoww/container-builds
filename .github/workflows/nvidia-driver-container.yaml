@@ -8,7 +8,7 @@ concurrency:
 env:
   TARGET: nvidia-driver-container
   FEDORA_VERSION: 42
-  GOLANG_VERSION: 1.24.5 # https://gitlab.com/container-toolkit-fcos/driver/-/blob/fedora-rebased-main/ci/fedora/.gitlab-ci-fcos.yml
+  GOLANG_VERSION: 1.25.1 # https://gitlab.com/container-toolkit-fcos/driver/-/blob/fedora-rebased-main/ci/fedora/.gitlab-ci-fcos.yml
   DRIVER_VERSION: 580.82.09
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
