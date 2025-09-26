@@ -12,17 +12,17 @@ jobs:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
       image: registry.default/randomcoww/renovate:latest
-    permissions: write-all
-      # contents: write
-      # issues: write
-      # pull-requests: write
-      # actions: write
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      actions: write
     steps:
     - name: Check for updates
       env:
         RENOVATE_PLATFORM: github
         RENOVATE_AUTODISCOVER: false
-        RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # RENOVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         RENOVATE_CONFIG_FILE: /tmp/renovate.json
         LOG_LEVEL: debug
       run: |
