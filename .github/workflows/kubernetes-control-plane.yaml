@@ -59,7 +59,7 @@ jobs:
     - build
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: docker.io/node:current-alpine@sha256:532571bb2b0d4fd6b4700a076facaab587c8d11ab5380d84594d0121e278d16d
+      image: docker.io/node:current-alpine@sha256:77f3c4d1f33c17dfa4af4b0add57d86957187873e313c2c37f52831d117645c8
     permissions:
       packages: write
     steps:
