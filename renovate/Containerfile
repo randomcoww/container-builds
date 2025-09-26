@@ -1,4 +1,4 @@
-FROM ghcr.io/renovatebot/renovate:41.131.1@sha256:ee2551385d993965d9de75e1f485dd5f211f16c8f8899ce3dd3818bf492836be
+FROM ghcr.io/renovatebot/renovate:41.131.2@sha256:86298ee90e8409c91d97021793a0e992bc926d965459f8c51bd2bca93a033a24
 
 ARG INTERNAL_CA_CERT
 
