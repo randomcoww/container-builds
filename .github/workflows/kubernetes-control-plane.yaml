@@ -7,7 +7,7 @@ concurrency:
 
 env:
   TARGET: kubernetes-control-plane
-  RELEASE: v1.34.0 # kubernetes/kubernetes
+  RELEASE: v1.34.1 # kubernetes/kubernetes
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
