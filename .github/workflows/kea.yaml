@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: kea
-  TAG: Kea-3.0.0 # isc-projects/kea
+  TAG: Kea-3.1.0 # isc-projects/kea
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
