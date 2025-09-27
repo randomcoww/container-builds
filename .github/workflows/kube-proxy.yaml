@@ -9,6 +9,7 @@ concurrency:
 
 env:
   TARGET: kube-proxy
+  RELEASE: v1.34.0 # kubernetes/kubernetes
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -24,7 +25,7 @@ jobs:
       run: |
         set -e
         echo VERSION=$(wget -O - https://api.github.com/repos/kubernetes/kubernetes/releases/latest | grep tag_name | cut -d '"' -f 4) | tee -a "$GITHUB_ENV"
-        echo TAG=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
+        echo TIMESTAMP=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
 
     - name: Build and release container
       run: |
@@ -43,7 +44,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$VERSION.$TAG" \
+          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$VERSION.$TIMESTAMP" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg VERSION=$VERSION \
           --use-new-run \

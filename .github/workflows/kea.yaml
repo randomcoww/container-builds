@@ -9,6 +9,7 @@ concurrency:
 
 env:
   TARGET: kea
+  TAG: Kea-3.0.0 # isc-projects/kea
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -30,7 +31,7 @@ jobs:
         chmod +x /kaniko/jq
 
         echo VERSION=$(wget -O - https://api.github.com/repos/isc-projects/kea/git/refs/tags | jq -r 'last(.[] | select(.ref | startswith("refs/tags/Kea-"))).ref' | sed 's/refs\/tags\/Kea-//') | tee -a "$GITHUB_ENV"
-        echo TAG=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
+        echo TIMESTAMP=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
 
     - name: Build and release container
       run: |
@@ -49,7 +50,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:v$VERSION.$TAG" \
+          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:v$VERSION.$TIMESTAMP" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --use-new-run \
           --skip-unused-stages \

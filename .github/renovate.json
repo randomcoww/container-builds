@@ -23,6 +23,16 @@
         "/^.github/workflows/.+.ya?ml$/"
       ],
       "matchStrings": [
+        "TAG:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
+      ],
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^.github/workflows/.+.ya?ml$/"
+      ],
+      "matchStrings": [
         "GOLANG_VERSION:\\s+(?<currentValue>[^\\s]+)"
       ],
       "depNameTemplate": "go",
@@ -31,12 +41,19 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["gitpod-io/openvscode-server"],
-      "versioning": "regex:^(?<compatibility>.*)-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
+      "versioning": "docker"
     },
     {
-      "matchPackageNames": ["kubernetes/kubernetes"],
-      "versioning": "docker"
+      "matchPackageNames": [
+        "gitpod-io/openvscode-server",
+        "isc-projects/kea",
+        "awslabs/mountpoint-s3"
+      ],
+      "versioning": "regex:^(?<compatibility>.*)-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
     {
       "matchUpdateTypes": [

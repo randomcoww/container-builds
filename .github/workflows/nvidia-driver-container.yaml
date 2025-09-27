@@ -32,7 +32,7 @@ jobs:
         chmod +x /kaniko/jq
 
         echo BRANCH=$(wget -O - https://gitlab.com/api/v4/projects/container-toolkit-fcos%2Fdriver/repository/tags | jq -r 'first(.[] | select(.name | endswith("-fedora"))).name') | tee -a "$GITHUB_ENV"
-        echo TAG=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
+        echo TIMESTAMP=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
         echo TARGETARCH=$TARGETARCH | tee -a "$GITHUB_ENV"
 
     - name: Build and release container
@@ -52,7 +52,7 @@ jobs:
           --context-sub-path="fedora" \
           --dockerfile="./Dockerfile" \
           --context="git://gitlab.com/container-toolkit-fcos/driver.git#$BRANCH" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$DRIVER_VERSION.$TAG-fedora$FEDORA_VERSION" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$DRIVER_VERSION.$TIMESTAMP-fedora$FEDORA_VERSION" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg TARGETARCH=$TARGETARCH \
           --build-arg GOLANG_VERSION=$GOLANG_VERSION \
