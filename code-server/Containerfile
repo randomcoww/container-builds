@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-minimal:latest@sha256:c1fd0943ac7eb009b8c3bf9333ab2634bbf3fea0d258a3ee0b762f384c13c7d1
+FROM registry.fedoraproject.org/fedora-minimal:latest@sha256:608122b5bfe4abbb17348d1c13a54e0e210d383d02a4dfff518cadd041bb74d0
 ARG RELEASE
 
 RUN set -x \
