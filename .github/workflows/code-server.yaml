@@ -9,6 +9,7 @@ concurrency:
 
 env:
   TARGET: code-server
+  RELEASE: openvscode-server-v1.102.3 # gitpod-io/openvscode-server
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:

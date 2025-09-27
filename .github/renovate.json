@@ -3,11 +3,24 @@
   "extends": [
     "config:best-practices"
   ],
+  "enabledManagers": [
+    "custom.regex"
+  ],
   "customManagers": [
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/^.+.ya?ml$/"
+        "/^.github/workflows/.+.ya?ml$/"
+      ],
+      "matchStrings": [
+        "RELEASE:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
+      ],
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^.github/workflows/.+.ya?ml$/"
       ],
       "matchStrings": [
         "GOLANG_VERSION:\\s+(?<currentValue>[^\\s]+)"
@@ -17,6 +30,14 @@
     }
   ],
   "packageRules": [
+    {
+      "matchPackageNames": ["gitpod-io/openvscode-server"],
+      "versioning": "regex:^(?<compatibility>.*)-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
+    },
+    {
+      "matchPackageNames": ["kubernetes/kubernetes"],
+      "versioning": "docker"
+    },
     {
       "matchUpdateTypes": [
         "minor",
