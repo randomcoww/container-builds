@@ -1,10 +1,6 @@
 name: kubernetes-control-plane build
 on:
   workflow_dispatch:
-  push:
-    paths:
-    - "kubernetes-control-plane/**"
-    - "!kubernetes-control-plane/README.md"
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true

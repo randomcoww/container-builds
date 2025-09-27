@@ -1,10 +1,6 @@
 name: qrcode-resource build
 on:
   workflow_dispatch:
-  push:
-    paths:
-    - "qrcode-resource/**"
-    - "!qrcode-resource/README.md"
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
