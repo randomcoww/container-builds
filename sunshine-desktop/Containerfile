@@ -1,4 +1,5 @@
 FROM registry.fedoraproject.org/fedora:latest@sha256:77483374871aeae3c18131c550e9fef5c52e5f860ae8aee41eece5a4ee633343
+ARG PACKAGE_VERSION
 
 RUN set -x \
   \
@@ -60,7 +61,7 @@ RUN set -x \
     sway \
     wlr-randr \
     foot \
-    Sunshine \
+    Sunshine-$PACKAGE_VERSION \
     steam \
     gamescope \
     # called by steam

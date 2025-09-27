@@ -3,9 +3,6 @@
   "extends": [
     "config:best-practices"
   ],
-  "enabledManagers": [
-    "custom.regex"
-  ],
   "customManagers": [
     {
       "customType": "regex",
