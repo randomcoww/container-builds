@@ -10,7 +10,7 @@ My environment is also a little unique and some common modules like `nvidia-drm`
 
 ```yaml
 containers:
-- name: sushine-desktop
+- name: sunshine-desktop
   args:
   - bash
   - -c
