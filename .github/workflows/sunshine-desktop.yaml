@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: sunshine-desktop
-  RELEASE: v2025.924.154138 # LizardByte/Sunshine
+  RELEASE: v2025.927.211945 # LizardByte/Sunshine
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
