@@ -8,6 +8,6 @@ RUN set -x \
   && wget -O - \
     "https://dl.cloudsmith.io/public/isc/stork-dev/config.alpine.txt?distro=alpine&arch=$(arch)&version=$(cat /etc/alpine-release)" >> /etc/apk/repositories \
   && apk add --no-cache \
-    isc-stork-agent-$PACKAGE_VERSION
+    isc-stork-agent=~$PACKAGE_VERSION
 
 ENTRYPOINT ["stork-agent"]
