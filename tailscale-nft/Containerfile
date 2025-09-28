@@ -1,5 +1,6 @@
 
-FROM ghcr.io/tailscale/tailscale:v1.88.2@sha256:9d66a1c8922e174cd346c2776c7c6f4450589543d988ae1bb9cefd8de58fd6c2 AS source
+ARG IMAGE_RELEASE
+FROM ghcr.io/tailscale/tailscale:$IMAGE_RELEASE AS source
 
 FROM docker.io/alpine:3.22.1@sha256:4bcff63911fcb4448bd4fdacec207030997caf25e9bea4045fa6c8c44de311d1
 

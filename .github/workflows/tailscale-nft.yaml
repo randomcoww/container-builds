@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: tailscale-nft
-  VERSION: 1
+  IMAGE_RELEASE: v1.88.2@sha256:9d66a1c8922e174cd346c2776c7c6f4450589543d988ae1bb9cefd8de58fd6c2 # ghcr.io/tailscale/tailscale
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -42,8 +42,9 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$VERSION.$TIMESTAMP" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$(echo $IMAGE_RELEASE | sed 's/@sha256:.*$//').$TIMESTAMP" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
+          --build-arg IMAGE_RELEASE="$IMAGE_RELEASE" \
           --use-new-run \
           --skip-unused-stages \
           --snapshot-mode=redo \

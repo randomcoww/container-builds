@@ -1,4 +1,5 @@
-FROM ghcr.io/renovatebot/renovate:41.131.8@sha256:dd5721b9a686a40d81687643e4b71b82a0ca31fb653fd727538af69104fd388d
+ARG IMAGE_RELEASE
+FROM ghcr.io/renovatebot/renovate:$IMAGE_RELEASE
 
 ARG INTERNAL_CA_CERT
 
