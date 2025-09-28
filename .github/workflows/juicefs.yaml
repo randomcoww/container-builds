@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: juicefs
-  RELEASE: v1.3.0 # juicedata/juicefs
+  GITHUB_RELEASE: v1.3.0 # juicedata/juicefs
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -42,9 +42,9 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$RELEASE.$TIMESTAMP" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE.$TIMESTAMP" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg RELEASE=$RELEASE \
+          --build-arg VERSION=$(echo $GITHUB_RELEASE | tr -d 'v') \
           --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
           --use-new-run \
           --skip-unused-stages \

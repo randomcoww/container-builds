@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: mountpoint-s3
-  RELEASE: mountpoint-s3-1.20.0 # awslabs/mountpoint-s3
+  GITHUB_RELEASE: mountpoint-s3-1.20.0 # awslabs/mountpoint-s3
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -43,9 +43,9 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $RELEASE | sed 's/mountpoint-s3-//').$TIMESTAMP" \
+          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $GITHUB_RELEASE | sed 's/mountpoint-s3-//').$TIMESTAMP" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg RELEASE=$(echo $RELEASE | sed 's/mountpoint-s3-//') \
+          --build-arg VERSION=$(echo $GITHUB_RELEASE | sed 's/mountpoint-s3-//') \
           --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
           --use-new-run \
           --skip-unused-stages \

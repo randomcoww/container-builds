@@ -1,5 +1,5 @@
 FROM docker.io/alpine:latest
-ARG RELEASE
+ARG VERSION
 ARG INTERNAL_CA_CERT
 
 RUN set -x \
@@ -12,7 +12,7 @@ RUN set -x \
     ca-certificates \
   \
   && wget -O jfs.tar.gz \
-    https://github.com/juicedata/juicefs/releases/download/$RELEASE/juicefs-$(echo $RELEASE | tr -d 'v')-linux-$TARGETARCH.tar.gz \
+    https://github.com/juicedata/juicefs/releases/download/v$VERSION/juicefs-$VERSION-linux-$TARGETARCH.tar.gz \
   && tar xzf jfs.tar.gz -C /usr/local/bin juicefs \
   && rm jfs.tar.gz \
   && echo -e "$INTERNAL_CA_CERT" > /usr/local/share/ca-certificates/ca-cert.pem \

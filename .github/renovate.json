@@ -13,7 +13,7 @@
         "/^.github/workflows/.+.ya?ml$/"
       ],
       "matchStrings": [
-        "^\\s*RELEASE:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
+        "GITHUB_RELEASE:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
       ],
       "datasourceTemplate": "github-releases"
     },
@@ -23,7 +23,7 @@
         "/^.github/workflows/.+.ya?ml$/"
       ],
       "matchStrings": [
-        "^\\s*TAG:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
+        "GITHUB_TAG:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
       ],
       "datasourceTemplate": "github-tags"
     },
@@ -33,7 +33,7 @@
         "/^.github/workflows/.+.ya?ml$/"
       ],
       "matchStrings": [
-        "^\\s*IMAGE_RELEASE:\\s+(?<currentValue>[\\w.-]{1,127})(@(?<currentDigest>sha256:[a-f0-9]+))?\\s+#\\s+(?<depName>[^\\s]+)"
+        "IMAGE_RELEASE:\\s+(?<currentValue>[\\w.-]{1,127})(@(?<currentDigest>sha256:[a-f0-9]+))?\\s+#\\s+(?<depName>[^\\s]+)"
       ],
       "datasourceTemplate": "docker"
     },

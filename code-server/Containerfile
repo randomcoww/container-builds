@@ -1,5 +1,5 @@
 FROM registry.fedoraproject.org/fedora-minimal:latest
-ARG RELEASE
+ARG VERSION
 
 RUN set -x \
   \
@@ -48,7 +48,7 @@ RUN set -x \
   && chmod +x /usr/local/bin/mc \
   \
   && curl -fsSL -o openvscode-server.tar.gz \
-    https://github.com/gitpod-io/openvscode-server/releases/download/$RELEASE/$RELEASE-linux-$CODE_ARCH.tar.gz \
+    https://github.com/gitpod-io/openvscode-server/releases/download/$VERSION/$VERSION-linux-$CODE_ARCH.tar.gz \
   && mkdir -p /opt/openvscode-server \
   && tar xzf openvscode-server.tar.gz --strip=1 -C /opt/openvscode-server \
   && rm openvscode-server.tar.gz

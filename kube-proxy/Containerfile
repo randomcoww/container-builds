@@ -1,5 +1,5 @@
 FROM docker.io/golang:alpine as build
-ARG RELEASE
+ARG VERSION
 
 WORKDIR /go/src
 RUN set -x \
@@ -10,7 +10,7 @@ RUN set -x \
     bash \
     rsync \
   \
-  && git clone --depth 1 -b $RELEASE https://github.com/kubernetes/kubernetes.git \
+  && git clone --depth 1 -b $VERSION https://github.com/kubernetes/kubernetes.git \
   && cd kubernetes \
   && make \
     kube-proxy
