@@ -57,7 +57,7 @@ jobs:
       TAGS_KEEP: 4
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/regclient/regctl:alpine
+      image: ghcr.io/regclient/regctl:alpine@sha256:53115c38927846d4f2ae111121cca7e95a033fd84132d69569e814ede1a696d3
     steps:
     - name: Remove old tags
       run: |
