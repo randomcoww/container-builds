@@ -63,6 +63,12 @@
       "versioning": "regex:^(?<compatibility>.*)-v?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     },
     {
+      "matchPackageNames": [
+        "LizardByte/Sunshine"
+      ],
+      "ignoreUnstable": false
+    },
+    {
       "matchUpdateTypes": [
         "minor",
         "patch",
