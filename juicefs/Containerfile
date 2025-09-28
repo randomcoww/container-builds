@@ -1,4 +1,4 @@
-FROM docker.io/alpine:latest AS build
+FROM docker.io/alpine:latest
 ARG RELEASE
 ARG INTERNAL_CA_CERT
 
