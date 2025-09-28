@@ -8,6 +8,7 @@ RUN set -x \
   && TARGETARCH=${TARGETARCH/x86_64/amd64} && TARGETARCH=${TARGETARCH/aarch64/arm64} \
   \
   && apk add --no-cache \
+    fuse \
     ca-certificates \
   \
   && wget -O jfs.tar.gz \
@@ -17,11 +18,4 @@ RUN set -x \
   && echo -e "$INTERNAL_CA_CERT" > /usr/local/share/ca-certificates/ca-cert.pem \
   && update-ca-certificates
 
-FROM scratch
-
-COPY --from=build /usr/local/bin/juicefs /bin/
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-
-ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
-
-ENTRYPOINT ["/bin/juicefs"]
+ENTRYPOINT ["juicefs"]
