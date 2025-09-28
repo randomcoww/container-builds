@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-minimal:latest@sha256:608122b5bfe4abbb17348d1c13a54e0e210d383d02a4dfff518cadd041bb74d0
+FROM registry.fedoraproject.org/fedora-minimal:latest
 
 ARG RELEASE
 ARG INTERNAL_CA_CERT
