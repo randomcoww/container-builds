@@ -1,0 +1,71 @@
+name: kaniko build
+on:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  TARGET: kaniko
+  IMAGE_RELEASE: v1.25.5-debug@sha256:b544f98f36c86fc9b7bd43edb3fa0e8766a8e4919795af50c597621949a91519 # ghcr.io/martizih/kaniko
+  FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
+
+jobs:
+  build:
+    runs-on: arc-runner-${{ github.event.repository.name }}
+    container:
+      image: docker.io/martizih/kaniko:debug@sha256:b544f98f36c86fc9b7bd43edb3fa0e8766a8e4919795af50c597621949a91519
+    permissions:
+      contents: read
+    steps:
+    - name: Build and release container
+      run: |
+        cat > $DOCKER_CONFIG/config.json <<EOF
+        {
+          "auths": {
+            "ghcr.io": {
+              "auth": "$(echo -n ${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
+            }
+          }
+        }
+        EOF
+        echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
+
+        executor \
+          --context-sub-path="$TARGET" \
+          --dockerfile="./Containerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $IMAGE_RELEASE | sed 's/@sha256:.*$//')" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:latest" \
+          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
+          --build-arg IMAGE_RELEASE="$IMAGE_RELEASE" \
+          --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
+          --use-new-run \
+          --skip-unused-stages \
+          --snapshot-mode=redo \
+          --cleanup \
+          --image-download-retry=4 \
+          --image-fs-extract-retry=4 \
+          --push-retry=4
+  cleanup:
+    needs:
+    - build
+    env:
+      TAGS_KEEP: 4
+    runs-on: arc-runner-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/regclient/regctl:alpine
+    steps:
+    - name: Remove old tags
+      run: |
+        set -e
+        tags=$(mktemp)
+        repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
+        regctl registry set $INTERNAL_REGISTRY --cacert "$INTERNAL_CA_CERT"
+
+        for tag in $(regctl tag ls $repo --exclude latest); do
+          regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags
+        done
+        for tag in $(sort -k2 -t "|" -n $tags | head -n -$TAGS_KEEP); do
+          regctl tag delete --ignore-missing $repo:$(echo $tag | cut -d "|" -f 1)
+        done
