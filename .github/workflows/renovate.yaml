@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: renovate
-  IMAGE_RELEASE: 41.131.12@sha256:9233ad56201145b829475e851127a690a94c302975b2adf714ee36878b546b09 # ghcr.io/renovatebot/renovate
+  IMAGE_RELEASE: 41.132.1@sha256:ed85314257fd20849fbf9a478067dfd14e6dc41283e988bd7ce9e55e919a7e3c # ghcr.io/renovatebot/renovate
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
