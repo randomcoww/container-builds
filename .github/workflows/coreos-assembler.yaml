@@ -1,4 +1,4 @@
-name: kaniko cache
+name: coreos-assembler cache
 on:
   workflow_dispatch:
 concurrency:
@@ -6,8 +6,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: kaniko
-  IMAGE_RELEASE: v1.25.5-debug@sha256:b544f98f36c86fc9b7bd43edb3fa0e8766a8e4919795af50c597621949a91519 # docker.io/martizih/kaniko
+  TARGET: coreos-assembler
+  IMAGE_RELEASE: latest@sha256:84c3a8a67fc472b537f7fdd16038b825420762db6ed96ef3e8909105c85ba3a3 # quay.io/coreos-assembler/coreos-assembler
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
@@ -36,7 +36,6 @@ jobs:
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$(echo $IMAGE_RELEASE | sed 's/@sha256:.*$//')" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:latest" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg IMAGE_RELEASE="$IMAGE_RELEASE" \
           --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \

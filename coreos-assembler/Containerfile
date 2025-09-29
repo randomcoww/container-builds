@@ -1,0 +1,2 @@
+ARG IMAGE_RELEASE
+FROM quay.io/coreos-assembler/coreos-assembler:$IMAGE_RELEASE
