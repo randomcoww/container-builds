@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: coreos-assembler
-  IMAGE_RELEASE: latest@sha256:84c3a8a67fc472b537f7fdd16038b825420762db6ed96ef3e8909105c85ba3a3 # quay.io/coreos-assembler/coreos-assembler
+  IMAGE_RELEASE: latest@sha256:b8cc9c8f760193b78d1bfc2bba9a20a2b23673c88e59e6431899abb3239819c4 # quay.io/coreos-assembler/coreos-assembler
   FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
