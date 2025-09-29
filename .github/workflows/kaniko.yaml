@@ -1,6 +1,8 @@
-name: kaniko cache
+name: kaniko build
 on:
   workflow_dispatch:
+  schedule:
+  - cron: "0 18 * * 6"
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
@@ -14,7 +16,7 @@ jobs:
   build:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: docker.io/martizih/kaniko:debug@sha256:b544f98f36c86fc9b7bd43edb3fa0e8766a8e4919795af50c597621949a91519
+      image: registry.default/randomcoww/kaniko:latest@sha256:b7b75ae3155626ade10930cff8bdb7f3a26e6acb735c12c48d1d3c1898db089a
     permissions:
       contents: read
     steps:
