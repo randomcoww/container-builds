@@ -1,0 +1,15 @@
+ARG IMAGE_RELEASE
+
+FROM docker.io/alpine:latest AS cert
+ARG INTERNAL_CA_CERT
+
+RUN set -x \
+  \
+  apk add --no-cache \
+    ca-certificates \
+  \
+  && echo -e "$INTERNAL_CA_CERT" > /usr/local/share/ca-certificates/ca-cert.pem \
+  && update-ca-certificates
+
+FROM docker.io/litestream/litestream:$IMAGE_RELEASE
+COPY --from=cert /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
