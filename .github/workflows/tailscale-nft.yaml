@@ -10,7 +10,6 @@ concurrency:
 env:
   TARGET: tailscale-nft
   IMAGE_RELEASE: v1.88.3@sha256:b2a19f6b6402adc26a2aa8cb90da66afe3061e718ac67ed3f21ec3d4b366439f # ghcr.io/tailscale/tailscale
-  FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
   build:

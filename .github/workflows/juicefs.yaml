@@ -10,7 +10,6 @@ concurrency:
 env:
   TARGET: juicefs
   GITHUB_RELEASE: v1.3.0 # juicedata/juicefs
-  FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
   build:

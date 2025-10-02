@@ -8,7 +8,6 @@ concurrency:
 env:
   TARGET: qrcode-resource
   VERSION: 1
-  FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
   build:

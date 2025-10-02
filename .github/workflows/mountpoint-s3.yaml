@@ -10,7 +10,6 @@ concurrency:
 env:
   TARGET: mountpoint-s3
   GITHUB_RELEASE: mountpoint-s3-1.20.0 # awslabs/mountpoint-s3
-  FF_KANIKO_SQUASH_STAGES: true # https://github.com/mzihlmann/kaniko/pull/141
 
 jobs:
   build:
