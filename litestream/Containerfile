@@ -5,7 +5,7 @@ ARG INTERNAL_CA_CERT
 
 RUN set -x \
   \
-  apk add --no-cache \
+  && apk add --no-cache \
     ca-certificates \
   \
   && mkdir -p /usr/local/share/ca-certificates/ \
