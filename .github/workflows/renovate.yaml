@@ -9,13 +9,13 @@ concurrency:
 
 env:
   TARGET: renovate
-  IMAGE_RELEASE: 41.135.3@sha256:d6c40b481207bc43d9d2812c5e10372d1f81fef45ac0a2f0913f09e540481677 # ghcr.io/renovatebot/renovate
+  IMAGE_RELEASE: 41.135.4@sha256:e459af116e0cb6c7d5094c0dd4c999d4335d948324192902125b7aff91601a00 # ghcr.io/renovatebot/renovate
 
 jobs:
   build:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: registry.default/randomcoww/kaniko:latest@sha256:b7b75ae3155626ade10930cff8bdb7f3a26e6acb735c12c48d1d3c1898db089a
+      image: registry.default/randomcoww/kaniko:latest@sha256:fedefda1f0650bc629d95097ddbf2ce48007b2a2064454681e09bd2fdf9f8db4
     permissions:
       contents: read
     steps:

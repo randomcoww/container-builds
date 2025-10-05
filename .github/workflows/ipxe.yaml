@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: registry.default/randomcoww/kaniko:latest@sha256:b7b75ae3155626ade10930cff8bdb7f3a26e6acb735c12c48d1d3c1898db089a
+      image: registry.default/randomcoww/kaniko:latest@sha256:fedefda1f0650bc629d95097ddbf2ce48007b2a2064454681e09bd2fdf9f8db4
     permissions:
       contents: read
       packages: write
