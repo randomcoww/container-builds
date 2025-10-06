@@ -9,13 +9,13 @@ concurrency:
 
 env:
   TARGET: sunshine-desktop
-  GITHUB_RELEASE: v2025.930.130407 # LizardByte/Sunshine
+  GITHUB_RELEASE: v2025.1005.140530 # LizardByte/Sunshine
 
 jobs:
   build:
     runs-on: arc-runner-${{ github.event.repository.name }}
     container:
-      image: registry.default/randomcoww/kaniko:latest@sha256:fedefda1f0650bc629d95097ddbf2ce48007b2a2064454681e09bd2fdf9f8db4
+      image: registry.default/randomcoww/kaniko:latest@sha256:101988b1ba4848de6dfe50ee77a62fc3632dd8b2cf033673dabafe2be95ffe87
     permissions:
       contents: read
     steps:
