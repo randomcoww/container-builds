@@ -2,7 +2,7 @@ name: tailscale-nft build
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 16 * * 1"
+  - cron: "0 14 * * 1"
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
