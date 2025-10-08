@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: coreos-assembler
-  IMAGE_RELEASE: latest@sha256:32aebf86f036cf77fc404ec22e486b8d9fb452b8c78da75a9b81c6f4cf9c6742 # quay.io/coreos-assembler/coreos-assembler
+  IMAGE_RELEASE: latest@sha256:6780546c7af0bd5a1b798b2745f77b0011f8077e56bdb45d1cc9f1fa5bececb2 # quay.io/coreos-assembler/coreos-assembler
 
 jobs:
   build:
