@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: registry.default/randomcoww/kaniko:latest@sha256:101988b1ba4848de6dfe50ee77a62fc3632dd8b2cf033673dabafe2be95ffe87
+      image: registry.default/randomcoww/kaniko:latest@sha256:7612e69e62b6caf1b7f6504a6e01d00b9ed9fac641b0d376fe1eabc317726933
     permissions:
       contents: read
       packages: write
