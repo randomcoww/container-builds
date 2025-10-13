@@ -9,13 +9,13 @@ concurrency:
 
 env:
   TARGET: coreos-assembler
-  IMAGE_RELEASE: latest@sha256:6780546c7af0bd5a1b798b2745f77b0011f8077e56bdb45d1cc9f1fa5bececb2 # quay.io/coreos-assembler/coreos-assembler
+  IMAGE_RELEASE: latest@sha256:84b54bc89294464dfc451fe9f96661df1c78c0f22eb8d2d57cee99fc82edb5c2 # quay.io/coreos-assembler/coreos-assembler
 
 jobs:
   build:
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: registry.default/randomcoww/kaniko:latest@sha256:101988b1ba4848de6dfe50ee77a62fc3632dd8b2cf033673dabafe2be95ffe87
+      image: registry.default/randomcoww/kaniko:latest@sha256:7612e69e62b6caf1b7f6504a6e01d00b9ed9fac641b0d376fe1eabc317726933
     permissions:
       contents: read
     steps:
