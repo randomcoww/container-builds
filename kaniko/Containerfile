@@ -1,2 +1,0 @@
-ARG IMAGE_RELEASE
-FROM docker.io/martizih/kaniko:$IMAGE_RELEASE
