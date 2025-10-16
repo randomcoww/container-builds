@@ -9,7 +9,7 @@ env:
   TARGET: nvidia-driver-container
   FEDORA_VERSION: 42
   GOLANG_VERSION: 1.25.3 # https://gitlab.com/container-toolkit-fcos/driver/-/blob/fedora-rebased-main/ci/fedora/.gitlab-ci-fcos.yml
-  DRIVER_VERSION: 580.95.05
+  GITHUB_RELEASE: 580.95.05 # NVIDIA/open-gpu-kernel-modules
 
 jobs:
   build:
@@ -46,12 +46,12 @@ jobs:
           --context-sub-path="fedora" \
           --dockerfile="./Dockerfile" \
           --context="git://gitlab.com/container-toolkit-fcos/driver.git#rebasing-main-fedora" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$DRIVER_VERSION.$TIMESTAMP-fedora$FEDORA_VERSION" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$GITHUB_RELEASE.$TIMESTAMP-fedora$FEDORA_VERSION" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg TARGETARCH=$TARGETARCH \
           --build-arg GOLANG_VERSION=$GOLANG_VERSION \
           --build-arg FEDORA_VERSION=$FEDORA_VERSION \
-          --build-arg DRIVER_VERSION=$DRIVER_VERSION \
+          --build-arg DRIVER_VERSION=$GITHUB_RELEASE \
           --build-arg BASE_URL=$BASE_URL \
           --use-new-run \
           --skip-unused-stages \
