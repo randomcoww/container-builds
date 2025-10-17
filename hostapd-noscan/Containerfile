@@ -1,34 +1,32 @@
 FROM docker.io/alpine:latest
 
 ARG PKGNAME=hostapd-noscan
-ARG VERSION
 
-COPY buildconfig /
+COPY buildconfig /usr/src/
 RUN set -x \
   \
   && apk add --no-cache --virtual .build-deps \
+    git \
     libnl3-dev \
     openssl-dev \
     linux-headers \
     make \
     g++ \
-    patch \
   \
-  # && VERSION=$(wget -O - https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=$PKGNAME | grep ^pkgver | tr -d "pkgver=") \
-  && wget -O hostapd.tar.gz https://w1.fi/releases/hostapd-${VERSION}.tar.gz \
-  && mkdir -p /usr/src/hostapd \
-  && tar xf hostapd.tar.gz --strip-components=1 -C /usr/src/hostapd \
-  && wget -O - https://aur.archlinux.org/cgit/aur.git/plain/noscan.patch?h=$PKGNAME | patch -Np0 -d /usr/src/hostapd \
-  && rm -f \
-    hostapd.tar.gz \
-  && cd /usr/src/hostapd/hostapd \
+  && cd /usr/src \
+  && git clone --depth=1 https://aur.archlinux.org/$PKGNAME.git hostapd \
+  && wget -O hostapd.tar.gz https://w1.fi/releases/hostapd-$(cat hostapd/PKGBUILD | grep ^pkgver | tr -d "pkgver=").tar.gz \
+  && tar xf hostapd.tar.gz --strip-components=1 -C hostapd \
+  && cd hostapd \
+  && git apply -p0 noscan.patch \
   \
-  && mv /buildconfig .config \
+  && cd hostapd \
+  && mv /usr/src/buildconfig .config \
   && cat defconfig >> .config \
-  && make -j "$(getconf _NPROCESSORS_ONLN)" install \
+  && make install \
   \
 ## cleanup
-  && cd / \
+  && cd \
   && rm -rf /usr/src \
   \
   && runDeps="$( \
