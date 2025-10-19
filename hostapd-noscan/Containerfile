@@ -15,7 +15,7 @@ RUN set -x \
   \
   && cd /usr/src \
   && git clone --depth=1 https://aur.archlinux.org/$PKGNAME.git hostapd \
-  && wget -O hostapd.tar.gz https://w1.fi/releases/hostapd-$(cat hostapd/PKGBUILD | grep ^pkgver | tr -d "pkgver=").tar.gz \
+  && wget -O hostapd.tar.gz https://w1.fi/releases/hostapd-$(cat hostapd/PKGBUILD | grep ^pkgver | sed 's/pkgver=//').tar.gz \
   && tar xf hostapd.tar.gz --strip-components=1 -C hostapd \
   && cd hostapd \
   && git apply -p0 noscan.patch \
