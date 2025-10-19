@@ -7,12 +7,13 @@ concurrency:
 
 env:
   TARGET: nvidia-driver-container
-  FEDORA_VERSION: 42
   GOLANG_VERSION: 1.25.3 # https://gitlab.com/container-toolkit-fcos/driver/-/blob/fedora-rebased-main/ci/fedora/.gitlab-ci-fcos.yml
   GITHUB_RELEASE: 580.95.05 # NVIDIA/open-gpu-kernel-modules
 
 jobs:
-  build:
+  build-fedora:
+    env:
+      FEDORA_VERSION: 42
     runs-on: builder-${{ github.event.repository.name }}
     container:
       image: docker.io/martizih/kaniko:v1.26.0-debug@sha256:79e919821131a5d7846992de4c2fdb64bb1aa298a6cfd772a8740cda8648e545
