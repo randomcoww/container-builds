@@ -14,24 +14,27 @@ RUN set -x \
     openssl \
     coreutils \
   \
-  && git clone --revision=$REVISION --depth=1 https://github.com/ipxe/ipxe /ipxe
+  && git clone https://github.com/ipxe/ipxe /ipxe \
+  && cd /ipxe \
+  && git reset --hard $REVISION
 
 WORKDIR /ipxe/src
 COPY config/ config/local/
 
 ARG INTERNAL_CA_CERT
 
-# TODO: support multiple archs
 RUN set -x \
   \
+  && TARGETARCH=$(arch) \
+  && TARGETARCH=${TARGETARCH/aarch64/arm64} \
   && echo -e "$INTERNAL_CA_CERT" > ca-cert.pem \
-  && make \
-    bin-$(arch)-efi/ipxe.efi \
+  && make -j $(getconf _NPROCESSORS_ONLN) \
+    bin-$TARGETARCH-efi/ipxe.efi \
     CERT=ca-cert.pem \
     TRUST=ca-cert.pem \
   \
   && mkdir -p /build \
-  && mv bin-$(arch)-efi/*.efi /build/
+  && mv bin-$TARGETARCH-efi/*.efi /build/
 
 FROM scratch
 COPY --from=build /build/ .

@@ -23,7 +23,7 @@ RUN set -x \
   && cd hostapd \
   && mv /usr/src/buildconfig .config \
   && cat defconfig >> .config \
-  && make install \
+  && make -j $(getconf _NPROCESSORS_ONLN) install \
   \
 ## cleanup
   && cd \
