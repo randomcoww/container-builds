@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: ipxe
   VERSION: 1
-  REVISION: ba1846a0d3f90e399d30a22b600a25d9c966b3b3
+  REVISION: e80818e4f6e3791ec8240bda0a72eef999e4bf26
 
 jobs:
   build:
