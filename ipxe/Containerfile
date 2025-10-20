@@ -27,6 +27,7 @@ RUN set -x \
   \
   && TARGETARCH=$(arch) \
   && TARGETARCH=${TARGETARCH/aarch64/arm64} \
+  \
   && echo -e "$INTERNAL_CA_CERT" > ca-cert.pem \
   && make -j $(getconf _NPROCESSORS_ONLN) \
     bin-$TARGETARCH-efi/ipxe.efi \
@@ -36,5 +37,10 @@ RUN set -x \
   && mkdir -p /build \
   && mv bin-$TARGETARCH-efi/*.efi /build/
 
-FROM scratch
-COPY --from=build /build/ .
+FROM docker.io/busybox:stable-musl
+
+WORKDIR /var/www
+COPY --from=build --chown=www-data:www-data /build/ .
+USER www-data
+
+ENTRYPOINT [ "httpd", "-f", "-v" ]
