@@ -23,6 +23,7 @@ COPY config/ config/local/
 
 ARG INTERNAL_CA_CERT
 
+# TODO: support multiple archs
 RUN set -x \
   \
   && echo -e "$INTERNAL_CA_CERT" > ca-cert.pem \
