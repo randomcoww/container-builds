@@ -11,7 +11,7 @@ env:
   GITHUB_RELEASE: 580.95.05 # NVIDIA/open-gpu-kernel-modules
 
 jobs:
-  build-fedora:
+  build:
     env:
       FEDORA_VERSION: 42
     runs-on: builder-${{ github.event.repository.name }}
