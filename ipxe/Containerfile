@@ -1,4 +1,5 @@
 FROM docker.io/alpine:latest as build
+ARG REVISION
 
 RUN set -x \
   \
@@ -13,7 +14,7 @@ RUN set -x \
     openssl \
     coreutils \
   \
-  && git clone --depth=1 -b master https://github.com/ipxe/ipxe /ipxe
+  && git clone --revision=$REVISION --depth=1 https://github.com/ipxe/ipxe /ipxe
 
 WORKDIR /ipxe/src
 COPY config/ config/local/
