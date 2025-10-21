@@ -1,0 +1,13 @@
+FROM docker.io/golang:alpine as build
+ARG VERSION
+
+RUN set -x \
+  \
+  && CGO_ENABLED=0 GO111MODULE=on GOOS=linux \
+    go install github.com/minio/minio@$VERSION
+
+FROM docker.io/alpine:latest
+COPY --from=build /go/bin/minio /usr/bin/
+
+VOLUME ["/data"]
+ENTRYPOINT ["minio"]
