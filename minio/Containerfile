@@ -17,10 +17,8 @@ RUN set -x \
 
 FROM docker.io/alpine:latest
 COPY --from=build /go/bin/minio /usr/bin/
-RUN set -x \
-  \
-  && adduser -D -H -u 1000 -s /sbin/nologin minio
+COPY --from=build /go/src/minio/dockerscripts/docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
 
-USER 1000:1000
+ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
 VOLUME ["/data"]
-ENTRYPOINT ["minio"]
+CMD ["minio"]
