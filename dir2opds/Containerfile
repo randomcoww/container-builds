@@ -11,7 +11,9 @@ RUN set -x \
   && tar xzf opds.tar.gz -C /usr/local/bin dir2opds \
   && rm opds.tar.gz
 
-FROM scratch
-COPY --from=build /usr/local/bin/dir2opds /
+ENTRYPOINT ["dir2opds"]
 
-ENTRYPOINT ["/dir2opds"]
+# FROM scratch
+# COPY --from=build /usr/local/bin/dir2opds /
+
+# ENTRYPOINT ["/dir2opds"]
