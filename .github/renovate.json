@@ -70,7 +70,7 @@
       "matchPackageNames": [
         "minio/minio"
       ],
-      "versioning": "loose"
+      "replacementVersionTemplate": "{{{replace '[^\\d]' '' currentValue}}}"
     },
     {
       "matchPackageNames": [
