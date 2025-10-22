@@ -68,6 +68,12 @@
     },
     {
       "matchPackageNames": [
+        "minio/minio"
+      ],
+      "versioning": "loose"
+    },
+    {
+      "matchPackageNames": [
         "LizardByte/Sunshine"
       ],
       "ignoreUnstable": false
