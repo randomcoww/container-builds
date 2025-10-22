@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: minio
-  GITHUB_RELEASE: RELEASE.2025-09-07T16-13-09Z # minio/minio
+  GITHUB_RELEASE: 20250907161309 # minio/minio
 
 jobs:
   build:
