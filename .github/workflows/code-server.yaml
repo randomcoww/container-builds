@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: code-server
-  GITHUB_RELEASE: openvscode-server-v1.103.1 # gitpod-io/openvscode-server
+  GITHUB_RELEASE: openvscode-server-v1.105.1 # gitpod-io/openvscode-server
 
 jobs:
   build:
