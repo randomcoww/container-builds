@@ -59,7 +59,7 @@ jobs:
     - build
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: docker.io/node:current-alpine@sha256:bce79c648e05d584ad9ae2b45ed663ae6f07ebfa9e5fe6f5b7f0165aca06e792
+      image: docker.io/node:current-alpine@sha256:4e0711d09436971f759692f1437b2634bdd989cacf833c9e620c75aa04fd9f7a
     permissions:
       packages: write
     steps:
