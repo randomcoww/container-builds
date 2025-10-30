@@ -13,7 +13,7 @@ env:
 jobs:
   build:
     env:
-      FEDORA_VERSION: 42
+      FEDORA_VERSION: 43
     runs-on: builder-${{ github.event.repository.name }}
     container:
       image: docker.io/martizih/kaniko:v1.26.0-debug@sha256:79e919821131a5d7846992de4c2fdb64bb1aa298a6cfd772a8740cda8648e545
