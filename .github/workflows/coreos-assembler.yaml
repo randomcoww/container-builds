@@ -61,7 +61,7 @@ jobs:
         set -e
         tags=$(mktemp)
         repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
-        regctl registry set $INTERNAL_REGISTRY --cacert "$INTERNAL_CA_CERT"
+        regctl registry set $INTERNAL_REGISTRY --tls enabled --cacert "$INTERNAL_CA_CERT"
 
         for tag in $(regctl tag ls $repo --exclude latest); do
           regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags
