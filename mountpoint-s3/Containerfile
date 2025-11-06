@@ -1,14 +1,15 @@
-ARG FEDORA_VERSION
-
-FROM registry.fedoraproject.org/fedora-minimal:$FEDORA_VERSION
+FROM registry.fedoraproject.org/fedora-minimal:latest
 
 ARG VERSION
 
 RUN set -x \
+  \
   && TARGETARCH=$(arch) \
   && TARGETARCH=${TARGETARCH/aarch64/arm64} \
-  && microdnf install -y \
-    https://s3.amazonaws.com/mountpoint-s3-release/$VERSION/$TARGETARCH/mount-s3-$VERSION-$TARGETARCH.rpm \
+  && microdnf install --setopt=install_weak_deps=False --best \
+    fuse \
+    fuse-libs \
+  && rpm -ihv --nodigest https://s3.amazonaws.com/mountpoint-s3-release/$VERSION/$TARGETARCH/mount-s3-$VERSION-$TARGETARCH.rpm \
   && microdnf clean all \
   && rm -rf \
     /var/cache \
