@@ -9,13 +9,13 @@ concurrency:
 
 env:
   TARGET: renovate
-  IMAGE_RELEASE: 42.0.0@sha256:bdf5a8e67d30637c7723a689c03b4d35b33adb651e9f937021f4cf2bc062455f # ghcr.io/renovatebot/renovate
+  IMAGE_RELEASE: 42.0.3@sha256:265f4ae5fad48582c5439d037896c698c347852b1f591cdc7ef484faac1a4f23 # ghcr.io/renovatebot/renovate
 
 jobs:
   build:
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: docker.io/martizih/kaniko:v1.26.0-debug@sha256:79e919821131a5d7846992de4c2fdb64bb1aa298a6cfd772a8740cda8648e545
+      image: docker.io/martizih/kaniko:v1.26.1-debug@sha256:6a01e35fc43218b104cebaa63e1a41c811db7c69a5dcf37b80537ff41a2d08de
     permissions:
       contents: read
     steps:
