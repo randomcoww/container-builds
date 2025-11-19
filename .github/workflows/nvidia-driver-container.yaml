@@ -25,8 +25,6 @@ jobs:
         TARGETARCH=$(arch)
         echo BASE_URL=https://us.download.nvidia.com/XFree86/${TARGETARCH/x86_64/Linux-x86_64} | tee -a "$GITHUB_ENV"
         TARGETARCH=${TARGETARCH/x86_64/amd64} && TARGETARCH=${TARGETARCH/aarch64/arm64}
-
-        echo TIMESTAMP=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
         echo TARGETARCH=$TARGETARCH | tee -a "$GITHUB_ENV"
 
     - name: Build and release container
@@ -46,7 +44,7 @@ jobs:
           --context-sub-path="fedora" \
           --dockerfile="./Dockerfile" \
           --context="git://gitlab.com/container-toolkit-fcos/driver.git#rebasing-main-fedora" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$GITHUB_RELEASE.$TIMESTAMP-fedora$FEDORA_VERSION" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$GITHUB_RELEASE-fedora$FEDORA_VERSION" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg TARGETARCH=$TARGETARCH \
           --build-arg GOLANG_VERSION=$GOLANG_VERSION \

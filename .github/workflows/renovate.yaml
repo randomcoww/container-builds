@@ -19,13 +19,9 @@ jobs:
     permissions:
       contents: read
     steps:
-    - name: Set tag
-      run: |
-        set -e
-        echo TIMESTAMP=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
-
     - name: Build and release container
       run: |
+        set -e
         cat > $DOCKER_CONFIG/config.json <<EOF
         {
           "auths": {

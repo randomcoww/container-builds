@@ -20,13 +20,9 @@ jobs:
       contents: read
       packages: write
     steps:
-    - name: Set tag
-      run: |
-        set -e
-        echo TIMESTAMP=$(date -u +'%Y%m%d.%H%M') | tee -a "$GITHUB_ENV"
-
     - name: Build and release container
       run: |
+        set -e
         cat > $DOCKER_CONFIG/config.json <<EOF
         {
           "auths": {
@@ -42,7 +38,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE.$TIMESTAMP" \
+          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $GITHUB_RELEASE | sed -r 's/RELEASE.([0-9]+)-([0-9]+)-([0-9]+)T([0-9]+)-([0-9]+)-([0-9]+)Z/\1\2\3.\4\5\6/')" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg VERSION="$GITHUB_RELEASE" \
           --use-new-run \

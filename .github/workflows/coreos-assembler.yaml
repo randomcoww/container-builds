@@ -21,6 +21,7 @@ jobs:
     steps:
     - name: Build and release container
       run: |
+        set -e
         cat > $DOCKER_CONFIG/config.json <<EOF
         {
           "auths": {
