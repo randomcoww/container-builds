@@ -1,6 +1,8 @@
 name: nvidia-driver-container build
 on:
   workflow_dispatch:
+  schedule:
+  - cron: "0 14 * * 1"
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
@@ -19,16 +21,13 @@ jobs:
     permissions:
       contents: read
     steps:
-    - name: Set tag
+    - name: Build and release container
       run: |
         set -e
         TARGETARCH=$(arch)
-        echo BASE_URL=https://us.download.nvidia.com/XFree86/${TARGETARCH/x86_64/Linux-x86_64} | tee -a "$GITHUB_ENV"
+        BASE_URL=https://us.download.nvidia.com/XFree86/${TARGETARCH/x86_64/Linux-x86_64}
         TARGETARCH=${TARGETARCH/x86_64/amd64} && TARGETARCH=${TARGETARCH/aarch64/arm64}
-        echo TARGETARCH=$TARGETARCH | tee -a "$GITHUB_ENV"
 
-    - name: Build and release container
-      run: |
         cat > $DOCKER_CONFIG/config.json <<EOF
         {
           "auths": {
