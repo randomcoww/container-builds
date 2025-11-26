@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: kea
-  GITHUB_TAG: Kea-3.1.3 # isc-projects/kea
+  GITHUB_TAG: Kea-3.1.4 # isc-projects/kea
 
 jobs:
   build:
