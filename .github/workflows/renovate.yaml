@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: renovate
-  IMAGE_RELEASE: 42.30.1@sha256:c3df998568287d4a3469cb58f869f6b4c5b98b7e4eae6e529d12b6042d95aeb4 # ghcr.io/renovatebot/renovate
+  IMAGE_RELEASE: 42.32.3@sha256:cf9383bf34b72ee512bed2957b1130b1e07002778f957f845908196bd43d9cb9 # ghcr.io/renovatebot/renovate
 
 jobs:
   build:
