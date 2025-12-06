@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: docker.io/martizih/kaniko:v1.26.2-debug@sha256:5ba27b429203d13890042fb98b91e15c1a421696beb6cf436134101897d925b3
+      image: docker.io/martizih/kaniko:v1.26.3-debug@sha256:4bfb139b641b04302f85f855e83ee1b551ad98812f41d35817b10ccd7a66ec87
     permissions:
       contents: read
     steps:
