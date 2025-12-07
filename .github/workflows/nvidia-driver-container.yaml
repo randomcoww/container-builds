@@ -65,7 +65,7 @@ jobs:
       TAGS_KEEP: 4
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/regclient/regctl:alpine@sha256:b17293729b06c38bf0d9d7c9b16af418e4101ebde95a3462b9a863daecac72f5
+      image: ghcr.io/regclient/regctl:alpine@sha256:7c14db799739547badbab4e733c8e9fa2c15251505c3c28e3a288f6054890a0b
     steps:
     - name: Remove old tags
       run: |
