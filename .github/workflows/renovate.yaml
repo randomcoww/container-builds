@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: renovate
-  IMAGE_RELEASE: 42.39.0@sha256:9a6cdd211ae50a945c8c5c5ff409d4b751847e4a010616f0b74160cdb0cab830 # ghcr.io/renovatebot/renovate
+  IMAGE_RELEASE: 42.39.2@sha256:da079ea139fc66e1897a54bf501ac88b12339125a94d1d5745dcca05b9982f72 # ghcr.io/renovatebot/renovate
 
 jobs:
   build:
@@ -55,7 +55,7 @@ jobs:
       TAGS_KEEP: 4
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/regclient/regctl:alpine@sha256:b17293729b06c38bf0d9d7c9b16af418e4101ebde95a3462b9a863daecac72f5
+      image: ghcr.io/regclient/regctl:alpine@sha256:7c14db799739547badbab4e733c8e9fa2c15251505c3c28e3a288f6054890a0b
     steps:
     - name: Remove old tags
       run: |
