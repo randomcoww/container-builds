@@ -1,4 +1,5 @@
-FROM docker.io/alpine:latest
+ARG IMAGE_RELEASE
+FROM docker.io/alpine:$IMAGE_RELEASE
 ARG PACKAGE_VERSION
 
 RUN set -x \
@@ -6,7 +7,7 @@ RUN set -x \
   && wget -O - \
     'https://dl.cloudsmith.io/public/isc/kea-dev/rsa.74BF45C5BC52B8DD.key' > /etc/apk/keys/kea-dev@isc-74BF45C5BC52B8DD.rsa.pub \
   && wget -O - \
-    "https://dl.cloudsmith.io/public/isc/kea-dev/config.alpine.txt?distro=alpine&arch=$(arch)" >> /etc/apk/repositories \
+    "https://dl.cloudsmith.io/public/isc/kea-dev/config.alpine.txt?distro=alpine&arch=$(arch)&version=$(cat /etc/alpine-release)" >> /etc/apk/repositories \
   && apk add --no-cache \
     isc-kea-dhcp4=~$PACKAGE_VERSION \
     isc-kea-dhcp6=~$PACKAGE_VERSION \
