@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: stork-agent
-  GITHUB_TAG: v2.3.1 # isc-projects/stork
+  GITHUB_TAG: v2.3.2 # isc-projects/stork
 
 jobs:
   build:
