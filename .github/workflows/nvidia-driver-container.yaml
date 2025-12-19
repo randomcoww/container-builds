@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: nvidia-driver-container
   GOLANG_VERSION: 1.25.5 # https://gitlab.com/container-toolkit-fcos/driver/-/blob/fedora-rebased-main/ci/fedora/.gitlab-ci-fcos.yml
-  DRIVER_GITHUB_RELEASE: 590.44.01 # NVIDIA/open-gpu-kernel-modules
+  DRIVER_GITHUB_RELEASE: 590.48.01 # NVIDIA/open-gpu-kernel-modules
   GITHUB_RELEASE: 25.11.17-fedora # fifofonix/gpu-driver-container
   FEDORA_VERSION: 43
 
