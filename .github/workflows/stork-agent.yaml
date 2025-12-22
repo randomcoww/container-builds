@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: docker.io/martizih/kaniko:v1.26.3-debug@sha256:4bfb139b641b04302f85f855e83ee1b551ad98812f41d35817b10ccd7a66ec87
+      image: ghcr.io/osscontainertools/kaniko:v1.26.3-debug@sha256:4bfb139b641b04302f85f855e83ee1b551ad98812f41d35817b10ccd7a66ec87@sha256:4bfb139b641b04302f85f855e83ee1b551ad98812f41d35817b10ccd7a66ec87
     permissions:
       contents: read
       packages: write
