@@ -79,12 +79,6 @@
       "ignoreUnstable": false
     },
     {
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
       "automerge": true,
       "ignoreTests": true,
       "groupName": "minor-update"
