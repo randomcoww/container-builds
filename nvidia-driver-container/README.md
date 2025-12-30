@@ -7,9 +7,3 @@ https://github.com/NVIDIA/gpu-driver-container
 or modified version for Fedora CoreOS
 
 https://github.com/fifofonix/gpu-driver-container
-
-Latest release
-
-```bash
-curl -s https://gitlab.com/api/v4/projects/container-toolkit-fcos%2Fdriver/repository/tags | jq -r 'first(.[] | select(.name | endswith("-fedora"))).name'
-```
