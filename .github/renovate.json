@@ -88,7 +88,7 @@
       ],
       "automerge": true,
       "ignoreTests": true,
-      "groupName": "minor-update"
+      "groupName": "renovate"
     }
   ]
 }
