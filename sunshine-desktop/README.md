@@ -56,7 +56,6 @@ containers:
     exec sunshine \
       origin_web_ui_allowed=wan \
       port=$SUNSHINE_PORT \
-      file_apps=/etc/sunshine/apps.json \
       upnp=off
     EOT
   env:

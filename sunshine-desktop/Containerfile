@@ -77,8 +77,6 @@ RUN set -x \
     /var/log/* \
   && echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel
 
-COPY sunshine-prep-cmd.sh /usr/local/bin/
-
 ENV \
   LANG=C.UTF-8 \
   LC_ALL=C.UTF-8 \
@@ -91,17 +89,23 @@ ENV \
   WLR_BACKENDS=headless,libinput \
   WLR_LIBINPUT_NO_DEVICES=1 \
   WAYLAND_DISPLAY=wayland-1 \
-  LIBSEAT_BACKEND=seatd
+  LIBSEAT_BACKEND=seatd \
+  SDL_VIDEODRIVER=wayland
 
+# ENV \
+#   TZ=America/Los_Angeles \
+#   USER=sunshine \
+#   UID=10000 \
+#   HOME=/home/sunshine \
+#   XDG_RUNTIME_DIR=/run/user/10000 \
+#   PROTON_USE_NTSYNC=1 \
+#   PROTON_ENABLE_WAYLAND=1 \
+
+# Nvidia
 # ENV \
 #   NVIDIA_VISIBLE_DEVICES=all \
 #   NVIDIA_DRIVER_CAPABILITIES=all \
 #   __NV_PRIME_RENDER_OFFLOAD=1 \
 #   __GLX_VENDOR_LIBRARY_NAME=nvidia \
-#   TZ=America/Los_Angeles \
-#   USER=sunshine \
-#   UID=10000 \
-#   HOME=/home/sunshine \
-#   XDG_RUNTIME_DIR=/run/user/10000
 
 ENTRYPOINT ["tini", "--"]
