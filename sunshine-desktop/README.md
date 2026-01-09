@@ -67,6 +67,12 @@ containers:
     value: /home/sunshine
   - name: XDG_RUNTIME_DIR
     value: /run/user/10000
+  - name: PROTON_USE_NTSYNC
+    value: "1"
+  - name: PROTON_ENABLE_WAYLAND
+    value: "1"
+  - name: SDL_VIDEODRIVER
+    value: wayland
   volumeMounts:
   - mountPath: /dev/input
     name: dev-input
@@ -75,12 +81,14 @@ containers:
   resources:
     limits:
       amd.com/gpu: "1"
+      squat.ai/ntsync: "1" # device plugin for /dev/ntsync
   securityContext:
     privileged: true # make sunshine inputs work
 volumes:
 - name: dev-shm
   emptyDir:
     medium: Memory
+    sizeLimit: 1Gi
 - name: dev-input
   hostPath:
     path: /dev/input
