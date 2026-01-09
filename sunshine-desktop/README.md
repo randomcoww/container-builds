@@ -67,12 +67,6 @@ containers:
     value: /home/sunshine
   - name: XDG_RUNTIME_DIR
     value: /run/user/10000
-  - name: PROTON_USE_NTSYNC
-    value: "1"
-  - name: PROTON_ENABLE_WAYLAND
-    value: "1"
-  - name: SDL_VIDEODRIVER
-    value: wayland
   volumeMounts:
   - mountPath: /dev/input
     name: dev-input
