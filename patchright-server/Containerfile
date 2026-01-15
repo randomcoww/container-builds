@@ -8,16 +8,19 @@ WORKDIR /app
 
 RUN set -x \
   \
-  && npm set prefix . \
-  && npm install -g patchright@$VERSION \
-  && bin/patchright install \
-    --with-deps \
-    --force \
-    --no-shell \
+  && npm install patchright@$VERSION \
+  && npx -y patchright install-deps \
     chromium \
   \
-  && chown -R node:node . ${PLAYWRIGHT_BROWSERS_PATH}
+  && npm cache clean --force \
+  && mkdir -p ${PLAYWRIGHT_BROWSERS_PATH} \
+  && chown -R node:node . ${PLAYWRIGHT_BROWSERS_PATH} \
+  \
+  && apt clean \
+  && rm -rf /var/lib/apt/lists/*
 
 USER node
-
-ENTRYPOINT ["/app/bin/patchright", "run-server"]
+RUN set -x \
+  \
+  && npx -y patchright install \
+    chromium
