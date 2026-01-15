@@ -1,13 +1,23 @@
-FROM docker.io/node:22-bookworm-slim
+FROM docker.io/node:slim
 ARG VERSION
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 ENV NODE_ENV=production
 
+WORKDIR /app
+
 RUN set -x \
   \
+  && npm set prefix . \
   && npm install -g patchright@$VERSION \
-  && patchright install \
+  && bin/patchright install \
     --with-deps \
     --force \
-    chromium
+    --no-shell \
+    chromium \
+  \
+  && chown -R node:node . ${PLAYWRIGHT_BROWSERS_PATH}
+
+USER node
+
+ENTRYPOINT ["/app/bin/patchright", "run-server"]
