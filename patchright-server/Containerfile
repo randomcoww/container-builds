@@ -1,0 +1,14 @@
+FROM docker.io/node:slim
+ARG VERSION
+
+RUN set -x \
+  && npm install -g patchright@$VERSION \
+  && patchright install \
+    --with-deps \
+    --force \
+    --no-shell \
+    chromium
+
+USER node
+
+ENTRYPOINT ["patchright", "run-server"]
