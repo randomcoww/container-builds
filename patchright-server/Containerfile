@@ -1,4 +1,4 @@
-FROM docker.io/node:slim
+FROM docker.io/node:slim AS deps
 ARG VERSION
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
@@ -8,19 +8,17 @@ WORKDIR /app
 
 RUN set -x \
   \
-  && npm install patchright@$VERSION \
-  && npx -y patchright install-deps \
-    chromium \
+  && npx -y patchright@$VERSION install-deps chromium \
   \
-  && npm cache clean --force \
-  && mkdir -p ${PLAYWRIGHT_BROWSERS_PATH} \
-  && chown -R node:node . ${PLAYWRIGHT_BROWSERS_PATH} \
-  \
+  && rm -r $HOME/.npm \
   && apt clean \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+  \
+  && mkdir -p ${PLAYWRIGHT_BROWSERS_PATH} \
+  && chown -R node:node . ${PLAYWRIGHT_BROWSERS_PATH}
 
 USER node
 RUN set -x \
   \
-  && npx -y patchright install \
-    chromium
+  && npm -y install patchright@$VERSION \
+  && npx -y patchright@$VERSION install chromium
