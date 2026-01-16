@@ -21,4 +21,5 @@ USER node
 RUN set -x \
   \
   && npm -y install patchright@$VERSION \
-  && npx -y patchright@$VERSION install chromium
+  && npx -y patchright@$VERSION install chromium \
+  && npm cache clean --force
