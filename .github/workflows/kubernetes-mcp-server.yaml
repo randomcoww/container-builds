@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: kubernetes-mcp-server
-  GITHUB_RELEASE: main
+  GITHUB_RELEASE: test
 
 jobs:
   build:
