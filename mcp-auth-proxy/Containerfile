@@ -1,0 +1,25 @@
+FROM docker.io/golang:alpine as build
+ARG VERSION
+
+RUN set -x \
+  \
+  && apk add --no-cache \
+    git \
+    g++ \
+  \
+  && git clone -b $VERSION --depth=1 https://github.com/sigbit/mcp-auth-proxy.git mcp-auth-proxy \
+  && cd mcp-auth-proxy \
+  # build with CGO_ENABLED=1 to enable go-sqlite3
+  && CGO_ENABLED=1 GOOS=$TARGETOS GOARCH=$TARGETARCH \
+    go build \
+    -trimpath \
+    -ldflags '-w -s -linkmode external -extldflags "-static"' \
+    -tags netgo,osusergo \
+    -o /app/bin/main .
+
+FROM docker.io/alpine:latest
+
+COPY --from=build /app/bin/main /usr/local/bin/mcp-auth-proxy
+ENV DATA_PATH=/data
+
+ENTRYPOINT [ "mcp-auth-proxy" ]
