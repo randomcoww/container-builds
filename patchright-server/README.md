@@ -1,3 +1,3 @@
-### Patchright (patched Playwright)
+### Container for Patchright (patched Playwright)
 
 For hooking up to Open WebUI

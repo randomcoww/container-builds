@@ -1,4 +1,4 @@
-FROM docker.io/node:slim AS deps
+FROM docker.io/node:slim as deps
 ARG VERSION
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
