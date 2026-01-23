@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: patchright-server
-  GITHUB_RELEASE: v1.57.0 # Kaliiiiiiiiii-Vinyzu/patchright-nodejs
+  GITHUB_RELEASE: v1.58.0 # Kaliiiiiiiiii-Vinyzu/patchright-nodejs
 
 jobs:
   build:
