@@ -11,7 +11,7 @@ env:
   TARGET: llama-cpp-rocm
   GITHUB_RELEASE: b7836 # ggml-org/llama.cpp
   DRIVER_GITHUB_RELEASE: rocm-7.2.0 # ROCm/ROCm
-  ROCM_DOCKER_ARCH: gfx1151,gfx1150
+  ROCM_DOCKER_ARCH: gfx1151;gfx1150
 
 jobs:
   build:
