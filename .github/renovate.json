@@ -64,7 +64,8 @@
     {
       "matchDatasources": [
         "github-releases",
-        "github-tags"
+        "github-tags",
+        "npm"
       ],
       "versioning": "docker"
     },
@@ -81,6 +82,13 @@
         "minio/minio"
       ],
       "versioning": "regex:^(?<compatibility>\\w+)\\.(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})T(?<build>\\d{2}-\\d{2}-\\d{2})Z?$"
+    },
+    {
+      "matchPackageNames": [
+        "ggml-org/llama.cpp",
+        "mostlygeek/llama-swap"
+      ],
+      "versioning": "regex:(?<patch>\\d+)?$"
     },
     {
       "matchPackageNames": [
