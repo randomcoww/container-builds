@@ -1,0 +1,15 @@
+FROM docker.io/golang:alpine
+ARG VERSION
+
+RUN set -x \
+  \
+  && TARGETARCH=$(arch) \
+  && TARGETARCH=${TARGETARCH/x86_64/amd64} && TARGETARCH=${TARGETARCH/aarch64/arm64} \
+  \
+  && mkdir -p /app \
+  && wget -O llama-swap.tgz \
+    https://github.com/mostlygeek/llama-swap/releases/download/v$VERSION/llama-swap_${VERSION}_linux_${TARGETARCH}.tar.gz \
+  && tar xzf llama-swap.tgz -C /app \
+  && rm llama-swap.tgz
+
+ENTRYPOINT [ "/app/llama-swap" ]

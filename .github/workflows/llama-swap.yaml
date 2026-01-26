@@ -1,4 +1,4 @@
-name: llama-cpp-rocm build
+name: llama-swap build
 on:
   workflow_dispatch:
   schedule:
@@ -8,10 +8,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: llama-cpp-rocm
-  GITHUB_RELEASE: b7836 # ggml-org/llama.cpp
-  DRIVER_GITHUB_RELEASE: rocm-7.2.0 # ROCm/ROCm
-  ROCM_DOCKER_ARCH: gfx1151,gfx1150
+  TARGET: llama-swap
+  GITHUB_RELEASE: v186 # mostlygeek/llama-swap
 
 jobs:
   build:
@@ -24,8 +22,6 @@ jobs:
     - name: Build and release container
       run: |
         set -e
-        ROCM_VERSION=$(echo $DRIVER_GITHUB_RELEASE | sed -r 's/rocm-([0-9]+\.[0-9]+).*/\1/')
-
         cat > $DOCKER_CONFIG/config.json <<EOF
         {
           "auths": {
@@ -38,13 +34,12 @@ jobs:
         echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
 
         executor \
-          --dockerfile="./.devops/rocm.Dockerfile" \
-          --context="git://github.com/ggml-org/llama.cpp.git#$GITHUB_RELEASE" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $GITHUB_RELEASE | tr -d 'b')-rocm$ROCM_VERSION" \
+          --context-sub-path="$TARGET" \
+          --dockerfile="./Containerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg AMDGPU_VERSION=$ROCM_VERSION \
-          --build-arg ROCM_VERSION=$ROCM_VERSION \
-          --build-arg ROCM_DOCKER_ARCH=$ROCM_DOCKER_ARCH \
+          --build-arg VERSION=$(echo $GITHUB_RELEASE | tr -d 'v') \
           --use-new-run \
           --skip-unused-stages \
           --snapshot-mode=redo \
