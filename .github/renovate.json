@@ -48,6 +48,16 @@
       ],
       "depNameTemplate": "go",
       "datasourceTemplate": "golang-version"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^.github/workflows/.+.ya?ml$/"
+      ],
+      "matchStrings": [
+        "NPM_RELEASE:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
+      ],
+      "datasourceTemplate": "npm"
     }
   ],
   "packageRules": [
