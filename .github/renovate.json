@@ -88,7 +88,7 @@
         "ggml-org/llama.cpp",
         "mostlygeek/llama-swap"
       ],
-      "versioning": "regex:^[bv](?<patch>\\d+)?$"
+      "versioning": "regex:^(?<compatibility>[bv])(?<patch>\\d+)?$"
     },
     {
       "matchPackageNames": [
