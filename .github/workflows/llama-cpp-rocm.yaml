@@ -38,8 +38,7 @@ jobs:
         echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
 
         executor \
-          --context-sub-path=".devops" \
-          --dockerfile="./rocm.Dockerfile" \
+          --dockerfile="./.devops/rocm.Dockerfile" \
           --context="git://github.com/ggml-org/llama.cpp.git#$GITHUB_RELEASE" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE-$ROCM_VERSION" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
