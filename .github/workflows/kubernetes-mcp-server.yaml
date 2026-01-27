@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: kubernetes-mcp-server
-  GITHUB_RELEASE: main
+  GITHUB_RELEASE: v0.0.56 # containers/kubernetes-mcp-server
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
 
         executor \
           --dockerfile="./Dockerfile" \
-          --context="git://github.com/randomcoww/kubernetes-mcp-server.git#$GITHUB_RELEASE" \
+          --context="git://github.com/containers/kubernetes-mcp-server.git#$GITHUB_RELEASE" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --use-new-run \
