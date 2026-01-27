@@ -51,7 +51,8 @@ jobs:
           --cleanup \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
-          --push-retry=4
+          --push-retry=4 \
+          --target=server
   cleanup:
     needs:
     - build
