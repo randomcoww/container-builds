@@ -1,0 +1,69 @@
+name: kubernetes-mcp-server build
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 14 * * 1"
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  TARGET: kubernetes-mcp-server
+  GITHUB_RELEASE: main
+
+jobs:
+  build:
+    runs-on: builder-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/osscontainertools/kaniko:v1.26.4-debug@sha256:dddd2b776303620f0dc7962f16461ac764515f6b4648586e2bd8ac7e48d69b50
+    permissions:
+      contents: read
+    steps:
+    - name: Build and release container
+      run: |
+        set -e
+        cat > $DOCKER_CONFIG/config.json <<EOF
+        {
+          "auths": {
+            "ghcr.io": {
+              "auth": "$(echo -n ${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
+            }
+          }
+        }
+        EOF
+        echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
+
+        executor \
+          --dockerfile="./Dockerfile" \
+          --context="git://github.com/randomcoww/kubernetes-mcp-server.git#$GITHUB_RELEASE" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE" \
+          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
+          --use-new-run \
+          --skip-unused-stages \
+          --snapshot-mode=redo \
+          --cleanup \
+          --image-download-retry=4 \
+          --image-fs-extract-retry=4 \
+          --push-retry=4
+  cleanup:
+    needs:
+    - build
+    env:
+      TAGS_KEEP: 4
+    runs-on: builder-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/regclient/regctl:alpine@sha256:7c14db799739547badbab4e733c8e9fa2c15251505c3c28e3a288f6054890a0b
+    steps:
+    - name: Remove old tags
+      run: |
+        set -e
+        tags=$(mktemp)
+        repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
+        regctl registry set $INTERNAL_REGISTRY --tls enabled --cacert "$INTERNAL_CA_CERT"
+
+        for tag in $(regctl tag ls $repo --exclude latest); do
+          regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags
+        done
+        for tag in $(sort -k2 -t "|" -n $tags | head -n -$TAGS_KEEP); do
+          regctl tag delete --ignore-missing $repo:$(echo $tag | cut -d "|" -f 1)
+        done
