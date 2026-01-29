@@ -2,7 +2,7 @@
 
 Pushes to ghcr.io and internal registry (reg.cluster.internal)
 
-#### Renovate run local test
+### Renovate local test
 
 ```bash
 GITHUB_TOKEN=<token>
