@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: llama-swap
-  GITHUB_RELEASE: v186 # mostlygeek/llama-swap
+  GITHUB_RELEASE: v187 # mostlygeek/llama-swap
 
 jobs:
   build:
