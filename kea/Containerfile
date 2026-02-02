@@ -1,6 +1,7 @@
 ARG IMAGE_RELEASE
 FROM docker.io/alpine:$IMAGE_RELEASE
-ARG PACKAGE_VERSION
+ARG KEA_VERSION
+ARG STORK_VERSION
 
 RUN set -x \
   \
@@ -8,10 +9,18 @@ RUN set -x \
     'https://dl.cloudsmith.io/public/isc/kea-dev/rsa.74BF45C5BC52B8DD.key' > /etc/apk/keys/kea-dev@isc-74BF45C5BC52B8DD.rsa.pub \
   && wget -O - \
     "https://dl.cloudsmith.io/public/isc/kea-dev/config.alpine.txt?distro=alpine&arch=$(arch)&version=$(cat /etc/alpine-release)" >> /etc/apk/repositories \
+  && wget -O - \
+    'https://dl.cloudsmith.io/public/isc/stork-dev/rsa.BF2C56ECBA97B498.key' > /etc/apk/keys/stork-dev@isc-BF2C56ECBA97B498.rsa.pub \
+  && wget -O - \
+    "https://dl.cloudsmith.io/public/isc/stork-dev/config.alpine.txt?distro=alpine&arch=$(arch)" >> /etc/apk/repositories \
   && apk add --no-cache \
-    isc-kea-dhcp4=~$PACKAGE_VERSION \
-    isc-kea-dhcp6=~$PACKAGE_VERSION \
-    isc-kea-hooks=~$PACKAGE_VERSION \
-    isc-kea-dhcp-ddns=~$PACKAGE_VERSION \
-    isc-kea-ctrl-agent=~$PACKAGE_VERSION \
-    envsubst
+    tini \
+    envsubst \
+    isc-kea-dhcp4=~$KEA_VERSION \
+    isc-kea-dhcp6=~$KEA_VERSION \
+    isc-kea-hooks=~$KEA_VERSION \
+    isc-kea-dhcp-ddns=~$KEA_VERSION \
+    isc-kea-ctrl-agent=~$KEA_VERSION \
+    isc-stork-agent=~$STORK_VERSION
+
+ENTRYPOINT ["tini", "--"]
