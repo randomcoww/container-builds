@@ -20,7 +20,6 @@ RUN set -x \
     isc-kea-dhcp6=~$KEA_VERSION \
     isc-kea-hooks=~$KEA_VERSION \
     isc-kea-dhcp-ddns=~$KEA_VERSION \
-    isc-kea-ctrl-agent=~$KEA_VERSION \
     isc-stork-agent=~$STORK_VERSION
 
 ENTRYPOINT ["tini", "--"]
