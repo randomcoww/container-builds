@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: llama-cpp-rocm
-  GITHUB_RELEASE: b7909 # ggml-org/llama.cpp
+  GITHUB_RELEASE: b7921 # ggml-org/llama.cpp
   DRIVER_GITHUB_RELEASE: rocm-7.2.0 # ROCm/ROCm
   ROCM_DOCKER_ARCH: gfx1151
 
