@@ -1,7 +1,10 @@
-FROM docker.io/golang:alpine
+FROM docker.io/golang:alpine as build
 ARG VERSION
 
 RUN set -x \
+  \
+  && apk add --no-cache \
+    ca-certificates \
   \
   && TARGETARCH=$(arch) \
   && TARGETARCH=${TARGETARCH/x86_64/amd64} && TARGETARCH=${TARGETARCH/aarch64/arm64} \
@@ -11,5 +14,12 @@ RUN set -x \
     https://github.com/mostlygeek/llama-swap/releases/download/v$VERSION/llama-swap_${VERSION}_linux_${TARGETARCH}.tar.gz \
   && tar xzf llama-swap.tgz -C /app \
   && rm llama-swap.tgz
+
+FROM scratch
+
+COPY --from=build /app /app
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 ENTRYPOINT [ "/app/llama-swap" ]

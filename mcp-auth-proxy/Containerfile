@@ -4,6 +4,7 @@ ARG VERSION
 RUN set -x \
   \
   && apk add --no-cache \
+    ca-certificates \
     git \
     g++ \
   \
@@ -17,9 +18,12 @@ RUN set -x \
     -tags netgo,osusergo \
     -o /app/bin/main .
 
-FROM docker.io/alpine:latest
+FROM scratch
 
 COPY --from=build /app/bin/main /usr/local/bin/mcp-auth-proxy
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
 ENV DATA_PATH=/data
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 ENTRYPOINT [ "mcp-auth-proxy" ]
