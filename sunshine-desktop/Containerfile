@@ -64,6 +64,7 @@ RUN set -x \
     Sunshine-$PACKAGE_VERSION \
     steam \
     gamescope \
+    mangohud \
     # called by steam
     xdg-user-dir \
     lsb_release \
