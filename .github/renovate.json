@@ -71,7 +71,6 @@
     },
     {
       "matchPackageNames": [
-        "gitpod-io/openvscode-server",
         "isc-projects/kea",
         "awslabs/mountpoint-s3"
       ],
@@ -80,9 +79,10 @@
     {
       "matchPackageNames": [
         "ggml-org/llama.cpp",
-        "mostlygeek/llama-swap"
+        "mostlygeek/llama-swap",
+        "LizardByte/Sunshine"
       ],
-      "versioning": "regex:^(?<compatibility>[bv])(?<minor>\\d+)?$"
+      "versioning": "regex:^(((?<compatibility>[\\w-]+)-)?[bv])?(?<minor>\\d+)(\\.(?<patch>\\d+)(\\.(?<build>\\d+))?)?$"
     },
     {
       "matchPackageNames": [
