@@ -3,9 +3,6 @@ ARG VERSION
 
 RUN set -x \
   \
-  && apk add --no-cache \
-    ca-certificates \
-  \
   && TARGETARCH=$(arch) \
   && TARGETARCH=${TARGETARCH/x86_64/amd64} && TARGETARCH=${TARGETARCH/aarch64/arm64} \
   \
@@ -17,9 +14,4 @@ RUN set -x \
 
 FROM scratch
 
-COPY --from=build /app /app
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-
-ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
-
-ENTRYPOINT [ "/app/llama-swap" ]
+COPY --from=build app app
