@@ -1,4 +1,4 @@
-name: qwen3-embedding-0.6b model
+name: qwen3-embedding-0.6b-f16 model
 on:
   workflow_dispatch:
 concurrency:
@@ -6,7 +6,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: qwen3-embedding-0.6b
+  TARGET: qwen3-embedding-0.6b-f16
 
 jobs:
   build:
