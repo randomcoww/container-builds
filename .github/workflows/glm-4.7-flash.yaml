@@ -1,4 +1,4 @@
-name: glm-4.7-flash-bf16 model
+name: glm-4.7-flash model
 on:
   workflow_dispatch:
 concurrency:
@@ -6,7 +6,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: glm-4.7-flash-bf16
+  TARGET: glm-4.7-flash
 
 jobs:
   build:
