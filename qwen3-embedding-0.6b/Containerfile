@@ -2,4 +2,4 @@ FROM scratch
 
 ADD \
   https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF/resolve/main/Qwen3-Embedding-0.6B-f16.gguf \
-  Qwen3-Embedding-0.6B-f16.gguf
+  /model/
