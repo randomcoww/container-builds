@@ -40,7 +40,6 @@ jobs:
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$(echo $IMAGE_RELEASE | sed 's/@sha256:.*$//')" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg IMAGE_RELEASE="$IMAGE_RELEASE" \
-          --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4
