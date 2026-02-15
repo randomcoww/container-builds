@@ -30,14 +30,12 @@ jobs:
           }
         }
         EOF
-        echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
 
         executor \
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +'%Y%m%d.%H%M%S')" \
-          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \
@@ -61,7 +59,7 @@ jobs:
         set -e
         tags=$(mktemp)
         repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
-        regctl registry set $INTERNAL_REGISTRY --tls enabled --cacert "$INTERNAL_CA_CERT"
+        regctl registry set $INTERNAL_REGISTRY --tls enabled
 
         for tag in $(regctl tag ls $repo --exclude latest); do
           regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags

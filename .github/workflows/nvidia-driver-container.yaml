@@ -38,14 +38,12 @@ jobs:
           }
         }
         EOF
-        echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
 
         executor \
           --context-sub-path="fedora" \
           --dockerfile="./Dockerfile" \
           --context="git://github.com/fifofonix/gpu-driver-container.git#$GITHUB_RELEASE" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$DRIVER_GITHUB_RELEASE-fedora$FEDORA_VERSION" \
-          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg TARGETARCH=$TARGETARCH \
           --build-arg GOLANG_VERSION=$GOLANG_VERSION \
           --build-arg FEDORA_VERSION=$FEDORA_VERSION \
@@ -74,7 +72,7 @@ jobs:
         set -e
         tags=$(mktemp)
         repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
-        regctl registry set $INTERNAL_REGISTRY --tls enabled --cacert "$INTERNAL_CA_CERT"
+        regctl registry set $INTERNAL_REGISTRY --tls enabled
 
         for tag in $(regctl tag ls $repo --exclude latest); do
           regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags

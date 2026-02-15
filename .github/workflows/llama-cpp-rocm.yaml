@@ -35,13 +35,11 @@ jobs:
           }
         }
         EOF
-        echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
 
         executor \
           --dockerfile="./.devops/rocm.Dockerfile" \
           --context="git://github.com/ggml-org/llama.cpp.git#$GITHUB_RELEASE" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $GITHUB_RELEASE | tr -d 'b')-rocm$ROCM_VERSION" \
-          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg AMDGPU_VERSION=$ROCM_VERSION \
           --build-arg ROCM_VERSION=$ROCM_VERSION \
           --build-arg ROCM_DOCKER_ARCH=$ROCM_DOCKER_ARCH \
@@ -69,7 +67,7 @@ jobs:
         set -e
         tags=$(mktemp)
         repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
-        regctl registry set $INTERNAL_REGISTRY --tls enabled --cacert "$INTERNAL_CA_CERT"
+        regctl registry set $INTERNAL_REGISTRY --tls enabled
 
         for tag in $(regctl tag ls $repo --exclude latest); do
           regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags
