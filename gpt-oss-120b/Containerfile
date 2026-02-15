@@ -1,7 +1,7 @@
 FROM scratch
 
 ADD \
-  https://huggingface.co/ggml-org/gpt-oss-120b-GGUF/resolve/main/gpt-oss-120b-mxfp4-00001-of-00003.gguf \
-  https://huggingface.co/ggml-org/gpt-oss-120b-GGUF/resolve/main/gpt-oss-120b-mxfp4-00002-of-00003.gguf \
-  https://huggingface.co/ggml-org/gpt-oss-120b-GGUF/resolve/main/gpt-oss-120b-mxfp4-00003-of-00003.gguf \
+  https://192.168.208.34:9000/models/gpt-oss-120b-mxfp4-00001-of-00003.gguf \
+  https://192.168.208.34:9000/models/gpt-oss-120b-mxfp4-00002-of-00003.gguf \
+  https://192.168.208.34:9000/models/gpt-oss-120b-mxfp4-00003-of-00003.gguf \
   /model/

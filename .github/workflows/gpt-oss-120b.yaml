@@ -38,7 +38,14 @@ jobs:
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
-          --push-retry=4
+          --push-retry=4 \
+          --compressed-caching=false \
+          --snapshot-mode=redo \
+          --use-new-run \
+          --single-snapshot \
+          --cleanup \
+          --cache=false
+
   cleanup:
     needs:
     - build
