@@ -48,7 +48,13 @@ jobs:
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \
-          --target=server
+          --target=server \
+          --snapshot-mode=redo \
+          --use-new-run \
+          --single-snapshot \
+          --cleanup \
+          --cache=false
+
   cleanup:
     needs:
     - build

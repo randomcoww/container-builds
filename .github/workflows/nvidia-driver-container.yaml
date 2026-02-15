@@ -53,7 +53,13 @@ jobs:
           --build-arg BASE_URL=$BASE_URL \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
-          --push-retry=4
+          --push-retry=4 \
+          --snapshot-mode=redo \
+          --use-new-run \
+          --single-snapshot \
+          --cleanup \
+          --cache=false
+
   cleanup:
     needs:
     - build
