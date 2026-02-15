@@ -1,9 +1,0 @@
-FROM scratch
-
-ADD \
-  https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF/resolve/main/BF16/GLM-4.7-Flash-BF16-00001-of-00002.gguf \
-  .
-
-ADD \
-  https://huggingface.co/unsloth/GLM-4.7-Flash-GGUF/resolve/main/BF16/GLM-4.7-Flash-BF16-00002-of-00002.gguf \
-  .
