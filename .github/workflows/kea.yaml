@@ -9,8 +9,8 @@ concurrency:
 
 env:
   TARGET: kea
-  GITHUB_TAG: Kea-3.1.5 # isc-projects/kea
-  STROK_GITHUB_TAG: v2.3.2 # isc-projects/stork
+  GITHUB_TAG: Kea-3.1.6 # isc-projects/kea
+  STROK_GITHUB_TAG: v2.4.0 # isc-projects/stork
   IMAGE_RELEASE: 3.22
 
 jobs:
