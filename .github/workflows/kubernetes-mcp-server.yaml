@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: kubernetes-mcp-server
-  GITHUB_RELEASE: v0.0.57 # containers/kubernetes-mcp-server
+  GITHUB_RELEASE: v0.0.58 # containers/kubernetes-mcp-server
 
 jobs:
   build:
