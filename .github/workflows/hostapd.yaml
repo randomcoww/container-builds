@@ -1,4 +1,4 @@
-name: hostapd-noscan build
+name: hostapd build
 on:
   workflow_dispatch:
   schedule:
@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: hostapd-noscan
+  TARGET: hostapd
 
 jobs:
   build:
@@ -32,12 +32,14 @@ jobs:
         EOF
         echo -e "$INTERNAL_CA_CERT" > $DOCKER_CONFIG/internal.crt
 
+        VERSION=$(curl -fsSL https://w1.fi/hostapd/ | grep -E "/releases/hostapd-([0-9.]+)" | sed -r 's/^.*\/releases\/hostapd-([0-9.]+)\.tar\..*$/\1/')
         executor \
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +'%Y%m%d.%H%M%S')" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$VERSION" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
+          --build-arg VERSION="$VERSION" \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \
