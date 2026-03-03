@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: mcp-auth-proxy
-  GITHUB_RELEASE: v2.5.3 # sigbit/mcp-auth-proxy
+  GITHUB_RELEASE: v2.5.4 # sigbit/mcp-auth-proxy
 
 jobs:
   build:
