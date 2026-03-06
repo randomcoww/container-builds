@@ -78,8 +78,6 @@
     },
     {
       "matchPackageNames": [
-        "ggml-org/llama.cpp",
-        "mostlygeek/llama-swap",
         "LizardByte/Sunshine"
       ],
       "versioning": "regex:^(((?<compatibility>[\\w-]+)-)?[bv])?(?<minor>\\d+)(\\.(?<patch>\\d+)(\\.(?<build>\\d+))?)?$"
