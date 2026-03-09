@@ -37,7 +37,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $IMAGE_RELEASE | sed 's/@sha256:.*$//')" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $IMAGE_RELEASE | sed 's/@sha256:.*$//').$(date -u +%s)" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:latest" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
           --build-arg IMAGE_RELEASE="$IMAGE_RELEASE" \
