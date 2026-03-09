@@ -1,7 +1,6 @@
 ARG IMAGE_RELEASE
 FROM docker.io/alpine:$IMAGE_RELEASE
-ARG KEA_VERSION
-ARG STORK_VERSION
+ARG VERSION
 
 RUN set -x \
   \
@@ -16,10 +15,10 @@ RUN set -x \
   && apk add --no-cache \
     tini \
     envsubst \
-    isc-kea-dhcp4=~$KEA_VERSION \
-    isc-kea-dhcp6=~$KEA_VERSION \
-    isc-kea-hooks=~$KEA_VERSION \
-    isc-kea-dhcp-ddns=~$KEA_VERSION \
-    isc-stork-agent=~$STORK_VERSION
+    isc-kea-dhcp4=~$VERSION \
+    isc-kea-dhcp6=~$VERSION \
+    isc-kea-hooks=~$VERSION \
+    isc-kea-dhcp-ddns=~$VERSION \
+    isc-stork-agent
 
 ENTRYPOINT ["tini", "--"]

@@ -10,7 +10,6 @@ concurrency:
 env:
   TARGET: kea
   GITHUB_TAG: Kea-3.1.6 # isc-projects/kea
-  STROK_GITHUB_TAG: v2.4.0 # isc-projects/stork
   IMAGE_RELEASE: 3.22
 
 jobs:
@@ -42,8 +41,7 @@ jobs:
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
           --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $GITHUB_TAG | sed 's/Kea-//').$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg KEA_VERSION=$(echo $GITHUB_TAG | sed 's/Kea-//') \
-          --build-arg STORK_VERSION=$(echo $STROK_GITHUB_TAG | tr -d 'v') \
+          --build-arg VERSION=$(echo $GITHUB_TAG | sed 's/Kea-//') \
           --build-arg IMAGE_RELEASE="$IMAGE_RELEASE" \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
