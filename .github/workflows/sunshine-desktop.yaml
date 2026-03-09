@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: sunshine-desktop
-  GITHUB_RELEASE: v2026.307.191712 # LizardByte/Sunshine
+  GITHUB_RELEASE: v2026.309.21603 # LizardByte/Sunshine
 
 jobs:
   build:
