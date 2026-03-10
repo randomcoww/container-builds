@@ -3,9 +3,6 @@
   "extends": [
     "config:best-practices"
   ],
-  "ignorePresets": [
-    "docker:pinDigests"
-  ],
   "customManagers": [
     {
       "customType": "regex",
@@ -98,6 +95,16 @@
       "automerge": true,
       "ignoreTests": true,
       "groupName": "renovate"
+    },
+    {
+      "matchManagers": [
+        "github-actions",
+        "dockerfile"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "pinDigests": false
     }
   ]
 }
