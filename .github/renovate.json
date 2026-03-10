@@ -1,61 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:best-practices"
-  ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/^.github/workflows/.+.ya?ml$/"
-      ],
-      "matchStrings": [
-        "GITHUB_RELEASE:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
-      ],
-      "datasourceTemplate": "github-releases"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/^.github/workflows/.+.ya?ml$/"
-      ],
-      "matchStrings": [
-        "GITHUB_TAG:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
-      ],
-      "datasourceTemplate": "github-tags"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/^.github/workflows/.+.ya?ml$/"
-      ],
-      "matchStrings": [
-        "IMAGE_RELEASE:\\s+(?<currentValue>[\\w.-]{1,127})(@(?<currentDigest>sha256:[a-f0-9]+))?\\s+#\\s+(?<depName>[^\\s]+)"
-      ],
-      "autoReplaceStringTemplate": "IMAGE_RELEASE: {{{newValue}}}@{{{newDigest}}} # {{{depName}}}",
-      "datasourceTemplate": "docker"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/^.github/workflows/.+.ya?ml$/"
-      ],
-      "matchStrings": [
-        "GOLANG_VERSION:\\s+(?<currentValue>[^\\s]+)"
-      ],
-      "depNameTemplate": "go",
-      "datasourceTemplate": "golang-version"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "/^.github/workflows/.+.ya?ml$/"
-      ],
-      "matchStrings": [
-        "NPM_RELEASE:\\s+(?<currentValue>[^\\s]+)\\s+#\\s+(?<depName>[^\\s]+)"
-      ],
-      "datasourceTemplate": "npm"
-    }
+    "config:best-practices",
+    "customManagers:githubActionsVersions"
   ],
   "packageRules": [
     {
@@ -77,12 +24,7 @@
       "matchPackageNames": [
         "LizardByte/Sunshine"
       ],
-      "versioning": "regex:^(((?<compatibility>[\\w-]+)-)?[bv])?(?<minor>\\d+)(\\.(?<patch>\\d+)(\\.(?<build>\\d+))?)?$"
-    },
-    {
-      "matchPackageNames": [
-        "LizardByte/Sunshine"
-      ],
+      "versioning": "regex:^(((?<compatibility>[\\w-]+)-)?[bv])?(?<minor>\\d+)(\\.(?<patch>\\d+)(\\.(?<build>\\d+))?)?$",
       "ignoreUnstable": false
     },
     {

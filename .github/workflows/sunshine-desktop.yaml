@@ -9,7 +9,8 @@ concurrency:
 
 env:
   TARGET: sunshine-desktop
-  GITHUB_RELEASE: v2026.309.21603 # LizardByte/Sunshine
+  # renovate: datasource=github-release depName=LizardByte/Sunshine
+  SUNSHINE_VERSION: v2026.309.21603
 
 jobs:
   build:
@@ -37,10 +38,10 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE.$(date -u +%s)" \
+          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$SUNSHINE_VERSION" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$SUNSHINE_VERSION.$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg PACKAGE_VERSION=$(echo $GITHUB_RELEASE | tr -d 'v') \
+          --build-arg PACKAGE_VERSION=$(echo $SUNSHINE_VERSION | tr -d 'v') \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \

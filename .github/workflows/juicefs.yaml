@@ -9,7 +9,8 @@ concurrency:
 
 env:
   TARGET: juicefs
-  GITHUB_RELEASE: v1.3.1 # juicedata/juicefs
+  # renovate: datasource=github-release depName=juicedata/juicefs
+  JUICEFS_VERSION: v1.3.1
 
 jobs:
   build:
@@ -37,10 +38,10 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$GITHUB_RELEASE.$(date -u +%s)" \
+          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$JUICEFS_VERSION" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$JUICEFS_VERSION.$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/internal.crt \
-          --build-arg VERSION=$(echo $GITHUB_RELEASE | tr -d 'v') \
+          --build-arg VERSION=$(echo $JUICEFS_VERSION | tr -d 'v') \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \
