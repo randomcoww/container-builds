@@ -3,9 +3,9 @@
   "extends": [
     "config:best-practices"
   ],
-  "dockerfile": {
-    "enabled": false
-  },
+  "ignorePresets": [
+    "docker:pinDigests"
+  ],
   "customManagers": [
     {
       "customType": "regex",

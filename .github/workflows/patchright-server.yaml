@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.27.0-debug@sha256:c6acf2ef8593502b122344bcf23e60ba0f1a25e8b8fee763dcb524504613c367
+      image: ghcr.io/osscontainertools/kaniko:v1.27.0-debug
     permissions:
       contents: read
     steps:
@@ -55,7 +55,7 @@ jobs:
     - build
     runs-on: builder-${{ github.event.repository.name }}
     container:
-      image: docker.io/node:current-alpine@sha256:636c5bc8fa6a7a542bc99f25367777b0b3dd0db7d1ca3959d14137a1ac80bde2
+      image: docker.io/node:25.8.0-alpine
     permissions:
       packages: write
     steps:
