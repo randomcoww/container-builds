@@ -11,9 +11,9 @@ env:
   TARGET: nvidia-driver-container
   # renovate: datasource=golang-version depName=go
   GOLANG_VERSION: 1.26.1
-  # renovate: datasource=github-release depName=NVIDIA/open-gpu-kernel-modules
+  # renovate: datasource=github-releases depName=NVIDIA/open-gpu-kernel-modules
   DRIVER_VERSION: 595.45.04
-  # renovate: datasource=github-release depName=fifofonix/gpu-driver-container
+  # renovate: datasource=github-releases depName=fifofonix/gpu-driver-container
   BUILDER_VERSION: 25.11.17-fedora
   FEDORA_VERSION: 43
 

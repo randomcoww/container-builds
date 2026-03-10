@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: ipxe
-  # renovate: datasource=github-release depName=ipxe/ipxe
+  # renovate: datasource=github-releases depName=ipxe/ipxe
   IPXE_VERSION: v2.0.0
 
 jobs:

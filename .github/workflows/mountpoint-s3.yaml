@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: mountpoint-s3
-  # renovate: datasource=github-release depName=awslabs/mountpoint-s3
+  # renovate: datasource=github-releases depName=awslabs/mountpoint-s3
   MOUNTPOINT_VERSION: mountpoint-s3-1.22.1
 
 jobs:

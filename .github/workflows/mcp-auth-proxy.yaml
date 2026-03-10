@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: mcp-auth-proxy
-  # renovate: datasource=github-release depName=sigbit/mcp-auth-proxy
+  # renovate: datasource=github-releases depName=sigbit/mcp-auth-proxy
   MCP_VERSION: v2.5.4
 
 jobs:

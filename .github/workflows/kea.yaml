@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: kea
-  # renovate: datasource=github-tag depName=isc-projects/kea
+  # renovate: datasource=github-tags depName=isc-projects/kea
   KEA_VERSION: Kea-3.1.6
   ALPINE_VERSION: 3.22
 
