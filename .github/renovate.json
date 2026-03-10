@@ -8,8 +8,7 @@
     {
       "matchDatasources": [
         "github-releases",
-        "github-tags",
-        "npm"
+        "github-tags"
       ],
       "versioning": "docker"
     },
