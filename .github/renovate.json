@@ -23,11 +23,25 @@
       "matchPackageNames": [
         "LizardByte/Sunshine"
       ],
-      "versioning": "regex:^(((?<compatibility>[\\w-]+)-)?[bv])?(?<minor>\\d+)(\\.(?<patch>\\d+)(\\.(?<build>\\d+))?)?$",
       "ignoreUnstable": false
     },
     {
       "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true,
+      "ignoreTests": true,
+      "groupName": "renovate"
+    },
+    {
+      "matchPackageNames": [
+        "LizardByte/Sunshine"
+      ],
+      "matchUpdateTypes": [
+        "major",
         "minor",
         "patch",
         "pin",
