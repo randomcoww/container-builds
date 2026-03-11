@@ -1,0 +1,4 @@
+FROM scratch
+
+# ADD https://huggingface.co/unsloth/gpt-oss-120b-GGUF/resolve/main/gpt-oss-120b-F16.gguf /
+ADD https://192.168.208.34:9000/models/gpt-oss-120b-F16.gguf /
