@@ -34,4 +34,5 @@ jobs:
           --use-new-run \
           --single-snapshot \
           --cleanup \
-          --cache=false
+          --cache=false \
+          --compressed-caching=false
