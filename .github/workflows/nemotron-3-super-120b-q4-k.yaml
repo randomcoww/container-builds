@@ -1,4 +1,4 @@
-name: nemotron-3-super-120b build
+name: nemotron-3-super-120b-q4-k build
 on:
   workflow_dispatch:
 concurrency:
@@ -6,7 +6,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: nemotron-3-super-120b
+  TARGET: nemotron-3-super-120b-q4-k
 
 jobs:
   build:
