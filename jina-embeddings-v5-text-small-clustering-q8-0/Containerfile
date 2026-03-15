@@ -1,0 +1,3 @@
+FROM scratch
+
+ADD https://huggingface.co/jinaai/jina-embeddings-v5-text-small-clustering-GGUF/resolve/main/v5-small-clustering-Q8_0.gguf /

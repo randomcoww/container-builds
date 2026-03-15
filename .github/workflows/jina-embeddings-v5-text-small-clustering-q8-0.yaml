@@ -1,4 +1,4 @@
-name: qwen3-embedding-0.6b-q8-0 build
+name: jina-embeddings-v5-text-small-clustering-q8-0 build
 on:
   workflow_dispatch:
 concurrency:
@@ -6,7 +6,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: qwen3-embedding-0.6b-q8-0
+  TARGET: jina-embeddings-v5-text-small-clustering-q8-0
 
 jobs:
   build:
