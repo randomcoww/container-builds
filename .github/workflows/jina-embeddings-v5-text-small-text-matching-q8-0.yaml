@@ -1,4 +1,4 @@
-name: jina-embeddings-v5-text-small-clustering-q8-0 build
+name: jjina-embeddings-v5-text-small-text-matching-q8-0 build
 on:
   workflow_dispatch:
 concurrency:
@@ -6,7 +6,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: jina-embeddings-v5-text-small-clustering-q8-0
+  TARGET: jjina-embeddings-v5-text-small-text-matching-q8-0
 
 jobs:
   build:
