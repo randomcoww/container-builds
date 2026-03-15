@@ -1,4 +1,4 @@
-name: gpt-oss-120b-f16 build
+name: gpt-oss-120b-mxfp4 build
 on:
   workflow_dispatch:
 concurrency:
@@ -6,7 +6,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: gpt-oss-120b-f16
+  TARGET: gpt-oss-120b-mxfp4
 
 jobs:
   build:
