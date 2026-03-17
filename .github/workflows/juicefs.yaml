@@ -55,7 +55,7 @@ jobs:
   cleanup:
     needs:
     - build
-    runs-on: builder-${{ github.event.repository.name }}
+    runs-on: kaniko-${{ github.event.repository.name }}
     container:
       image: docker.io/node:25.8.1-alpine
     permissions:
