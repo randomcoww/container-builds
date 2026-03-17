@@ -4,6 +4,7 @@
     "config:best-practices",
     "customManagers:githubActionsVersions"
   ],
+  "maxMajorIncrement": 0,
   "packageRules": [
     {
       "matchDatasources": [
