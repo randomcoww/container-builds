@@ -10,13 +10,13 @@ concurrency:
 env:
   TARGET: mountpoint-s3
   # renovate: datasource=github-releases depName=awslabs/mountpoint-s3
-  MOUNTPOINT_VERSION: mountpoint-s3-1.22.1
+  MOUNTPOINT_VERSION: mountpoint-s3-1.22.2
 
 jobs:
   build:
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.27.0-debug
+      image: ghcr.io/osscontainertools/kaniko:v1.27.1-debug
     permissions:
       contents: read
       packages: write
