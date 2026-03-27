@@ -59,7 +59,7 @@ jobs:
     - build
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: docker.io/node:25.8.1-alpine
+      image: docker.io/node:25.8.2-alpine
     permissions:
       packages: write
     steps:
