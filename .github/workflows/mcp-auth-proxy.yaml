@@ -10,13 +10,13 @@ concurrency:
 env:
   TARGET: mcp-auth-proxy
   # renovate: datasource=github-releases depName=sigbit/mcp-auth-proxy
-  MCP_VERSION: v2.6.1
+  MCP_VERSION: v2.8.0
 
 jobs:
   build:
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.27.1-debug
+      image: ghcr.io/osscontainertools/kaniko:v1.27.2-debug
     permissions:
       contents: read
       packages: write
