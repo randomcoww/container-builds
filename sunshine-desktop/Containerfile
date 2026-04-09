@@ -48,7 +48,7 @@ RUN set -x \
     mesa-dri-drivers \
     mesa-va-drivers-freeworld \
     mesa-vdpau-drivers-freeworld \
-    mesa-vulkan-drivers \
+    mesa-vulkan-drivers-freeworld \
     libva-nvidia-driver \
     vulkan \
     vulkan-tools \
