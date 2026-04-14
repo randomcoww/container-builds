@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: sunshine-desktop
   # renovate: datasource=github-releases depName=LizardByte/Sunshine
-  SUNSHINE_VERSION: v2026.412.25828
+  SUNSHINE_VERSION: v2026.413.224438
 
 jobs:
   build:
