@@ -75,7 +75,7 @@ containers:
   resources:
     limits:
       amd.com/gpu: "1"
-      squat.ai/ntsync: "1" # device plugin for /dev/ntsync
+      devic.es/ntsync: "1" # device plugin for /dev/ntsync
   securityContext:
     privileged: true # make sunshine inputs work
 volumes:
