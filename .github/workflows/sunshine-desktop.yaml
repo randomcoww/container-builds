@@ -19,7 +19,6 @@ jobs:
       image: ghcr.io/osscontainertools/kaniko:v1.27.3-debug
     permissions:
       contents: read
-      packages: write
     steps:
     - name: Build and release container
       run: |
