@@ -14,7 +14,6 @@ RUN set -x \
 RUN set -x \
   \
   && pip install --no-cache-dir \
-    "camoufox[geoip]==${VERSION}" \
-    playwright==1.53.0
+    "camoufox[geoip]==${VERSION}"
 
 RUN python -m camoufox fetch
