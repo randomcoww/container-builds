@@ -1,0 +1,68 @@
+name: camofox-browser build
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 14 * * 1"
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  TARGET: camofox-browser
+  # renovate: datasource=github-releases depName=jo-inc/camofox-browser
+  BROWSER_VERSION: v1.6.0
+
+jobs:
+  build:
+    runs-on: kaniko-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/osscontainertools/kaniko:v1.27.3-debug
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Build and release container
+      run: |
+        set -e
+
+        executor \
+          --dockerfile="./Dockerfile" \
+          --context="git://github.com/jo-inc/camofox-browser.git#$BROWSER_VERSION" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$BROWSER_VERSION.$(date -u +%s)" \
+          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
+          --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
+          --build-arg ARCH=$(arch) \
+          --image-download-retry=4 \
+          --image-fs-extract-retry=4 \
+          --push-retry=4 \
+          --snapshot-mode=redo \
+          --use-new-run \
+          --single-snapshot \
+          --cleanup \
+          --cache=false
+
+  cleanup-internal:
+    needs:
+    - build
+    env:
+      TAGS_KEEP: 4
+    runs-on: kaniko-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/regclient/regctl:alpine@sha256:246f275efc7d627bb3b6561317ff2742f5fcc574d86bbe276ddd417f19f98744
+    steps:
+    - name: Remove old tags
+      run: |
+        set -e
+        tags=$(mktemp)
+        repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
+        regctl registry set $INTERNAL_REGISTRY --tls enabled \
+          --cacert "$(cat $DOCKER_CONFIG/ca.crt)" \
+          --client-cert "$(cat $DOCKER_CONFIG/client.cert)" \
+          --client-key "$(cat $DOCKER_CONFIG/client.key)"
+
+        for tag in $(regctl tag ls $repo --exclude latest); do
+          regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags
+        done
+        for tag in $(sort -k2 -t "|" -n $tags | head -n -$TAGS_KEEP); do
+          regctl tag delete --ignore-missing $repo:$(echo $tag | cut -d "|" -f 1)
+        done
