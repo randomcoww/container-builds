@@ -1,4 +1,5 @@
-FROM docker.io/python:slim
+ARG PYTHON_VERSION
+FROM docker.io/python:$PYTHON_VERSION-slim
 ARG VERSION
 
 RUN set -x \
