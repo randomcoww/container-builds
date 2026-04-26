@@ -9,12 +9,15 @@ RUN set -x \
     libx11-xcb1 \
     libasound2 \
     xvfb \
+    tini \
   \
   && rm -rf /var/lib/apt/lists/*
 
 RUN set -x \
   \
-  && pip install --no-cache-dir \
+  && pip install -U --no-cache-dir \
     "camoufox[geoip]==${VERSION}"
 
 RUN python -m camoufox fetch
+
+ENTRYPOINT ["tini", "--"]
