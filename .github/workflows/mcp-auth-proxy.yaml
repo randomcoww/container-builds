@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: mcp-auth-proxy
   # renovate: datasource=github-releases depName=sigbit/mcp-auth-proxy
-  MCP_VERSION: v2.9.1
+  MCP_VERSION: v2.10.1
 
 jobs:
   build:
