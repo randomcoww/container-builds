@@ -54,7 +54,6 @@
     },
     {
       "matchManagers": [
-        "github-actions",
         "dockerfile"
       ],
       "matchDatasources": [
