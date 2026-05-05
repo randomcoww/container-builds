@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.27.4-debug
+      image: ghcr.io/osscontainertools/kaniko:v1.27.4-debug@sha256:a394e5bd9c75c93e207b3949f3d7f49fbe59f21ea91d96ba6939ddf6226233f8
     permissions:
       contents: read
       packages: write
@@ -54,7 +54,7 @@ jobs:
     - build
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: docker.io/node:25.9.0-alpine
+      image: docker.io/node:25.9.0-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4
     permissions:
       packages: write
     steps:
