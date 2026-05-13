@@ -1,6 +1,4 @@
-ARG FEDORA_VERSION
-
-FROM registry.fedoraproject.org/fedora:$FEDORA_VERSION
+FROM registry.fedoraproject.org/fedora:latest
 ARG PACKAGE_VERSION
 
 RUN set -x \
