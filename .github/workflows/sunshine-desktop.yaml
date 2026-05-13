@@ -11,6 +11,7 @@ env:
   TARGET: sunshine-desktop
   # renovate: datasource=github-releases depName=LizardByte/Sunshine
   SUNSHINE_VERSION: v2026.508.45922
+  FEDORA_VERSION: 43
 
 jobs:
   build:
@@ -32,6 +33,7 @@ jobs:
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
           --build-arg PACKAGE_VERSION=$(echo $SUNSHINE_VERSION | tr -d 'v') \
+          --build-arg FEDORA_VERSION=$FEDORA_VERSION \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \
