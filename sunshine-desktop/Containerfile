@@ -56,7 +56,6 @@ RUN set -x \
     systemd-udev \
     pulseaudio \
     pulseaudio-utils \
-    seatd \
     sway \
     wlr-randr \
     foot \
@@ -89,7 +88,7 @@ ENV \
   WLR_BACKENDS=headless,libinput \
   WLR_LIBINPUT_NO_DEVICES=1 \
   WAYLAND_DISPLAY=wayland-1 \
-  LIBSEAT_BACKEND=seatd \
+  LIBSEAT_BACKEND=noop \
   SDL_VIDEODRIVER=wayland
 
 # ENV \
