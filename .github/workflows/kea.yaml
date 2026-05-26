@@ -78,7 +78,7 @@ jobs:
       TAGS_KEEP: 4
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/regclient/regctl:v0.11.4-alpine@sha256:04e8ad4fdd3a67f0140e75c8b4b89b64b6cd89f35984fb2df8cba5852d0b921b
+      image: ghcr.io/regclient/regctl:v0.11.5-alpine@sha256:795e27a968ec0681cf1f4fd4bb83a880a1bc4698afb38efd5c961f9264820565
     steps:
     - name: Remove old tags
       run: |
