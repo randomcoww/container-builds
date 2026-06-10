@@ -1,0 +1,15 @@
+ARG HERMES_VERSION
+FROM docker.io/nousresearch/hermes-agent:$HERMES_VERSION
+
+RUN apt update \
+  && apt install -y --no-install-recommends \
+    python3-pip \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m venv .venv \
+  && . .venv/bin/activate \
+  && pip install mnemosyne-hermes \
+  && mkdir -p plugins/memory/mnemosyne \
+  && ln -sfn \
+    "$(.venv/bin/python -c 'import pathlib, mnemosyne_hermes; print(pathlib.Path(mnemosyne_hermes.__file__).resolve().parent)')"/* \
+    plugins/memory/mnemosyne/
