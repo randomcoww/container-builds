@@ -1,0 +1,7 @@
+ARG VERSION
+FROM ghcr.io/mostlygeek/llama-swap:$VERSION
+
+RUN apt update \
+  && apt install -y --no-install-recommends \
+    ffmpeg \
+  && rm -rf /var/lib/apt/lists/*

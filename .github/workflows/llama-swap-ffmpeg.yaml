@@ -1,4 +1,4 @@
-name: hermes-mnemosyne build
+name: llama-swap-ffmpeg build
 on:
   workflow_dispatch:
   schedule:
@@ -8,9 +8,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: hermes-mnemosyne
-  # renovate: datasource=docker depName=docker.io/nousresearch/hermes-agent
-  VERSION: v2026.6.5
+  TARGET: llama-swap-ffmpeg
+  # renovate: datasource=docker depName=ghcr.io/mostlygeek/llama-swap versioning=unified-vulkan-(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})
+  VERSION: unified-vulkan-2026-06-15
 
 jobs:
   build:
