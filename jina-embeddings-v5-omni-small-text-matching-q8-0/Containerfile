@@ -1,0 +1,5 @@
+FROM scratch
+
+ADD https://huggingface.co/jinaai/jina-embeddings-v5-omni-small-text-matching-GGUF/resolve/main/jina-embeddings-v5-omni-small-text-matching-Q8_0.gguf /
+ADD https://huggingface.co/jinaai/jina-embeddings-v5-omni-small-text-matching-GGUF/resolve/main/jina-embeddings-v5-omni-small-text-matching-audio-mmproj-F16.gguf /
+ADD https://huggingface.co/jinaai/jina-embeddings-v5-omni-small-text-matching-GGUF/resolve/main/jina-embeddings-v5-omni-small-text-matching-vision-mmproj-F16.gguf /
