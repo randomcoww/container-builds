@@ -1,0 +1,3 @@
+FROM scratch
+
+ADD https://huggingface.co/jinaai/jina-reranker-m0-GGUF/resolve/main/jina-reranker-m0-Q8_0.gguf /
