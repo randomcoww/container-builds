@@ -3,8 +3,11 @@ FROM docker.io/nousresearch/hermes-agent:$VERSION
 
 ARG APPTAINER_VERSION
 
-RUN curl -L -o apptainer.deb \
-    https://github.com/apptainer/apptainer/releases/download/v$APPTAINER_VERSION/apptainer_$APPTAINER_VERSION-trixie+_$(dpkg --print-architecture).deb \
+RUN TARGETARCH=$(arch) \
+  && TARGETARCH=${TARGETARCH/x86_64/amd64} && TARGETARCH=${TARGETARCH/aarch64/arm64} \
+  \
+  && wget -L -o apptainer.deb \
+    https://github.com/apptainer/apptainer/releases/download/v$APPTAINER_VERSION/apptainer_$APPTAINER_VERSION-trixie+_$TARGETARCH.deb \
   \
   && apt update \
   && apt install -y --no-install-recommends \
