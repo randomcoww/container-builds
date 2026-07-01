@@ -2,4 +2,4 @@
 
 - https://github.com/NousResearch/hermes-agent
 
-- https://github.com/AxDSan/mnemosyne
+- https://github.com/mnemosyne-oss/mnemosyne
