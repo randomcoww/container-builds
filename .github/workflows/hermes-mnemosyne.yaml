@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: hermes-mnemosyne
-  # renovate: datasource=docker depName=docker.io/nousresearch/hermes-agent
+  # renovate: datasource=docker depName=docker.io/nousresearch/hermes-agent versioning=docker
   VERSION: v2026.6.5
 
 jobs:
