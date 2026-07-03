@@ -1,4 +1,4 @@
-name: mountpoint-s3 build
+name: mountpoint-s3-csi build
 on:
   workflow_dispatch:
   schedule:
@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: mountpoint-s3
+  TARGET: mountpoint-s3-csi
   # renovate: datasource=docker depName=public.ecr.aws/mountpoint-s3-csi-driver/aws-mountpoint-s3-csi-driver versioning=docker
   MOUNTPOINT_VERSION: v2.6.0
 
