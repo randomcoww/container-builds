@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: mountpoint-s3-csi
   # renovate: datasource=docker depName=public.ecr.aws/mountpoint-s3-csi-driver/aws-mountpoint-s3-csi-driver versioning=docker
-  MOUNTPOINT_VERSION: v2.6.0
+  MOUNTPOINT_VERSION: v2.7.0
 
 jobs:
   build:
