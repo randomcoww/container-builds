@@ -43,7 +43,7 @@ jobs:
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
           --build-arg VERSION=$MOUNTPOINT_VERSION \
-          --build-arg INTERNAL_CA_CERT=$INTERNAL_CA_CERT \
+          --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \
