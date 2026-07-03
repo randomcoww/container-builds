@@ -1,16 +1,13 @@
-FROM registry.fedoraproject.org/fedora-minimal:latest
-
 ARG VERSION
 
-RUN set -x \
-  \
-  && TARGETARCH=$(arch) \
-  && TARGETARCH=${TARGETARCH/aarch64/arm64} \
-  && microdnf install -y --setopt=install_weak_deps=False --best \
-    fuse \
-    fuse-libs \
-  && rpm -ihv --nodigest https://s3.amazonaws.com/mountpoint-s3-release/$VERSION/$TARGETARCH/mount-s3-$VERSION-$TARGETARCH.rpm \
-  && microdnf clean all \
-  && rm -rf \
-    /var/cache \
-    /var/log/*
+FROM alpine:latest as ca
+ARG INTERNAL_CA_CERT
+
+RUN apk add --no-cache \
+    ca-certificates \
+  && echo -e "$INTERNAL_CA_CERT" > /usr/local/share/ca-certificates/ca.crt \
+  && update-ca-certificates
+
+FROM public.ecr.aws/mountpoint-s3-csi-driver/aws-mountpoint-s3-csi-driver:$VERSION
+
+COPY --from=ca /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
