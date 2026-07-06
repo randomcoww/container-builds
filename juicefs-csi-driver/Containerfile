@@ -1,0 +1,13 @@
+ARG VERSION
+
+FROM alpine:latest as ca
+ARG INTERNAL_CA_CERT
+
+RUN apk add --no-cache \
+    ca-certificates \
+  && echo -e "$INTERNAL_CA_CERT" > /usr/local/share/ca-certificates/ca.crt \
+  && update-ca-certificates
+
+FROM docker.io/juicedata/juicefs-csi-driver:$VERSION
+
+COPY --from=ca /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/

@@ -1,0 +1,97 @@
+name: juicefs-csi-driver build
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 12 * * 1"
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  TARGET: juicefs-csi-driver
+  # renovate: datasource=docker depName=docker.io/juicedata/juicefs-csi-driver versioning=docker
+  JUICEFS_VERSION: v0.31.10
+
+jobs:
+  build:
+    runs-on: kaniko-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/osscontainertools/kaniko:v1.28.0-debug@sha256:eaa584c90089955adc0c48773c4e4670b55383eb13372bbf56a9cf7238bde69f
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Build and release container
+      run: |
+        set -e
+        cat > $DOCKER_CONFIG/config.json <<EOF
+        {
+          "auths": {
+            "ghcr.io": {
+              "auth": "$(echo -n ${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }} | base64 -w0)"
+            }
+          }
+        }
+        EOF
+
+        executor \
+          --context-sub-path="$TARGET" \
+          --dockerfile="./Containerfile" \
+          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$JUICEFS_VERSION" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$JUICEFS_VERSION.$(date -u +%s)" \
+          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
+          --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
+          --build-arg VERSION=$JUICEFS_VERSION \
+          --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
+          --image-download-retry=4 \
+          --image-fs-extract-retry=4 \
+          --push-retry=4 \
+          --snapshot-mode=redo \
+          --use-new-run \
+          --single-snapshot \
+          --cleanup \
+          --cache=false
+
+  cleanup:
+    needs:
+    - build
+    runs-on: kaniko-${{ github.event.repository.name }}
+    container:
+      image: docker.io/node:25.9.0-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4
+    permissions:
+      packages: write
+    steps:
+    - name: Remove old container images
+      uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5
+      with:
+        package-name: ${{ env.TARGET }}
+        package-type: container
+        min-versions-to-keep: 4
+        ignore-versions: latest
+        token: ${{ secrets.GITHUB_TOKEN }}
+  cleanup-internal:
+    needs:
+    - build
+    env:
+      TAGS_KEEP: 4
+    runs-on: kaniko-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/regclient/regctl:v0.11.5-alpine@sha256:795e27a968ec0681cf1f4fd4bb83a880a1bc4698afb38efd5c961f9264820565
+    steps:
+    - name: Remove old tags
+      run: |
+        set -e
+        tags=$(mktemp)
+        repo=$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}
+        regctl registry set $INTERNAL_REGISTRY --tls enabled \
+          --cacert "$(cat $DOCKER_CONFIG/ca.crt)" \
+          --client-cert "$(cat $DOCKER_CONFIG/client.cert)" \
+          --client-key "$(cat $DOCKER_CONFIG/client.key)"
+
+        for tag in $(regctl tag ls $repo --exclude latest); do
+          regctl image config $repo:$tag --format "{{ printf \"$tag|%d\\n\" .Created.Unix }}" >> $tags
+        done
+        for tag in $(sort -k2 -t "|" -n $tags | head -n -$TAGS_KEEP); do
+          regctl tag delete --ignore-missing $repo:$(echo $tag | cut -d "|" -f 1)
+        done
