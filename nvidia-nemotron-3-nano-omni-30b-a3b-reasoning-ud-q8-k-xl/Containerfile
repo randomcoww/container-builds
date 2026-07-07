@@ -1,4 +1,5 @@
 FROM scratch
 
-ADD https://huggingface.co/unsloth/NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-GGUF/resolve/main/NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-UD-Q8_K_XL.gguf /
-ADD https://huggingface.co/unsloth/NVIDIA-Nemotron-3-Nano-Omni-30B-A3B-Reasoning-GGUF/resolve/main/mmproj-F16.gguf /
+ADD https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/BF16/Qwen3.6-27B-BF16-00001-of-00002.gguf /
+ADD https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/BF16/Qwen3.6-27B-BF16-00002-of-00002.gguf /
+ADD https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/mmproj-BF16.gguf /Qwen3.6-27B-mmproj-BF16.gguf
