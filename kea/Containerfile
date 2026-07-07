@@ -1,24 +1,51 @@
-ARG ALPINE_VERSION
-FROM docker.io/alpine:$ALPINE_VERSION
+FROM docker.io/alpine:latest
 ARG VERSION
 
-RUN set -x \
-  \
-  && wget -O - \
-    'https://dl.cloudsmith.io/public/isc/kea-dev/rsa.74BF45C5BC52B8DD.key' > /etc/apk/keys/kea-dev@isc-74BF45C5BC52B8DD.rsa.pub \
-  && wget -O - \
-    "https://dl.cloudsmith.io/public/isc/kea-dev/config.alpine.txt?distro=alpine&arch=$(arch)&version=$(cat /etc/alpine-release)" >> /etc/apk/repositories \
-  && wget -O - \
+RUN wget -O - \
     'https://dl.cloudsmith.io/public/isc/stork-dev/rsa.BF2C56ECBA97B498.key' > /etc/apk/keys/stork-dev@isc-BF2C56ECBA97B498.rsa.pub \
   && wget -O - \
     "https://dl.cloudsmith.io/public/isc/stork-dev/config.alpine.txt?distro=alpine&arch=$(arch)&version=$(cat /etc/alpine-release)" >> /etc/apk/repositories \
+  && apk add --no-cache --virtual .build-deps \
+    build-base \
+    meson \
+    boost-dev \
+    log4cplus-dev \
+    botan3-dev \
+    sqlite-dev \
+    postgresql-dev \
+  \
+## build kea
+  && cd / \
+  && wget -O kea.tar.gz https://github.com/isc-projects/kea/archive/refs/tags/$VERSION.tar.gz \
+  && mkdir -p /usr/src/kea \
+  && tar xf kea.tar.gz --strip-components=1 -C /usr/src/kea \
+  && rm kea.tar.gz \
+  && cd /usr/src/kea \
+  \
+  && meson setup build \
+    --prefix /usr/local \
+    -D buildtype=release \
+    -D crypto=botan \
+    -D postgresql=enabled \
+    -D cpp_std=c++20 \
+  && meson compile -C build \
+  && meson install -C build \
+  \
+## cleanup
+  && cd / \
+  && rm -rf /usr/src \
+  \
+  && runDeps="$( \
+    scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+      | tr ',' '\n' \
+      | sort -u \
+      | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+  )" \
+  && apk del .build-deps \
+  && apk add --no-cache --virtual .kea-rundeps $runDeps \
   && apk add --no-cache \
     tini \
     envsubst \
-    isc-kea-dhcp4=~$VERSION \
-    isc-kea-dhcp6=~$VERSION \
-    isc-kea-hooks=~$VERSION \
-    isc-kea-dhcp-ddns=~$VERSION \
     isc-stork-agent
 
 ENTRYPOINT ["tini", "--"]

@@ -9,9 +9,8 @@ concurrency:
 
 env:
   TARGET: kea
-  # renovate: datasource=github-tags depName=isc-projects/kea
+  # renovate: datasource=github-tags depName=isc-projects/kea versioning=regex:^Kea-(?<major>\d+).(?<minor>\d+).(?<patch>\d+)$
   KEA_VERSION: Kea-3.2.0
-  ALPINE_VERSION: 3.22
 
 jobs:
   build:
@@ -43,8 +42,7 @@ jobs:
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $KEA_VERSION | sed 's/Kea-//').$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
-          --build-arg VERSION=$(echo $KEA_VERSION | sed 's/Kea-//') \
-          --build-arg ALPINE_VERSION="$ALPINE_VERSION" \
+          --build-arg VERSION=$KEA_VERSION \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \
