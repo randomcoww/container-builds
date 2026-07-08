@@ -1,0 +1,6 @@
+FROM scratch
+
+ADD https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/resolve/main/BF16/gemma-4-31B-it-BF16-00001-of-00002.gguf /
+ADD https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/resolve/main/BF16/gemma-4-31B-it-BF16-00002-of-00002.gguf /
+ADD https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/resolve/main/MTP/gemma-4-31B-it-BF16-MTP.gguf /
+ADD https://huggingface.co/unsloth/gemma-4-31B-it-GGUF/resolve/main/mmproj-BF16.gguf /gemma-4-31B-it-mmproj-BF16.gguf
