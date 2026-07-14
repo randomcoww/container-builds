@@ -1,6 +1,6 @@
 ARG VERSION
 
-FROM alpine:latest as ca
+FROM docker.io/alpine:latest as ca
 ARG INTERNAL_CA_CERT
 
 RUN apk add --no-cache \
