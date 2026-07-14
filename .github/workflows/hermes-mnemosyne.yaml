@@ -9,8 +9,8 @@ concurrency:
 
 env:
   TARGET: hermes-mnemosyne
-  # renovate: datasource=docker depName=docker.io/nousresearch/hermes-agent
-  HERMES_VERSION: v2026.7.7
+  # renovate: datasource=docker depName=docker.io/nousresearch/hermes-agent versioning=regex:^v(?<major>\d+).(?<minor>\d+).(?<patch>\d+)(?:@(?<digest>sha256:[a-f0-9]+))?$
+  HERMES_VERSION: v2026.7.7@sha256:ce3b39adf33fffae8cb19dcae74f971975b972efe91207f7d7539f80a0aae66a
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$HERMES_VERSION.$(date -u +%s)" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$(echo $HERMES_VERSION | sed -r 's/@.+$//').$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
           --build-arg VERSION="$HERMES_VERSION" \

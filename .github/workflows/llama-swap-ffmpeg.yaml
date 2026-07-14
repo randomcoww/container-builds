@@ -9,8 +9,8 @@ concurrency:
 
 env:
   TARGET: llama-swap-ffmpeg
-  # renovate: datasource=docker depName=ghcr.io/mostlygeek/llama-swap versioning=regex:^unified-vulkan-(?<major>\d{4})-(?<minor>\d{2})-(?<patch>\d{2})$
-  LLAMA_SWAP_VERSION: unified-vulkan-2026-07-14
+  # renovate: datasource=docker depName=ghcr.io/mostlygeek/llama-swap versioning=regex:^unified-vulkan-(?<major>\d{4})-(?<minor>\d{2})-(?<patch>\d{2})(?:@(?<digest>sha256:[a-f0-9]+))?$
+  LLAMA_SWAP_VERSION: unified-vulkan-2026-07-14@sha256:9e9965d31466180649b62fa7c1417bdc5f360d368b4cc349fd48398e792d0ef2
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$LLAMA_SWAP_VERSION.$(date -u +%s)" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$(echo $LLAMA_SWAP_VERSION | sed -r 's/@.+$//').$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
           --build-arg VERSION="$LLAMA_SWAP_VERSION" \
