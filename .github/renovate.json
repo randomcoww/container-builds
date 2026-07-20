@@ -55,7 +55,7 @@
     {
       "matchManagers": [
         "dockerfile",
-        "regex"
+        "custom.regex"
       ],
       "matchDatasources": [
         "docker"
