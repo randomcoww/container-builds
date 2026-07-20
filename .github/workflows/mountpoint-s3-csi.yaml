@@ -9,8 +9,8 @@ concurrency:
 
 env:
   TARGET: mountpoint-s3-csi
-  # renovate: datasource=docker depName=public.ecr.aws/mountpoint-s3-csi-driver/aws-mountpoint-s3-csi-driver versioning=regex:^v(?<major>\d+).(?<minor>\d+).(?<patch>\d+)(?:@(?<digest>sha256:[a-f0-9]+))?$
-  MOUNTPOINT_VERSION: v2.7.0@sha256:0d43e5044e85572828d6d08d19a98873029583b15337506c6cedc784e62b2ea8
+  # renovate: datasource=docker depName=public.ecr.aws/mountpoint-s3-csi-driver/aws-mountpoint-s3-csi-driver versioning=regex:^v(?<major>\d+).(?<minor>\d+).(?<patch>\d+)$
+  MOUNTPOINT_VERSION: v2.7.0
 
 jobs:
   build:

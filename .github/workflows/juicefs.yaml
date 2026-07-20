@@ -9,8 +9,8 @@ concurrency:
 
 env:
   TARGET: juicefs
-  # renovate: datasource=docker depName=docker.io/juicedata/mount versioning=regex:^ce-v(?<major>\d+).(?<minor>\d+).(?<patch>\d+)(?:@(?<digest>sha256:[a-f0-9]+))?$
-  JUICEFS_VERSION: ce-v1.4.0@sha256:5b2f5f9e0ac5fb694a7711fddfebc4a4d3c9e2f872dbc4d776f61e412178e35c
+  # renovate: datasource=docker depName=docker.io/juicedata/mount versioning=regex:^ce-v(?<major>\d+).(?<minor>\d+).(?<patch>\d+)$
+  JUICEFS_VERSION: ce-v1.4.0
 
 jobs:
   build:
