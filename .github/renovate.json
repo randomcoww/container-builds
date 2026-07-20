@@ -54,15 +54,7 @@
     },
     {
       "matchManagers": [
-        "dockerfile"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
-      "pinDigests": false
-    },
-    {
-      "matchManagers": [
+        "dockerfile",
         "regex"
       ],
       "matchDatasources": [
