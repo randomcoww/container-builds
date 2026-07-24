@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: llama-swap-ffmpeg
   # renovate: datasource=docker depName=ghcr.io/mostlygeek/llama-swap versioning=regex:^unified-vulkan-(?<major>\d{4})-(?<minor>\d{2})-(?<patch>\d{2})$
-  LLAMA_SWAP_VERSION: unified-vulkan-2026-07-23
+  LLAMA_SWAP_VERSION: unified-vulkan-2026-07-24
 
 jobs:
   build:
