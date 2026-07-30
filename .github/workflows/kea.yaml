@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: kea
   # renovate: datasource=github-tags depName=isc-projects/kea versioning=regex:^Kea-(?<major>\d+).(?<minor>\d+).(?<patch>\d+)$
-  KEA_VERSION: Kea-3.2.0
+  KEA_VERSION: Kea-3.3.0
 
 jobs:
   build:
