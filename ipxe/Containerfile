@@ -27,11 +27,11 @@ RUN set -x \
   && TARGETARCH=$(arch) \
   && TARGETARCH=${TARGETARCH/aarch64/arm64} \
   \
-  && echo -e "$INTERNAL_CA_CERT" > ca-cert.pem \
+  && echo -e "$INTERNAL_CA_CERT" > ca.crt \
   && make -j $(getconf _NPROCESSORS_ONLN) \
     bin-$TARGETARCH-efi/ipxe.efi \
-    CERT=ca-cert.pem \
-    TRUST=ca-cert.pem \
+    CERT=ca.crt \
+    TRUST=ca.crt \
   \
   && mkdir -p /build \
   && mv bin-$TARGETARCH-efi/*.efi /build/
