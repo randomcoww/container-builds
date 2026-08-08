@@ -1,0 +1,4 @@
+FROM scratch
+
+ADD https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/Qwen3.6-27B-UD-Q8_K_XL.gguf /
+ADD https://huggingface.co/unsloth/Qwen3.6-27B-MTP-GGUF/resolve/main/mmproj-BF16.gguf /
