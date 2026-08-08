@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: hostapd
   # renovate: datasource=git-tags depName=https://git.w1.fi/cgit/hostap versioning=regex:^hostap_(?<major>\d+)_(?<minor>\d+)$
-  HOSTAPD_VERSION: hostap_2_11
+  HOSTAPD_VERSION: hostap_2_12
 
 jobs:
   build:
