@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: kaniko-high-memory-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.28.2-debug@sha256:7a2e29d0bd382dc89b0df34a15baa922662d96788185559e3f0b876777283015
+      image: ghcr.io/osscontainertools/kaniko:v1.28.3-debug@sha256:33f0c14d97d3e1f39b0c9ff26a4b1cd27575009b9d00719f2fdbe6c3e6b968a5
     permissions:
       contents: read
       packages: write

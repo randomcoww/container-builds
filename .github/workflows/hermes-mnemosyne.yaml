@@ -10,13 +10,13 @@ concurrency:
 env:
   TARGET: hermes-mnemosyne
   # renovate: datasource=docker depName=docker.io/nousresearch/hermes-agent versioning=regex:^v(?<major>\d+).(?<minor>\d+).(?<patch>\d+)$
-  HERMES_VERSION: v2026.8.3
+  HERMES_VERSION: v2026.8.13
 
 jobs:
   build:
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.28.2-debug@sha256:7a2e29d0bd382dc89b0df34a15baa922662d96788185559e3f0b876777283015
+      image: ghcr.io/osscontainertools/kaniko:v1.28.3-debug@sha256:33f0c14d97d3e1f39b0c9ff26a4b1cd27575009b9d00719f2fdbe6c3e6b968a5
     permissions:
       contents: read
       packages: write
