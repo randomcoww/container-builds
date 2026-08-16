@@ -24,7 +24,7 @@
       "matchPackageNames": [
         "LizardByte/Sunshine"
       ],
-      "ignoreUnstable": false
+      "ignoreUnstable": true
     },
     {
       "matchUpdateTypes": [
