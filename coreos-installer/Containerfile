@@ -4,6 +4,11 @@ RUN set -x \
   \
   && microdnf install -y --setopt=install_weak_deps=False --best \
     bindfs \
-    coreos-installer
+    coreos-installer \
+  \
+  && microdnf clean all \
+  && rm -rf \
+    /var/cache \
+    /var/log/*
 
 ENTRYPOINT ["bash", "-c"]
