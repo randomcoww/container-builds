@@ -1,0 +1,9 @@
+FROM registry.fedoraproject.org/fedora-minimal:latest
+
+RUN set -x \
+  \
+  && microdnf install -y --setopt=install_weak_deps=False --best \
+    bindfs \
+    coreos-installer
+
+ENTRYPOINT ["bash", "-c"]
