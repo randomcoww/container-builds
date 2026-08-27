@@ -1,6 +1,6 @@
 ### Container builds for homelab
 
-Pushes to ghcr.io and internal registry (reg.cluster.internal)
+Pushes to ghcr.io and internal registry
 
 ### Renovate local test
 
