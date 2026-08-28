@@ -23,4 +23,5 @@ jobs:
           --ca-file /etc/oras/tls/ca.crt \
           --cert-file /etc/oras/tls/tls.crt \
           --key-file /etc/oras/tls/tls.key \
-          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) $(ls)
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) \
+          ggml-large-v3-turbo-q8_0.bin:application/octet-stream
