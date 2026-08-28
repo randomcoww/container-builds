@@ -42,7 +42,9 @@ jobs:
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$IPXE_VERSION.$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
-          --build-arg INTERNAL_CA_CERT="$INTERNAL_CA_CERT" \
+          --build-arg INTERNAL_CA_CERT="$(cat $DOCKER_CONFIG/ca.crt)" \
+          --build-arg INTERNAL_CLIENT_CERT="$(cat $DOCKER_CONFIG/client.cert)" \
+          --build-arg INTERNAL_CLIENT_KEY="$(cat $DOCKER_CONFIG/client.key)" \
           --build-arg VERSION="$IPXE_VERSION" \
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \

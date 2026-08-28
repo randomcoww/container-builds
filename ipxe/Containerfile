@@ -21,16 +21,20 @@ WORKDIR /ipxe/src
 COPY config/ config/local/
 
 ARG INTERNAL_CA_CERT
+ARG INTERNAL_CLIENT_CERT
+ARG INTERNAL_CLIENT_KEY
 
-RUN set -x \
-  \
+RUN \
   && TARGETARCH=$(arch) \
   && TARGETARCH=${TARGETARCH/aarch64/arm64} \
   \
   && echo -e "$INTERNAL_CA_CERT" > ca.crt \
+  && echo -e "$INTERNAL_CLIENT_CERT" > tls.crt \
+  && echo -e "$INTERNAL_CLIENT_KEY" > tls.key \
   && make -j $(getconf _NPROCESSORS_ONLN) \
     bin-$TARGETARCH-efi/ipxe.efi \
-    CERT=ca.crt \
+    CERT=tls.crt \
+    PRIVKEY=tls.key \
     TRUST=ca.crt \
   \
   && mkdir -p /build \
