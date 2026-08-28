@@ -47,6 +47,7 @@ jobs:
           --image-download-retry=4 \
           --image-fs-extract-retry=4 \
           --push-retry=4 \
+          --reproducible \
           --snapshot-mode=redo \
           --use-new-run \
           --single-snapshot \
