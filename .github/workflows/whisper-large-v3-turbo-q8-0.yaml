@@ -24,6 +24,6 @@ jobs:
         wget -qO - "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin" | \
         oras push \
           --ca-file /etc/oras/tls/ca.crt \
-          --cert /etc/oras/tls/tls.crt \
-          --key /etc/oras/tls/tls.key \
+          --cert-file /etc/oras/tls/tls.crt \
+          --key-file /etc/oras/tls/tls.key \
           $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) -
