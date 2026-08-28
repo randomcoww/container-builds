@@ -18,8 +18,9 @@ jobs:
     steps:
     - name: Build and release container
       run: |
-        set -e
-        set -o pipefail
+        set -eo pipefail
+
+        sleep infinity
 
         wget -qO - "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin" | \
         oras push \
