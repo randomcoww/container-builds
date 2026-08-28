@@ -10,30 +10,22 @@ env:
 
 jobs:
   build:
-    runs-on: kaniko-${{ github.event.repository.name }}
+    runs-on: oras-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.28.3-debug@sha256:33f0c14d97d3e1f39b0c9ff26a4b1cd27575009b9d00719f2fdbe6c3e6b968a5
-    permissions:
-      contents: read
+      image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
     steps:
     - name: Build and release container
       run: |
-        set -e
+        set -eo pipefail
 
-        executor \
-          --context-sub-path="$TARGET" \
-          --dockerfile="./Containerfile" \
-          --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s)" \
-          --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
-          --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
-          --image-download-retry=4 \
-          --image-fs-extract-retry=4 \
-          --push-retry=4 \
-          --reproducible \
-          --snapshot-mode=redo \
-          --use-new-run \
-          --single-snapshot \
-          --cleanup \
-          --cache=false \
-          --compressed-caching=false
+        wget -q "https://huggingface.co/unsloth/NVIDIA-Nemotron-3-Super-120B-A12B-GGUF/resolve/main/MXFP4_MOE/NVIDIA-Nemotron-3-Super-120B-A12B-MXFP4_MOE-00001-of-00003.gguf"
+        wget -q "https://huggingface.co/unsloth/NVIDIA-Nemotron-3-Super-120B-A12B-GGUF/resolve/main/MXFP4_MOE/NVIDIA-Nemotron-3-Super-120B-A12B-MXFP4_MOE-00002-of-00003.gguf"
+        wget -q "https://huggingface.co/unsloth/NVIDIA-Nemotron-3-Super-120B-A12B-GGUF/resolve/main/MXFP4_MOE/NVIDIA-Nemotron-3-Super-120B-A12B-MXFP4_MOE-00003-of-00003.gguf"
+        oras push \
+          --ca-file /etc/oras/tls/ca.crt \
+          --cert-file /etc/oras/tls/tls.crt \
+          --key-file /etc/oras/tls/tls.key \
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) \
+          NVIDIA-Nemotron-3-Super-120B-A12B-MXFP4_MOE-00001-of-00003.gguf \
+          NVIDIA-Nemotron-3-Super-120B-A12B-MXFP4_MOE-00002-of-00003.gguf \
+          NVIDIA-Nemotron-3-Super-120B-A12B-MXFP4_MOE-00003-of-00003.gguf
