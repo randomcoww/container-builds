@@ -1,3 +1,0 @@
-FROM scratch
-
-ADD https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin /
