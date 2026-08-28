@@ -43,7 +43,7 @@ jobs:
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
           --build-arg INTERNAL_CA_CERT="$(cat $DOCKER_CONFIG/ca.crt)" \
-          --build-arg INTERNAL_CLIENT_CERT="$(cat $DOCKER_CONFIG/client.cert)" \
+          --build-arg INTERNAL_CLIENT_CERT_CHAIN="$(cat $DOCKER_CONFIG/client.cert $DOCKER_CONFIG/ca.crt)" \
           --build-arg INTERNAL_CLIENT_KEY="$(cat $DOCKER_CONFIG/client.key)" \
           --build-arg VERSION="$IPXE_VERSION" \
           --image-download-retry=4 \
