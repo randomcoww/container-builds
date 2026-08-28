@@ -13,8 +13,6 @@ jobs:
     runs-on: oras-${{ github.event.repository.name }}
     container:
       image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
-    permissions:
-      contents: read
     steps:
     - name: Build and release container
       run: |
@@ -25,5 +23,4 @@ jobs:
           --ca-file /etc/oras/tls/ca.crt \
           --cert-file /etc/oras/tls/tls.crt \
           --key-file /etc/oras/tls/tls.key \
-          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) \
-          ggml-large-v3-turbo-q8_0.bin:application/octet-stream
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) $(ls)
