@@ -20,11 +20,10 @@ jobs:
       run: |
         set -eo pipefail
 
-        sleep infinity
-
-        wget -qO - "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin" | \
+        wget -q "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin"
         oras push \
           --ca-file /etc/oras/tls/ca.crt \
           --cert-file /etc/oras/tls/tls.crt \
           --key-file /etc/oras/tls/tls.key \
-          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) -
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) \
+          ggml-large-v3-turbo-q8_0.bin:application/octet-stream
