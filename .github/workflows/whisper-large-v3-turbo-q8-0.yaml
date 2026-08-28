@@ -19,8 +19,9 @@ jobs:
     - name: Build and release container
       run: |
         set -e
+        set -o pipefail
 
-        curl -L "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin" | \
+        wget -qO - "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin" | \
         oras push \
           --ca-file /etc/oras/tls/ca.crt \
           --cert /etc/oras/tls/tls.crt \
