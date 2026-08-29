@@ -34,6 +34,11 @@ containers:
     runuser -p -u $USER -- bash <<EOT
     set -e
     cd $HOME
+    cp -r /etc/skel/. $HOME/
+
+    ## dbus-daemon ##
+
+    rm -f /run/dbus/pid && dbus-daemon --system
 
     ## Pulseaudio ##
 
