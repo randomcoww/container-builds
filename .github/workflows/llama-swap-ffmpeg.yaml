@@ -10,13 +10,13 @@ concurrency:
 env:
   TARGET: llama-swap-ffmpeg
   # renovate: datasource=docker depName=ghcr.io/mostlygeek/llama-swap versioning=regex:^unified-vulkan-(?<major>\d{4})-(?<minor>\d{2})-(?<patch>\d{2})$
-  LLAMA_SWAP_VERSION: unified-vulkan-2026-08-31
+  LLAMA_SWAP_VERSION: unified-vulkan-2026-09-01
 
 jobs:
   build:
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.28.3-debug@sha256:33f0c14d97d3e1f39b0c9ff26a4b1cd27575009b9d00719f2fdbe6c3e6b968a5
+      image: ghcr.io/osscontainertools/kaniko:v1.28.4-debug@sha256:716ab47e2f730a52edec6ab75a2866668012eaaa9c2d09ffec319c4a349448e3
     permissions:
       contents: read
       packages: write
