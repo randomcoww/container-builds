@@ -1,0 +1,27 @@
+name: granite-4.2-3b-q8-0 build
+on:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  TARGET: granite-4.2-3b-q8-0
+
+jobs:
+  build:
+    runs-on: oras-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
+    steps:
+    - name: Build and release container
+      run: |
+        set -eo pipefail
+
+        wget -q "https://huggingface.co/ibm-granite/granite-4.2-3b-GGUF/resolve/main/granite-4.2-3b-Q8_0.gguf"
+        oras push \
+          --ca-file /etc/oras/tls/ca.crt \
+          --cert-file /etc/oras/tls/tls.crt \
+          --key-file /etc/oras/tls/tls.key \
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) \
+          granite-4.2-3b-Q8_0.gguf
