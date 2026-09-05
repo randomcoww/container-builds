@@ -24,7 +24,6 @@ jobs:
         set -e
 
         executor \
-          --context-sub-path="$TARGET" \
           --dockerfile="./Dockerfile" \
           --context="git://github.com/alpacahq/alpaca-mcp-server.git#main" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$VERSION.$(date -u +%s)" \
