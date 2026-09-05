@@ -26,7 +26,7 @@ jobs:
         executor \
           --context-sub-path="$TARGET" \
           --dockerfile="./Dockerfile" \
-          --context="https://github.com/alpacahq/alpaca-mcp-server.git#main" \
+          --context="git://github.com/alpacahq/alpaca-mcp-server.git#main" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$VERSION.$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
