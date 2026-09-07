@@ -38,7 +38,6 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="ghcr.io/${{ github.repository_owner }}/${{ env.TARGET }}:$IPXE_VERSION" \
           --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$IPXE_VERSION.$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
@@ -56,23 +55,6 @@ jobs:
           --cleanup \
           --cache=false
 
-  cleanup:
-    needs:
-    - build
-    runs-on: kaniko-${{ github.event.repository.name }}
-    container:
-      image: docker.io/node:25.9.0-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4
-    permissions:
-      packages: write
-    steps:
-    - name: Remove old container images
-      uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55 # v5
-      with:
-        package-name: ${{ env.TARGET }}
-        package-type: container
-        min-versions-to-keep: 4
-        ignore-versions: latest
-        token: ${{ secrets.GITHUB_TOKEN }}
   cleanup-internal:
     needs:
     - build
