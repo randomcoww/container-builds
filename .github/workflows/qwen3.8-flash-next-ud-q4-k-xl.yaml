@@ -9,7 +9,7 @@ env:
   TARGET: qwen3.8-flash-next-ud-q4-k-xl
 
 jobs:
-  build:
+  build-00001-of-00004:
     runs-on: oras-${{ github.event.repository.name }}
     container:
       image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
@@ -19,17 +19,62 @@ jobs:
         set -eo pipefail
 
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+        oras push \
+          --ca-file /etc/oras/tls/ca.crt \
+          --cert-file /etc/oras/tls/tls.crt \
+          --key-file /etc/oras/tls/tls.key \
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s)-00001-of-00004 \
+          Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf:application/octet-stream
+
+  build-00002-of-00004:
+    runs-on: oras-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
+    steps:
+    - name: Build and release container
+      run: |
+        set -eo pipefail
+
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+        oras push \
+          --ca-file /etc/oras/tls/ca.crt \
+          --cert-file /etc/oras/tls/tls.crt \
+          --key-file /etc/oras/tls/tls.key \
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s)-00002-of-00004 \
+          Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf:application/octet-stream
+
+  build-00003-of-00004:
+    runs-on: oras-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
+    steps:
+    - name: Build and release container
+      run: |
+        set -eo pipefail
+
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+        oras push \
+          --ca-file /etc/oras/tls/ca.crt \
+          --cert-file /etc/oras/tls/tls.crt \
+          --key-file /etc/oras/tls/tls.key \
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s)-00003-of-00004 \
+          Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf:application/octet-stream
+
+  build-00004-of-00004:
+    runs-on: oras-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
+    steps:
+    - name: Build and release container
+      run: |
+        set -eo pipefail
+
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/mmproj-BF16.gguf"
         oras push \
           --ca-file /etc/oras/tls/ca.crt \
           --cert-file /etc/oras/tls/tls.crt \
           --key-file /etc/oras/tls/tls.key \
-          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) \
-          Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf:application/octet-stream \
-          Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf:application/octet-stream \
-          Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf:application/octet-stream \
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s)-00004-of-00004 \
           Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf:application/octet-stream \
           mmproj-BF16.gguf:application/octet-stream
