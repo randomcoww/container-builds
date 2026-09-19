@@ -20,7 +20,6 @@ jobs:
 
         wget -q "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin"
         oras push \
-          --artifact-type application/vnd.oci.image.config.v1+json \
           --ca-file /etc/oras/tls/ca.crt \
           --cert-file /etc/oras/tls/tls.crt \
           --key-file /etc/oras/tls/tls.key \
