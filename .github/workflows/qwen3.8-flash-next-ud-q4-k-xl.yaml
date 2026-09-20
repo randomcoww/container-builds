@@ -22,7 +22,6 @@ jobs:
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
-        wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/MTP/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf"
         wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/mmproj-BF16.gguf"
         oras push \
           --ca-file /etc/oras/tls/ca.crt \
@@ -33,5 +32,4 @@ jobs:
           Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf:application/octet-stream \
           Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf:application/octet-stream \
           Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf:application/octet-stream \
-          mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf:application/octet-stream \
           mmproj-BF16.gguf:application/octet-stream

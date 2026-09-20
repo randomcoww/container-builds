@@ -1,0 +1,27 @@
+name: qwen3.8-flash-next-ud-q4-k-xl-mtp build
+on:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  TARGET: qwen3.8-flash-next-ud-q4-k-xl-mtp
+
+jobs:
+  build:
+    runs-on: oras-${{ github.event.repository.name }}
+    container:
+      image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
+    steps:
+    - name: Build and release container
+      run: |
+        set -eo pipefail
+
+        wget -q "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/main/MTP/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf"
+        oras push \
+          --ca-file /etc/oras/tls/ca.crt \
+          --cert-file /etc/oras/tls/tls.crt \
+          --key-file /etc/oras/tls/tls.key \
+          $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) \
+          mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf:application/octet-stream
