@@ -27,5 +27,4 @@ RUN set -e \
 
 FROM static
 
-WORKDIR 
 COPY --from=build /llama.cpp/build/bin/llama-server /bin/llama-server
