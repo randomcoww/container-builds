@@ -25,6 +25,6 @@ RUN set -e \
     -DGGML_VULKAN=1 \
   && cmake --build build --config Release --target llama-server
 
-FROM static
+FROM scratch
 
 COPY --from=build /llama.cpp/build/bin/llama-server /bin/llama-server
