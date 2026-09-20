@@ -1,0 +1,31 @@
+FROM docker.io/alpine:edge as build
+ARG VERSION
+
+RUN set -e \
+  \
+  && apk add --no-cache \
+    git \
+    build-base \
+    cmake \
+    clang \
+    vulkan-headers \
+    vulkan-loader-dev \
+    shaderc \
+    spirv-headers \
+    linux-headers \
+    openssl-dev \
+  \
+  && git clone -b $VERSION --depth=1 https://github.com/unslothai/llama.cpp.git /llama.cpp
+
+RUN set -e \
+  \
+  && cd /llama.cpp \
+  && cmake -B build \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DGGML_VULKAN=1 \
+  && cmake --build build --config Release --target llama-server
+
+FROM static
+
+WORKDIR 
+COPY --from=build /llama.cpp/build/bin/llama-server /bin/llama-server
