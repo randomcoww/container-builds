@@ -1,4 +1,4 @@
-name: llama-swap-ffmpeg build
+name: llama-swap-vulkan-ffmpeg build
 on:
   workflow_dispatch:
   schedule:
@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: llama-swap-ffmpeg
+  TARGET: llama-swap-vulkan-ffmpeg
   # renovate: datasource=docker depName=ghcr.io/mostlygeek/llama-swap versioning=regex:^unified-vulkan-(?<major>\d{4})-(?<minor>\d{2})-(?<patch>\d{2})$
   LLAMA_SWAP_VERSION: unified-vulkan-2026-09-20
 
