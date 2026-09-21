@@ -1,0 +1,23 @@
+ARG VERSION
+FROM ghcr.io/mostlygeek/llama-swap:$VERSION
+
+ARG UNSLOTH_LLAMA_CPP_VERSION
+
+RUN set -e \
+  \
+  && TARGETARCH=$(dpkg --print-architecture) \
+  && TARGETARCH=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") \
+  \
+  && apt update \
+  && apt install -y --no-install-recommends \
+    ffmpeg \
+    libgomp1 \
+    curl \
+    ca-certificates \
+  && rm -rf /var/lib/apt/lists/* \
+  \
+  && curl -fsSL -o llama.tar.gz \
+    https://github.com/unslothai/llama.cpp/releases/download/${UNSLOTH_LLAMA_CPP_VERSION}/app-${UNSLOTH_LLAMA_CPP_VERSION}-linux-$TARGETARCH-vulkan.tar.gz \
+  && mkdir -p /unsloth \
+  && tar xf llama.tar.gz --strip-components=1 -C /unsloth \
+  && rm llama.tar.gz
