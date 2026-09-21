@@ -6,6 +6,7 @@ RUN set -e \
   && apt update \
   && apt install -y --no-install-recommends \
     git \
+    ca-certificates \
     build-essential \
     cmake \
     libssl-dev \
