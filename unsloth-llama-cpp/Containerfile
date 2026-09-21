@@ -10,9 +10,10 @@ RUN set -e \
     build-essential \
     cmake \
     libssl-dev \
-    libvulkan-dev \
+    vulkan-tools \
     glslc \
     spirv-headers \
+    libvulkan-dev \
   \
   && git clone -b $VERSION --depth=1 https://github.com/unslothai/llama.cpp.git /llama.cpp
 
@@ -20,10 +21,24 @@ RUN set -e \
   \
   && cd /llama.cpp \
   && cmake -B build \
-    -DBUILD_SHARED_LIBS=OFF \
-    -DGGML_VULKAN=1 \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DGGML_NATIVE=OFF \
+    -DGGML_BACKEND_DL=ON \
+    -DGGML_CPU_ALL_VARIANTS=ON \
+    -DGGML_RPC=ON \
+    -DLLAMA_BUILD_TESTS=OFF \
+    -DLLAMA_BUILD_EXAMPLES=OFF \
+    -DLLAMA_BUILD_SERVER=ON \
+    -DCMAKE_INSTALL_RPATH='$ORIGIN' \
+    -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=OFF \
+    -DGGML_VULKAN=ON \
   && cmake --build build --config Release --target llama-server
 
-FROM scratch
-
-COPY --from=build /llama.cpp/build/bin/llama-server /bin/llama-server
+RUN set -e \
+  \
+  && mkdir -p \
+    /opt/llama.cpp/bin /opt/llama.cpp/lib \
+  && cp build/bin/llama-server /opt/llama/bin/ \
+  && cp build/bin/*.so* /opt/llama/lib/ 2>/dev/null || true \
+  && cp $(ldd build/bin/llama-server | awk '{print $3}' | grep -v '^(' | filter) /opt/llama/lib/
