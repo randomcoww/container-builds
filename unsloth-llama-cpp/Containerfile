@@ -1,19 +1,17 @@
-FROM docker.io/alpine:edge as build
+FROM docker.io/debian:testing-slim as build
 ARG VERSION
 
 RUN set -e \
   \
-  && apk add --no-cache \
+  && apt update \
+  && apt install -y --no-install-recommends \
     git \
-    build-base \
+    build-essential \
     cmake \
-    clang \
-    vulkan-headers \
-    vulkan-loader-dev \
-    shaderc \
+    libssl-dev \
+    libvulkan-dev \
+    glslc \
     spirv-headers \
-    linux-headers \
-    openssl-dev \
   \
   && git clone -b $VERSION --depth=1 https://github.com/unslothai/llama.cpp.git /llama.cpp
 
