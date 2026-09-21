@@ -1,4 +1,4 @@
-name: unsloth-llama-cpp build
+name: unsloth-llama-cpp-vulkan build
 on:
   workflow_dispatch:
   schedule:
@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TARGET: unsloth-llama-cpp
+  TARGET: unsloth-llama-cpp-vulkan
   # renovate: datasource=github-releases depName=unslothai/llama.cpp
   LLAMA_CPP_VERSION: b11030-mix-5ff778e
 
