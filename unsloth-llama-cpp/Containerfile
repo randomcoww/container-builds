@@ -3,34 +3,16 @@ ARG VERSION
 
 RUN set -e \
   \
+  && TARGETARCH=$(dpkg --print-architecture) \
+  && TARGETARCH=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") \
+  \
   && apt update \
   && apt install -y --no-install-recommends \
-    git \
+    libgomp1 \
+    curl \
     ca-certificates \
-    build-essential \
-    cmake \
-    libssl-dev \
-    vulkan-tools \
-    glslc \
-    spirv-headers \
-    libvulkan-dev \
   \
-  && git clone -b $VERSION --depth=1 https://github.com/unslothai/llama.cpp.git /llama.cpp
-
-RUN set -e \
-  \
-  && cd /llama.cpp \
-  && cmake -B build \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DGGML_NATIVE=OFF \
-    -DGGML_BACKEND_DL=ON \
-    -DGGML_CPU_ALL_VARIANTS=ON \
-    -DGGML_RPC=ON \
-    -DLLAMA_BUILD_TESTS=OFF \
-    -DLLAMA_BUILD_EXAMPLES=OFF \
-    -DLLAMA_BUILD_SERVER=ON \
-    -DCMAKE_INSTALL_RPATH='$ORIGIN' \
-    -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
-    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=OFF \
-    -DGGML_VULKAN=ON \
-  && cmake --build build --config Release --target llama-server
+  && curl -fsSL -o llama.tar.gz \
+    https://github.com/unslothai/llama.cpp/releases/download/$VERSION/app-$VERSION-linux-$TARGETARCH-vulkan.tar.gz \
+  && mkdir -p /llama.cpp \
+  && tar xf llama.tar.gz --strip-components=1 -C /llama.cpp
