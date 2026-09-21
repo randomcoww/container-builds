@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: llama-swap-vulkan
   # renovate: datasource=docker depName=ghcr.io/mostlygeek/llama-swap versioning=regex:^unified-vulkan-(?<major>\d{4})-(?<minor>\d{2})-(?<patch>\d{2})$
-  LLAMA_SWAP_VERSION: unified-vulkan-2026-09-20
+  LLAMA_SWAP_VERSION: unified-vulkan-2026-09-21
   # renovate: datasource=github-releases depName=unslothai/llama.cpp versioning=regex:^b(?<minor>\d+)-(?<compatibility>.*)-.*$
   UNSLOTH_LLAMA_CPP_VERSION: b11030-mix-5ff778e
 
@@ -20,7 +20,7 @@ jobs:
   build:
     runs-on: kaniko-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/osscontainertools/kaniko:v1.28.4-debug@sha256:716ab47e2f730a52edec6ab75a2866668012eaaa9c2d09ffec319c4a349448e3
+      image: ghcr.io/osscontainertools/kaniko:v1.28.5-debug@sha256:d6d74217dc077acfd3094992e917c357080a2d3fdd1042a49e34e29a7e57c572
     permissions:
       contents: read
     steps:
