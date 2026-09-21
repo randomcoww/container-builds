@@ -34,11 +34,3 @@ RUN set -e \
     -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=OFF \
     -DGGML_VULKAN=ON \
   && cmake --build build --config Release --target llama-server
-
-RUN set -e \
-  \
-  && mkdir -p \
-    /opt/llama.cpp/bin /opt/llama.cpp/lib \
-  && cp build/bin/llama-server /opt/llama/bin/ \
-  && cp build/bin/*.so* /opt/llama/lib/ 2>/dev/null || true \
-  && cp $(ldd build/bin/llama-server | awk '{print $3}' | grep -v '^(' | filter) /opt/llama/lib/
