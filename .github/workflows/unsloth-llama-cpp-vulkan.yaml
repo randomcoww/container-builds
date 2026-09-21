@@ -9,7 +9,7 @@ concurrency:
 
 env:
   TARGET: unsloth-llama-cpp-vulkan
-  # renovate: datasource=github-releases depName=unslothai/llama.cpp
+  # renovate: datasource=github-releases depName=unslothai/llama.cpp versioning=regex:^b(?<minor>\d+)-(?<compatibility>.*)-.*$
   LLAMA_CPP_VERSION: b11030-mix-5ff778e
 
 jobs:
