@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: oras-${{ github.event.repository.name }}
     container:
-      image: ghcr.io/oras-project/oras:v1.3.4@sha256:f7bc056d54d97baa399414ed5048ecc67c3371b750d4bbce1d871827a5758179
+      image: ghcr.io/oras-project/oras:v1.3.5@sha256:2f43a2bd4797df77ab38cf24ec92ae34a98a82cdf4ec507537e44081c603630e
     steps:
     - name: Build and release container
       run: |
