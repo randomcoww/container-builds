@@ -1,17 +1,13 @@
-FROM registry.fedoraproject.org/fedora:latest
+FROM registry.fedoraproject.org/fedora-minimal:latest
 ARG PACKAGE_VERSION
 
 RUN set -x \
   \
-  && echo 'exclude=*.i386 *.i686' >> /etc/dnf.conf \
-  && dnf install -y \
+  && microdnf install -y \
     https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
-  && dnf copr enable -y \
-    lizardbyte/stable \
-  && dnf copr enable -y \
-    lizardbyte/beta \
-  && dnf install -y --setopt=install_weak_deps=False --best \
+  && microdnf install -y --setopt=install_weak_deps=False --best \
+    https://github.com/LizardByte/Sunshine/releases/download/v$PACKAGE_VERSION/Sunshine-$PACKAGE_VERSION-1.fc$(rpm -E %fedora).$(arch).rpm \
     tini \
     sudo \
     git-core \
@@ -61,7 +57,6 @@ RUN set -x \
     sway \
     wlr-randr \
     foot \
-    Sunshine-$PACKAGE_VERSION \
     steam \
     gamescope \
     mangohud \
@@ -72,7 +67,7 @@ RUN set -x \
     diffutils \
     dbus-launch \
   \
-  && dnf clean all \
+  && microdnf clean all \
   && rm -rf \
     /var/cache \
     /var/log/* \
