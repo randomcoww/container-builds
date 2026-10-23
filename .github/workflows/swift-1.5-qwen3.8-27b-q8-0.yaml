@@ -25,5 +25,5 @@ jobs:
           --cert-file /etc/oras/tls/tls.crt \
           --key-file /etc/oras/tls/tls.key \
           $INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(date -u +%s) \
-          Qwen3.8-27B-UD-Q8_K_XL.gguf:application/octet-stream \
-          mmproj-BF16.gguf:application/octet-stream
+          Swift-1.5-Qwen3.8-27B-Q8_0.gguf:application/octet-stream \
+          mmproj-Swift-1.5-Qwen3.8-27B-F16.gguf:application/octet-stream
