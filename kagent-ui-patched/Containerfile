@@ -6,7 +6,7 @@ USER root
 
 RUN apk add --no-cache npm
 
-USER nextjs
+USER 1001
 
 # Install undici so require('undici') is guaranteed to resolve
 RUN npm install undici --legacy-peer-deps
