@@ -1,0 +1,67 @@
+/**
+ * Monkey-patch wrapper for Kagent UI (Next.js standalone server).
+ * Resolves UND_ERR_BODY_TIMEOUT by setting bodyTimeout and headersTimeout to 0 (infinite)
+ * on Undici's global dispatcher and hooking globalThis.fetch.
+ */
+const path = require('path');
+
+// 1. Ensure Next.js internal HTTP server keepAliveTimeout is extended (1 hour default)
+process.env.KEEP_ALIVE_TIMEOUT = process.env.KEEP_ALIVE_TIMEOUT || '3600000';
+
+// 0 disables timeouts in Undici
+const bodyTimeout = process.env.UNDICI_BODY_TIMEOUT !== undefined
+  ? parseInt(process.env.UNDICI_BODY_TIMEOUT, 10)
+  : 0;
+
+const headersTimeout = process.env.UNDICI_HEADERS_TIMEOUT !== undefined
+  ? parseInt(process.env.UNDICI_HEADERS_TIMEOUT, 10)
+  : 0;
+
+// 2. Initialize and set Undici Agent
+let undici;
+try {
+  undici = require('undici');
+} catch (e1) {
+  try {
+    undici = require('next/dist/compiled/undici');
+  } catch (e2) {
+    console.warn('[kagent-patch] Warning: undici not found directly in node_modules:', e1.message);
+  }
+}
+
+if (undici && undici.Agent && undici.setGlobalDispatcher) {
+  try {
+    const customAgent = new undici.Agent({
+      bodyTimeout,
+      headersTimeout,
+      connectTimeout: 60000,
+      keepAliveTimeout: 300000,
+      keepAliveMaxTimeout: 600000,
+    });
+
+    undici.setGlobalDispatcher(customAgent);
+    console.log(`[kagent-patch] Configured Undici global dispatcher: bodyTimeout=${bodyTimeout}, headersTimeout=${headersTimeout}`);
+
+    // Fallback: Hook globalThis.fetch to guarantee the dispatcher is passed if fetch ignores the global dispatcher
+    if (typeof globalThis.fetch === 'function') {
+      const originalFetch = globalThis.fetch;
+      globalThis.fetch = function (input, init) {
+        if (!init) {
+          init = { dispatcher: customAgent };
+        } else if (!init.dispatcher) {
+          init = { ...init, dispatcher: customAgent };
+        }
+        return originalFetch.call(this, input, init);
+      };
+      console.log('[kagent-patch] Hooked globalThis.fetch to enforce custom Undici dispatcher.');
+    }
+  } catch (err) {
+    console.error('[kagent-patch] Failed to configure Undici agent:', err);
+  }
+} else {
+  console.warn('[kagent-patch] Undici Agent / setGlobalDispatcher unavailable; skipping dispatcher patch.');
+}
+
+// 3. Delegate to original Next.js standalone entrypoint
+console.log('[kagent-patch] Starting original server (server-original.js)...');
+require('./server-original.js');
