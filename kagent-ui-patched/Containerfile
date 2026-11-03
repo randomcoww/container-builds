@@ -9,7 +9,7 @@ RUN apk add --no-cache npm
 USER 1001
 
 # Install undici so require('undici') is guaranteed to resolve
-RUN npm install undici --legacy-peer-deps
+RUN npm install undici --legacy-peer-deps --save-exact
 
 # Rename the original entrypoint
 RUN mv server.js server-original.js
