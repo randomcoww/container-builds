@@ -6,7 +6,9 @@ USER root
 
 RUN apk add --no-cache --virtual .build-deps npm \
   && npm install undici --legacy-peer-deps \
-  && apk del .build-deps
+  && npm cache clean --force \
+  && apk del .build-deps \
+  && rm -rf ~/.npm
 
 USER 1001
 
