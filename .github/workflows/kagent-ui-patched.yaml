@@ -9,7 +9,8 @@ concurrency:
 
 env:
   TARGET: kagent-ui-patched
-  KAGENT_UI_VERSION: v0.10.4
+  # renovate: datasource=docker depName=ghcr.io/kagent-dev/kagent/helm/kagent
+  KAGENT_UI_VERSION: v0.10.5
 
 jobs:
   build:
