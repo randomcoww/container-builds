@@ -10,7 +10,7 @@ concurrency:
 env:
   TARGET: kagent-ui-patched
   # renovate: datasource=docker depName=ghcr.io/kagent-dev/kagent/ui
-  KAGENT_UI_VERSION: v0.10.5
+  KAGENT_UI_VERSION: 0.10.5
 
 jobs:
   build:
@@ -37,7 +37,7 @@ jobs:
           --context-sub-path="$TARGET" \
           --dockerfile="./Containerfile" \
           --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:$(echo $KAGENT_UI_VERSION).$(date -u +%s)" \
+          --destination="$INTERNAL_REGISTRY/${{ github.repository_owner }}/${{ env.TARGET }}:v$(echo $KAGENT_UI_VERSION).$(date -u +%s)" \
           --registry-certificate=$INTERNAL_REGISTRY=$DOCKER_CONFIG/ca.crt \
           --registry-client-cert=$INTERNAL_REGISTRY=$DOCKER_CONFIG/client.cert,$DOCKER_CONFIG/client.key \
           --build-arg VERSION="$(echo $KAGENT_UI_VERSION)" \
