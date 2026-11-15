@@ -96,5 +96,5 @@ volumes:
 Latest Sunshine release
 
 ```bash
-curl -s https://api.github.com/repos/LizardByte/Sunshine/tags | grep name | head -1 | cut -d '"' -f 4 | tr -d 'v'
+curl -s https://api.github.com/repos/SunshineStream/Sunshine/tags | grep name | head -1 | cut -d '"' -f 4 | tr -d 'v'
 ```

@@ -7,7 +7,7 @@ RUN set -x \
     https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
     https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm \
   && microdnf install -y --setopt=install_weak_deps=False --best \
-    https://github.com/LizardByte/Sunshine/releases/download/v$PACKAGE_VERSION/Sunshine-$PACKAGE_VERSION-1.fc$(rpm -E %fedora).$(arch).rpm \
+    https://github.com/SunshineStream/Sunshine/releases/download/v$PACKAGE_VERSION/Sunshine-$PACKAGE_VERSION-1.fc$(rpm -E %fedora).$(arch).rpm \
     tini \
     sudo \
     git-core \
